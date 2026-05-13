@@ -1,112 +1,417 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Calculator</title>
-	<link rel="stylesheet" href="main.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calc Pro — Mathematics Reimagined</title>
+  <link rel="stylesheet" href="main.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 </head>
 <body>
-	
-	<div class="app">
 
-		<div class="calculator">
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-brand">
+    <i class="bx bx-calculator"></i>
+    <span>Calc<strong>Pro</strong></span>
+  </div>
 
-			<div class="display">
-				<div class="content">
-					<div class="input"></div>
-					<div class="output"></div>
-				</div>
-			</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="home">
+      <i class="bx bx-home-alt"></i>
+      <span>Home</span>
+    </button>
+    <button class="nav-tab" data-tab="calculator">
+      <i class="bx bx-calculator"></i>
+      <span>Calculator</span>
+    </button>
+    <button class="nav-tab" data-tab="vedic">
+      <i class="bx bx-book-open"></i>
+      <span>Vedic Math</span>
+    </button>
+    <button class="nav-tab" data-tab="stats">
+      <i class="bx bx-bar-chart-alt-2"></i>
+      <span>Statistics</span>
+    </button>
+    <button class="nav-tab" data-tab="aptitude">
+      <i class="bx bx-brain"></i>
+      <span>Aptitude</span>
+    </button>
+  </div>
 
-			<div class="keys">
+  <div class="nav-right">
+    <button class="nav-icon-btn" id="btnTheme" title="Theme (T)">
+      <i class="bx bx-palette"></i>
+    </button>
+  </div>
+</nav>
 
-				<div data-key="clear" class="key action">
-					<span>AC</span>
-				</div>
+<!-- Theme Panel (global) -->
+<div class="theme-panel" id="themePanel">
+  <p class="theme-title">Choose Theme</p>
+  <div class="theme-grid">
+    <div class="theme-chip active" data-theme="dark">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)"></div>
+      <span>Dark</span>
+    </div>
+    <div class="theme-chip" data-theme="purple">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#2d1b69,#9d0191)"></div>
+      <span>Purple</span>
+    </div>
+    <div class="theme-chip" data-theme="ocean">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#0f2027,#2c5364)"></div>
+      <span>Ocean</span>
+    </div>
+    <div class="theme-chip" data-theme="forest">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#0f3443,#34e89e)"></div>
+      <span>Forest</span>
+    </div>
+    <div class="theme-chip" data-theme="sunset">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#fc4a1a,#f7b733)"></div>
+      <span>Sunset</span>
+    </div>
+  </div>
+</div>
 
-				<div data-key="brackets" class="key action">
-					<span>( )</span>
-				</div>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
-				<div data-key="%" class="key action">
-					<span>%</span>
-				</div>
+<!-- ══════════════════════════════════════════
+     TAB SECTIONS
+══════════════════════════════════════════ -->
+<main class="tab-container">
 
-				<div data-key="/" class="key operator">
-					<span>÷</span>
-				</div>
+  <!-- ══ HOME TAB ══ -->
+  <section id="tab-home" class="tab-section active">
+    <canvas id="mathCanvas"></canvas>
 
-				<div data-key="7" class="key">
-					<span>7</span>
-				</div>
+    <div class="home-content">
 
-				<div data-key="8" class="key">
-					<span>8</span>
-				</div>
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-badge"><i class="bx bx-math"></i>&nbsp; Ancient Wisdom · Modern Speed</div>
+        <h1 class="hero-title">Calc<span class="grad">Pro</span></h1>
+        <p class="hero-sub" id="typewriter"></p>
+        <div class="hero-actions">
+          <button class="hero-btn primary" data-goto="calculator">
+            <i class="bx bx-calculator"></i> Open Calculator
+          </button>
+          <button class="hero-btn secondary" data-goto="vedic">
+            <i class="bx bx-book-open"></i> Vedic Math
+          </button>
+        </div>
+      </div>
 
-				<div data-key="9" class="key">
-					<span>9</span>
-				</div>
+      <!-- Counting stats -->
+      <div class="count-bar">
+        <div class="count-item">
+          <span class="count-num" data-target="24">0</span>
+          <span class="count-label">Sci Functions</span>
+        </div>
+        <div class="count-divider"></div>
+        <div class="count-item">
+          <span class="count-num" data-target="16">0</span>
+          <span class="count-label">Vedic Sutras</span>
+        </div>
+        <div class="count-divider"></div>
+        <div class="count-item">
+          <span class="count-num" data-target="38">0</span>
+          <span class="count-label">Aptitude Topics</span>
+        </div>
+        <div class="count-divider"></div>
+        <div class="count-item">
+          <span class="count-num" data-target="5">0</span>
+          <span class="count-label">Themes</span>
+        </div>
+      </div>
 
-				<div data-key="*" class="key operator">
-					<span>x</span>
-				</div>
+      <!-- Feature cards -->
+      <div class="feature-cards">
 
-				<div data-key="4" class="key">
-					<span>4</span>
-				</div>
+        <div class="feat-card" data-goto="calculator">
+          <div class="feat-glow glow-blue"></div>
+          <div class="feat-icon"><i class="bx bx-calculator"></i></div>
+          <h3>Scientific Calculator</h3>
+          <p>Standard + Scientific mode. 24 functions, memory (MC/MR/M+/M−), live preview, keyboard support, HEX/BIN/OCT strip aur 5 themes.</p>
+          <div class="feat-tags">
+            <span>sin cos tan</span><span>log ln √</span><span>nCr !</span>
+          </div>
+          <div class="feat-arrow"><i class="bx bx-right-arrow-alt"></i></div>
+        </div>
 
-				<div data-key="5" class="key">
-					<span>5</span>
-				</div>
+        <div class="feat-card featured" data-goto="vedic">
+          <div class="feat-glow glow-purple"></div>
+          <div class="feat-badge">🕉️ Ancient Indian</div>
+          <div class="feat-icon"><i class="bx bx-book-open"></i></div>
+          <h3>Vedic Mathematics</h3>
+          <p>Sabhi 16 Sutras ki complete Hinglish mein explanation — steps, examples aur shortcut formulas ke saath. Mental math ki speed 10x badh jaayegi!</p>
+          <div class="feat-tags">
+            <span>16 Sutras</span><span>Hinglish</span><span>Examples</span>
+          </div>
+          <div class="feat-arrow"><i class="bx bx-right-arrow-alt"></i></div>
+        </div>
 
-				<div data-key="6" class="key">
-					<span>6</span>
-				</div>
+        <div class="feat-card" data-goto="stats">
+          <div class="feat-glow glow-green"></div>
+          <div class="feat-icon"><i class="bx bx-bar-chart-alt-2"></i></div>
+          <h3>Statistics Engine</h3>
+          <p>Comma-separated numbers daalo aur paao — Mean, Median, Mode, Variance, Std Dev, Quartiles, IQR aur bahut kuch. Data science ki tarah!</p>
+          <div class="feat-tags">
+            <span>Mean Median</span><span>Variance σ</span><span>Q1 Q3 IQR</span>
+          </div>
+          <div class="feat-arrow"><i class="bx bx-right-arrow-alt"></i></div>
+        </div>
 
-				<div data-key="-" class="key operator">
-					<span>-</span>
-				</div>
+        <div class="feat-card featured" data-goto="aptitude">
+          <div class="feat-glow glow-blue"></div>
+          <div class="feat-badge">🎯 SSC · Bank · Railway</div>
+          <div class="feat-icon"><i class="bx bx-brain"></i></div>
+          <h3>Quantitative Aptitude</h3>
+          <p>38 topics — Profit & Loss se Trigonometry tak. Hinglish mein super-easy explanation, fastest tricks aur solved examples. Exam ready!</p>
+          <div class="feat-tags">
+            <span>38 Topics</span><span>Fast Tricks</span><span>Hinglish</span>
+          </div>
+          <div class="feat-arrow"><i class="bx bx-right-arrow-alt"></i></div>
+        </div>
 
-				<div data-key="1" class="key">
-					<span>1</span>
-				</div>
+      </div>
 
-				<div data-key="2" class="key">
-					<span>2</span>
-				</div>
+      <!-- Quick Calculate -->
+      <div class="quick-calc">
+        <div class="qc-label"><i class="bx bx-bolt-circle"></i> Quick Calculate</div>
+        <div class="qc-row">
+          <input type="text" id="quickInput" class="qc-input" placeholder="e.g.  sqrt(144) + 3^2" spellcheck="false" autocomplete="off" />
+          <button class="qc-btn" id="quickBtn"><i class="bx bx-send"></i></button>
+        </div>
+        <div class="qc-result" id="quickResult"></div>
+      </div>
 
-				<div data-key="3" class="key">
-					<span>3</span>
-				</div>
+      <!-- Math fact -->
+      <div class="fact-bar">
+        <span class="fact-icon">💡</span>
+        <span class="fact-text" id="mathFact">Loading math fact...</span>
+        <button class="fact-next" id="factNext"><i class="bx bx-chevron-right"></i></button>
+      </div>
 
-				<div data-key="+" class="key operator">
-					<span>+</span>
-				</div>
+    </div>
+  </section>
 
-				<div data-key="backspace" class="key action">
-					<span>&lt;</span>
-				</div>
+  <!-- ══ CALCULATOR TAB ══ -->
+  <section id="tab-calculator" class="tab-section">
+    <div class="calc-page">
 
-				<div data-key="0" class="key">
-					<span>0</span>
-				</div>
+      <div class="calculator" id="calculator">
+        <!-- Top bar -->
+        <div class="top-bar">
+          <span class="brand"><i class="bx bx-calculator"></i> Calculator</span>
+          <div class="top-actions">
+            <button class="icon-btn" id="btnHistory" title="History (H)">
+              <i class="bx bx-history"></i>
+            </button>
+          </div>
+        </div>
 
-				<div data-key="." class="key">
-					<span>.</span>
-				</div>
-				
-				<div data-key="=" class="key operator">
-					<span>=</span>
-				</div>
-			</div>
+        <!-- Display -->
+        <div class="display" id="display">
+          <div class="prev-expr" id="prevExpr"></div>
+          <div class="curr-expr" id="currExpr"></div>
+          <div class="curr-result" id="currResult">0</div>
+          <div class="copy-hint">tap result to copy</div>
+          <div class="prog-strip" id="progStrip">
+            <span class="prog-item" id="progHex" title="Click to copy HEX"><label>HEX</label><span class="prog-val"></span></span>
+            <span class="prog-item" id="progBin" title="Click to copy BIN"><label>BIN</label><span class="prog-val"></span></span>
+            <span class="prog-item" id="progOct" title="Click to copy OCT"><label>OCT</label><span class="prog-val"></span></span>
+          </div>
+        </div>
 
-		</div>
+        <!-- Memory bar -->
+        <div class="memory-bar">
+          <button class="mem-btn" data-mem="mc">MC</button>
+          <button class="mem-btn" data-mem="mr">MR</button>
+          <button class="mem-btn" data-mem="m+">M+</button>
+          <button class="mem-btn" data-mem="m-">M−</button>
+          <span class="mem-indicator" id="memIndicator"></span>
+        </div>
 
-	</div>
+        <!-- Mode bar -->
+        <div class="mode-bar">
+          <button class="mode-btn active" data-mode="standard">Standard</button>
+          <button class="mode-btn" data-mode="scientific">Scientific</button>
+          <button class="deg-rad-btn" id="degRadBtn">DEG</button>
+        </div>
 
-	<script src="main.js"></script>
+        <!-- Scientific grid -->
+        <div class="sci-grid" id="sciGrid">
+          <button class="key sci-key" data-key="sin(">sin</button>
+          <button class="key sci-key" data-key="cos(">cos</button>
+          <button class="key sci-key" data-key="tan(">tan</button>
+          <button class="key sci-key" data-key="log(">log</button>
+          <button class="key sci-key" data-key="ln(">ln</button>
+          <button class="key sci-key" data-key="sqrt(">√</button>
+          <button class="key sci-key" data-key="^2">x²</button>
+          <button class="key sci-key" data-key="^">xʸ</button>
+          <button class="key sci-key const-key" data-key="PI">π</button>
+          <button class="key sci-key const-key" data-key="EU">e</button>
+          <button class="key sci-key" data-key="!">!</button>
+          <button class="key sci-key" data-key="1/x">1/x</button>
+          <button class="key sci-key" data-key="asin(">sin⁻¹</button>
+          <button class="key sci-key" data-key="acos(">cos⁻¹</button>
+          <button class="key sci-key" data-key="atan(">tan⁻¹</button>
+          <button class="key sci-key" data-key="log2(">log₂</button>
+          <button class="key sci-key" data-key="sinh(">sinh</button>
+          <button class="key sci-key" data-key="cosh(">cosh</button>
+          <button class="key sci-key" data-key="tanh(">tanh</button>
+          <button class="key sci-key" data-key="cbrt(">∛</button>
+          <button class="key sci-key" data-key="abs(">|x|</button>
+          <button class="key sci-key" data-key="floor(">⌊x⌋</button>
+          <button class="key sci-key" data-key="ceil(">⌈x⌉</button>
+          <button class="key sci-key" data-key="nCr(">nCr</button>
+        </div>
+
+        <!-- Standard keys -->
+        <div class="keys-grid">
+          <button class="key action-key" data-key="clear">AC</button>
+          <button class="key action-key" data-key="brackets">( )</button>
+          <button class="key action-key" data-key="%">%</button>
+          <button class="key op-key" data-key="/">÷</button>
+          <button class="key" data-key="7">7</button>
+          <button class="key" data-key="8">8</button>
+          <button class="key" data-key="9">9</button>
+          <button class="key op-key" data-key="*">×</button>
+          <button class="key" data-key="4">4</button>
+          <button class="key" data-key="5">5</button>
+          <button class="key" data-key="6">6</button>
+          <button class="key op-key" data-key="-">−</button>
+          <button class="key" data-key="1">1</button>
+          <button class="key" data-key="2">2</button>
+          <button class="key" data-key="3">3</button>
+          <button class="key op-key" data-key="+">+</button>
+          <button class="key action-key" data-key="backspace"><i class="bx bx-left-arrow-alt"></i></button>
+          <button class="key" data-key="0">0</button>
+          <button class="key" data-key=".">.</button>
+          <button class="key equals-key" data-key="=">=</button>
+        </div>
+
+        <p class="kb-hint"><i class="bx bx-keyboard"></i> keyboard &nbsp;·&nbsp; H = history &nbsp;·&nbsp; T = theme</p>
+      </div>
+
+      <!-- History panel (side on desktop, bottom on mobile) -->
+      <div class="side-panel" id="historyPanel">
+        <div class="panel-header">
+          <span><i class="bx bx-history"></i> History</span>
+          <div class="panel-actions">
+            <button class="text-btn" id="btnClearHistory">Clear all</button>
+            <button class="icon-btn" id="btnCloseHistory"><i class="bx bx-x"></i></button>
+          </div>
+        </div>
+        <div class="history-list" id="historyList">
+          <p class="empty-msg">No calculations yet.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ VEDIC MATH TAB ══ -->
+  <section id="tab-vedic" class="tab-section">
+    <div class="vedic-page">
+
+      <!-- Sidebar -->
+      <aside class="vedic-sidebar">
+        <div class="vs-header">
+          <span>🕉️ 16 Sutras</span>
+        </div>
+        <div class="vs-list" id="sutraList"></div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="vedic-main" id="vedicMain">
+        <div class="vedic-intro">
+          <div class="vi-om">🕉️</div>
+          <h2>Vedic Mathematics</h2>
+          <p>Vedic Mathematics ek ancient Indian system hai jo 16 Sutras pe based hai. Yeh sutras fast mental calculation ki techniques dete hain. Left side se koi bhi sutra select karo!</p>
+          <div class="vi-grid">
+            <div class="vi-card"><span>16</span><small>Sutras</small></div>
+            <div class="vi-card"><span>13</span><small>Sub-sutras</small></div>
+            <div class="vi-card"><span>∞</span><small>Speed boost</small></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ STATISTICS TAB ══ -->
+  <section id="tab-stats" class="tab-section">
+    <div class="stats-page">
+
+      <div class="stats-header-bar">
+        <h2><i class="bx bx-bar-chart-alt-2"></i> Statistics Calculator</h2>
+        <p>Numbers enter karo — descriptive statistics instantly milegi</p>
+      </div>
+
+      <div class="stats-layout">
+
+        <!-- Input panel -->
+        <div class="stats-input-panel">
+          <label class="stats-label">Numbers (comma ya newline se separate karo)</label>
+          <textarea id="statsInput" class="stats-textarea" placeholder="e.g.  5, 12, 3, 8, 7, 15, 20, 4, 11&#10;&#10;Ya ek per line:&#10;5&#10;12&#10;8"></textarea>
+          <button class="stats-go-btn" id="statsCalcBtn">
+            <i class="bx bx-calculator"></i>&nbsp; Calculate Statistics
+          </button>
+          <div class="stats-sample-btns">
+            <span class="stats-sample-label">Load sample:</span>
+            <button class="stats-sample" data-set="2,4,4,4,5,5,7,9">Dataset A</button>
+            <button class="stats-sample" data-set="10,20,30,40,50,60,70,80,90,100">1–100 tens</button>
+            <button class="stats-sample" data-set="3,7,7,19,24,3,0,7,5">Mixed</button>
+          </div>
+        </div>
+
+        <!-- Results panel -->
+        <div class="stats-results-panel" id="statsResults">
+          <div class="stats-empty">
+            <i class="bx bx-bar-chart-alt-2"></i>
+            <p>Numbers daalo aur "Calculate" dabao</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ APTITUDE TAB ══ -->
+  <section id="tab-aptitude" class="tab-section">
+    <div class="vedic-page">
+
+      <!-- Sidebar -->
+      <aside class="vedic-sidebar">
+        <div class="vs-header">
+          <span>📐 38 Topics</span>
+        </div>
+        <div class="vs-list" id="aptList"></div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="vedic-main" id="aptMain">
+        <div class="vedic-intro">
+          <div class="vi-om">📐</div>
+          <h2>Quantitative Aptitude</h2>
+          <p>SSC, Banking, Railways aur sabhi competitive exams ke liye 38 important topics. Har topic pe fastest shortcut, Hinglish explanation aur solved examples. Left side se koi bhi topic select karo!</p>
+          <div class="vi-grid">
+            <div class="vi-card"><span>38</span><small>Topics</small></div>
+            <div class="vi-card"><span>⚡</span><small>Fast Tricks</small></div>
+            <div class="vi-card"><span>🎯</span><small>Exam Ready</small></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script src="main.js"></script>
 </body>
 </html>
