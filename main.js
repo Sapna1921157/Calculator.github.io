@@ -253,36 +253,45 @@ const MATH_FACTS = [
    EXPRESSION DISPLAY — converts internal expression to HTML
 ════════════════════════════════════════════════════════════ */
 function toDisplay(expr) {
-  return expr
-    .replace(/\*/g,      '<span class="op">×</span>')
-    .replace(/\//g,      '<span class="op">÷</span>')
-    .replace(/\+/g,      '<span class="op">+</span>')
-    .replace(/-/g,       '<span class="op">−</span>')
-    .replace(/\^/g,      '<span class="op">^</span>')
-    .replace(/PI/g,      '<span class="sci">π</span>')
-    .replace(/EU/g,      '<span class="sci">e</span>')
-    .replace(/asin\(/g,  '<span class="sci">sin⁻¹(</span>')
-    .replace(/acos\(/g,  '<span class="sci">cos⁻¹(</span>')
-    .replace(/atan\(/g,  '<span class="sci">tan⁻¹(</span>')
-    .replace(/sinh\(/g,  '<span class="sci">sinh(</span>')
-    .replace(/cosh\(/g,  '<span class="sci">cosh(</span>')
-    .replace(/tanh\(/g,  '<span class="sci">tanh(</span>')
-    .replace(/sin\(/g,   '<span class="sci">sin(</span>')
-    .replace(/cos\(/g,   '<span class="sci">cos(</span>')
-    .replace(/tan\(/g,   '<span class="sci">tan(</span>')
-    .replace(/log2\(/g,  '<span class="sci">log₂(</span>')
-    .replace(/log\(/g,   '<span class="sci">log(</span>')
-    .replace(/ln\(/g,    '<span class="sci">ln(</span>')
-    .replace(/cbrt\(/g,  '<span class="sci">∛(</span>')
-    .replace(/sqrt\(/g,  '<span class="sci">√(</span>')
-    .replace(/floor\(/g, '<span class="sci">⌊</span>')
-    .replace(/ceil\(/g,  '<span class="sci">⌈</span>')
-    .replace(/abs\(/g,   '<span class="sci">|</span>')
-    .replace(/nCr\(/g,   '<span class="sci">nCr(</span>')
-    .replace(/\(/g,      '<span class="br">(</span>')
-    .replace(/\)/g,      '<span class="br">)</span>')
-    .replace(/%/g,       '<span class="sci">%</span>')
-    .replace(/!/g,       '<span class="sci">!</span>');
+  // Single-pass replacement: tokens are matched left-to-right so already-emitted
+  // HTML is never re-scanned, preventing </span> closing tags from being corrupted.
+  return expr.replace(
+    /asin\(|acos\(|atan\(|sinh\(|cosh\(|tanh\(|sin\(|cos\(|tan\(|log2\(|log\(|ln\(|cbrt\(|sqrt\(|floor\(|ceil\(|abs\(|nCr\(|PI|EU|\*|\/|\+|-|\^|\(|\)|%|!/g,
+    match => {
+      switch (match) {
+        case '*':      return '<span class="op">×</span>';
+        case '/':      return '<span class="op">÷</span>';
+        case '+':      return '<span class="op">+</span>';
+        case '-':      return '<span class="op">−</span>';
+        case '^':      return '<span class="op">^</span>';
+        case 'PI':     return '<span class="sci">π</span>';
+        case 'EU':     return '<span class="sci">e</span>';
+        case 'asin(':  return '<span class="sci">sin⁻¹(</span>';
+        case 'acos(':  return '<span class="sci">cos⁻¹(</span>';
+        case 'atan(':  return '<span class="sci">tan⁻¹(</span>';
+        case 'sinh(':  return '<span class="sci">sinh(</span>';
+        case 'cosh(':  return '<span class="sci">cosh(</span>';
+        case 'tanh(':  return '<span class="sci">tanh(</span>';
+        case 'sin(':   return '<span class="sci">sin(</span>';
+        case 'cos(':   return '<span class="sci">cos(</span>';
+        case 'tan(':   return '<span class="sci">tan(</span>';
+        case 'log2(':  return '<span class="sci">log₂(</span>';
+        case 'log(':   return '<span class="sci">log(</span>';
+        case 'ln(':    return '<span class="sci">ln(</span>';
+        case 'cbrt(':  return '<span class="sci">∛(</span>';
+        case 'sqrt(':  return '<span class="sci">√(</span>';
+        case 'floor(': return '<span class="sci">⌊</span>';
+        case 'ceil(':  return '<span class="sci">⌈</span>';
+        case 'abs(':   return '<span class="sci">|</span>';
+        case 'nCr(':   return '<span class="sci">nCr(</span>';
+        case '(':      return '<span class="br">(</span>';
+        case ')':      return '<span class="br">)</span>';
+        case '%':      return '<span class="sci">%</span>';
+        case '!':      return '<span class="sci">!</span>';
+        default:       return match;
+      }
+    }
+  );
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -925,8 +934,14 @@ const SUTRAS = [
     explanation: "Yeh sutra tab use hota hai jab kisi number ka square nikalna ho jo 5 pe khatam hota ho. Trick simple hai — pehle wale digit(s) ko khud se ek zyada se multiply karo, phir result ke saath '25' chipka do. Bus! Calculator ki zaroorat hi nahi.",
     shortcut: "n5² = [n × (n+1)] followed by 25",
     steps: ["Number dekho — last digit 5 hai ya nahi","Remaining digits lo (5 se pehle wala part)","Un digits ko (khud + 1) se multiply karo","Result ke end mein '25' lagao","Yahi final answer hai — verify karo calculator se!"],
-    ex1: { problem: "75² = ?", steps: ["75 → Last digit = 5 ✓","Remaining part = 7","7 × (7+1) = 7 × 8 = 56","56 ke baad '25' → 5625","✅ 75² = 5625"], last: true },
-    ex2: { problem: "125² = ?", steps: ["125 → Last digit = 5 ✓","Remaining = 12","12 × 13 = 156","156 + '25' → 15625","✅ 125² = 15625"], last: true }
+    stepEgs: ["35² → last digit = 5 ✓","35 → remaining = 3","3 × (3+1) = 3×4 = 12","12 ke baad '25' → 1225","35² = 1225 ✓"],
+    examples: [
+      {level:"Basic",    num:1, problem:"25² = ?", steps:["Last digit=5 ✓, remaining=2","2×(2+1)=2×3=6","6 ke baad '25' → 625","✅ 25² = 625"]},
+      {level:"Basic",    num:2, problem:"35² = ?", steps:["Remaining=3","3×4=12","12+'25' → 1225","✅ 35² = 1225"]},
+      {level:"Moderate", num:3, problem:"75² = ?", steps:["Remaining=7","7×8=56","56+'25' → 5625","✅ 75² = 5625"]},
+      {level:"Hard",     num:4, problem:"115² = ?", steps:["Remaining=11","11×12=132","132+'25' → 13225","✅ 115² = 13225"]},
+      {level:"Advanced", num:5, problem:"205² = ?", steps:["Remaining=20","20×21=420","420+'25' → 42025","✅ 205² = 42025"]},
+    ]
   },
   {
     id: 2, name: "Nikhilam Navatashcaramam Dashatah", emoji: "🔟",
@@ -935,8 +950,14 @@ const SUTRAS = [
     explanation: "Jab do numbers kisi base (10, 100, 1000...) ke bahut paas hon, toh normal multiplication slow aur tedious hoti hai. Yeh sutra ek jabardast shortcut deta hai — dono numbers ki base se distance (deviation) nikalo, cross-subtract karo left part ke liye, aur deviations multiply karo right part ke liye. Dono parts combine karo — instant answer!",
     shortcut: "Answer = (A − dev_B) | (dev_A × dev_B)",
     steps: ["Suitable base lo — 10, 100, 1000 jo bhi paas ho","Har number ka deviation nikalo = Base − Number","Left part: Pehle number mein se doosre ka deviation ghataao","Right part: Dono deviations ko multiply karo","Right part mein utne digits rakhna jitna base mein zeros hain","Left | Right combine karo → Answer!"],
-    ex1: { problem: "98 × 97 = ?", steps: ["Base = 100","98 ka deviation = −2,  97 ka deviation = −3","Left: 98 − 3 = 95  (ya 97 − 2 = 95, same!)","Right: (−2) × (−3) = 06  (2 digits because base = 100)","✅ 95|06 = 9506"], last: true },
-    ex2: { problem: "103 × 104 = ?", steps: ["Base = 100","103 ka deviation = +3,  104 ka deviation = +4","Left: 103 + 4 = 107","Right: 3 × 4 = 12","✅ 107|12 = 10712"], last: true }
+    stepEgs: ["96×94 → nearest base = 100","96→ dev=−4, 94→ dev=−6","Left: 96−6 = 90","Right: (−4)×(−6) = 24","24 has 2 digits ✓ (base=100 → 2 zeros)","90|24 = 9024 ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"9 × 8 = ?", steps:["Base=10, dev: 9→−1, 8→−2","Left: 9−2=7","Right: (−1)×(−2)=02","✅ 7|2 = 72"]},
+      {level:"Basic",    num:2, problem:"98 × 96 = ?", steps:["Base=100, dev: −2, −4","Left: 98−4=94","Right: 2×4=08","✅ 94|08 = 9408"]},
+      {level:"Moderate", num:3, problem:"97 × 98 = ?", steps:["Base=100, dev: −3, −2","Left: 97−2=95","Right: 3×2=06","✅ 9506"]},
+      {level:"Hard",     num:4, problem:"103 × 104 = ?", steps:["Base=100, dev: +3, +4","Left: 103+4=107","Right: 3×4=12","✅ 107|12 = 10712"]},
+      {level:"Advanced", num:5, problem:"998 × 997 = ?", steps:["Base=1000, dev: −2, −3","Left: 998−3=995","Right: 2×3=006","✅ 995|006 = 995006"]},
+    ]
   },
   {
     id: 3, name: "Anurupyena", emoji: "⚖️",
@@ -945,8 +966,14 @@ const SUTRAS = [
     explanation: "Kabhi kabhi numbers 100 ke paas nahi hote, jaise 48 ya 53. Nikhilam direct apply nahi hota. Anurupyena kehta hai — apne mann se koi bhi convenient base lo (50 = 100÷2, ya 40 = 4×10, etc.), Nikhilam jaisi trick karo, phir base ke ratio se result scale karo. Yeh sutra flexibility deta hai — ek master key hai multiplication ki!",
     shortcut: "Sub-base = convenient number, scale result by (sub-base / power-of-10)",
     steps: ["Numbers dekho, unke paas ka convenient number dhundho","Woh number sub-base banao (e.g., 50, 25, 500)","Har number ka sub-base se deviation nikalo","Cross add/subtract karo left part ke liye","Deviations multiply karo right part ke liye","Left part ko (sub-base / 10ⁿ) se scale karo","Combine karo → Final answer!"],
-    ex1: { problem: "48 × 49 = ?", steps: ["Sub-base = 50 (= 100 ÷ 2)","48 ka deviation = −2,  49 ka deviation = −1","Cross: 48 − 1 = 47","Deviations: (−2) × (−1) = 2","Left part scale: 47 × 50 = 2350","✅ 2350 + 2 = 2352"], last: false },
-    ex2: { problem: "46 × 43 = ?", steps: ["Sub-base = 50","Deviations: −4, −7","Cross: 46 − 7 = 39","Right: (−4) × (−7) = 28","Left: 39 × 50 = 1950","✅ 1950 + 28 = 1978"], last: true }
+    stepEgs: ["48×47 → nearest convenient = 50","Sub-base = 50 (=100÷2)","48→ dev=−2, 47→ dev=−3","Left: 48−3 = 45","Right: (−2)×(−3)=6","Left scaled: 45×50 = 2250","2250+6 = 2256 ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"48 × 49 = ?", steps:["Sub-base=50, dev: −2,−1","Left: 48−1=47, Right: 2×1=02","Scale: 47×50=2350","✅ 2350+2 = 2352"]},
+      {level:"Basic",    num:2, problem:"46 × 43 = ?", steps:["Sub-base=50, dev: −4,−7","Left: 46−7=39, Right: 4×7=28","Scale: 39×50=1950","✅ 1950+28 = 1978"]},
+      {level:"Moderate", num:3, problem:"52 × 53 = ?", steps:["Sub-base=50, dev: +2,+3","Left: 52+3=55, Right: 2×3=06","Scale: 55×50=2750","✅ 2750+6 = 2756"]},
+      {level:"Hard",     num:4, problem:"23 × 24 = ?", steps:["Sub-base=25 (=100÷4), dev: −2,−1","Left: 23−1=22, Right: 2×1=02","Scale: 22×25=550","✅ 550+2 = 552"]},
+      {level:"Advanced", num:5, problem:"490 × 510 = ?", steps:["Sub-base=500, dev: −10,+10","Left: 490+10=500, Right: (−10)×(+10)=−100","Scale: 500×500=250000","✅ 250000−100 = 249900"]},
+    ]
   },
   {
     id: 4, name: "Paravartya Yojayet", emoji: "🔄",
@@ -955,8 +982,14 @@ const SUTRAS = [
     explanation: "Division normally sabse slow operation hoti hai. Paravartya sutra isko fast banata hai. Divisor ke leading digit ke baad wale digits ke signs palat do (transpose), phir dividend ke digits pe running multiplication karo. Yeh particularly 9, 11, 12, 21 jaise divisors pe kaafi effective hai. Ek baar practice ho gayi toh mental division mein koi nahi roka!",
     shortcut: "Divisor ke non-leading digits ke signs palto, running total banao",
     steps: ["Divisor likho, leading digit alag rakhna","Remaining digits ke signs palat do (positive → negative)","Dividend ka pehla digit seedha quotient mein likho","Woh digit × transposed divisor-digits → next dividend digits mein add karo","Process repeat karo har digit ke liye","Last mein jo bacha woh remainder hai"],
-    ex1: { problem: "1234 ÷ 11 = ?", steps: ["Divisor 11 → leading 1, transpose remaining: −1","1 → quotient digit: 1","1 × (−1) = −1; next: 2 + (−1) = 1 → quotient digit: 1","1 × (−1) = −1; next: 3 + (−1) = 2 → quotient digit: 2","2 × (−1) = −2; next: 4 + (−2) = 2 → remainder: 2","✅ 1234 ÷ 11 = 112 remainder 2"], last: true },
-    ex2: { problem: "321 ÷ 9 = ?", steps: ["Divisor 9 = (10−1) → adjustment","Running total: 3 | 3+2=5 | 5+1=6","Quotient = 35, Remainder = 6","✅ 321 ÷ 9 = 35 remainder 6"], last: true }
+    stepEgs: ["1452÷12 → leading=1, remaining=2","Transpose: +2 → −2","1 → first quotient digit = 1","1×(−2)=−2; 4+(−2)=2 → next quotient = 2","Repeat: 2×(−2)=−4; 5+(−4)=1; 1×(−2)=−2; 2+(−2)=0","Remainder = 0 → 1452÷12 = 121 ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"121 ÷ 11 = ?", steps:["Transpose −1; 1→q=1","1×(−1)=−1; 2+(−1)=1→q=1","1×(−1)=−1; 1+(−1)=0 rem","✅ Quotient=11, remainder=0"]},
+      {level:"Basic",    num:2, problem:"321 ÷ 9 = ?", steps:["Running total: 3|3+2=5|5+1=6","Quotient=35, Remainder=6","✅ 35 r 6"]},
+      {level:"Moderate", num:3, problem:"1234 ÷ 11 = ?", steps:["Transpose −1; 1→1; 2−1=1; 3−1=2; 4−2=2 rem","✅ Quotient=112, Remainder=2"]},
+      {level:"Hard",     num:4, problem:"1452 ÷ 12 = ?", steps:["Transpose −2; 1→1; 4−2=2; 5−4=1; 2−2=0","✅ Quotient=121, Remainder=0"]},
+      {level:"Advanced", num:5, problem:"12345 ÷ 11 = ?", steps:["Transpose −1","1→1; 2−1=1; 3−1=2; 4−2=2; 5−2=3 rem","✅ Quotient=1122, Remainder=3"]},
+    ]
   },
   {
     id: 5, name: "Shunyam Saamyasamuccaye", emoji: "0️⃣",
@@ -965,8 +998,14 @@ const SUTRAS = [
     explanation: "Yeh sutra equations ke liye ek magical shortcut hai! Agar kisi equation mein dono sides ka 'samuccaya' (common factor ya sum of coefficients) equal hai, toh woh samuccaya directly zero set ho jaata hai. Matlab poori solving skip karke seedha answer! Quadratic equations bhi isse mein seconds mein solve ho jaate hain.",
     shortcut: "Agar LHS sum = RHS sum → woh sum = 0 → x seedha nikalega",
     steps: ["Equation ke dono sides likho","Constant terms check karo — kya dono taraf sum equal hai?","Agar haan, toh woh shared sum ko zero set karo","Directly x niklo","Original equation mein daalkar verify karo"],
-    ex1: { problem: "(x+3) + (x+5) = (x+2) + (x+6)", steps: ["LHS sum of constants: 3+5 = 8","RHS sum of constants: 2+6 = 8 → Same! ✓","Constants equal hain → 2x+8 = 2x+8 (identity)","✅ Yeh equation sab x ke liye true hai!"], last: false },
-    ex2: { problem: "3x + 5 = 2x + 5", steps: ["RHS mein 5 hai, LHS mein bhi 5 hai — constants same","3x + 5 = 2x + 5 → 3x − 2x = 5 − 5 → x = 0","✅ x = 0"], last: true }
+    stepEgs: ["2x+5 = x+5 → dono sides likhein","Constants: LHS=5, RHS=5 → equal!","Sum same → variable part must cancel","2x−x = 5−5 → x=0","x=0: 2(0)+5=5, 1(0)+5=5 ✓"],
+    examples: [
+      {level:"Basic",    num:1, problem:"3x+5 = 2x+5 → x=?", steps:["Constants: 5=5 ✓","3x−2x = 5−5 = 0","✅ x = 0"]},
+      {level:"Basic",    num:2, problem:"x+7 = x+7 → solution?", steps:["Dono sides same → identity","Sab x ke liye true","✅ Infinite solutions"]},
+      {level:"Moderate", num:3, problem:"(x+3)+(x+5) = (x+2)+(x+6)", steps:["LHS constants: 3+5=8","RHS constants: 2+6=8 → Same!","✅ Identity — true for all x"]},
+      {level:"Hard",     num:4, problem:"2(x+4) = 2x+8 → solution?", steps:["Expand: 2x+8 = 2x+8","Samuccaya equal → identity","✅ All values of x valid"]},
+      {level:"Advanced", num:5, problem:"3(x+2)+4 = 2(x+2)+x+10 → x?", steps:["LHS: 3x+10, RHS: 2x+4+x+10=3x+14","3x+10 ≠ 3x+14 → no solution!","✅ Inconsistent equation"]},
+    ]
   },
   {
     id: 6, name: "Anurupye Shunyamanyat", emoji: "📊",
@@ -975,8 +1014,14 @@ const SUTRAS = [
     explanation: "Do equations ke system mein agar ek variable ke coefficients ka ratio doosre variable ke coefficients ke ratio ke barabar ho, toh ek variable zero ho jaata hai — directly! Yeh sutra dependent aur inconsistent systems ko ek second mein identify kar leta hai. Bahut kam log jaante hain yeh trick!",
     shortcut: "a₁/a₂ = b₁/b₂ = c₁/c₂ → Infinite solutions | a₁/a₂ = b₁/b₂ ≠ c₁/c₂ → No solution",
     steps: ["Do simultaneous equations ka coefficients likho","x-coefficients ka ratio nikalo: a₁ : a₂","y-coefficients ka ratio nikalo: b₁ : b₂","Constants ka ratio nikalo: c₁ : c₂","Teeno ratios compare karo","Agar a/a = b/b = c/c → Infinite solutions (dependent)","Agar a/a = b/b ≠ c/c → No solution (inconsistent)"],
-    ex1: { problem: "2x + 3y = 6  aur  4x + 6y = 12", steps: ["x-coeff ratio: 2:4 = 1:2","y-coeff ratio: 3:6 = 1:2","Constant ratio: 6:12 = 1:2","Teeno ratios same → Dependent equations","✅ Equation 2 = 2 × Equation 1 → Infinite solutions!"], last: true },
-    ex2: { problem: "x + 2y = 3  aur  2x + 4y = 10", steps: ["x-coeff ratio: 1:2","y-coeff ratio: 2:4 = 1:2","Constant ratio: 3:10 ≠ 1:2","✅ No solution — parallel lines hain graph mein"], last: true }
+    stepEgs: ["2x+3y=6, 4x+6y=12 → a:2,4 b:3,6 c:6,12","x-ratio: 2÷4 = 1:2","y-ratio: 3÷6 = 1:2","const-ratio: 6÷12 = 1:2","1:2 = 1:2 = 1:2 ✓","Teeno same → Infinite solutions","Agar const-ratio alag hota → No solution"],
+    examples: [
+      {level:"Basic",    num:1, problem:"2x+4y=8, 3x+6y=12 → solution?", steps:["Ratios: 2/3, 4/6=2/3, 8/12=2/3","Teeno same → Dependent","✅ Infinite solutions"]},
+      {level:"Basic",    num:2, problem:"x+2y=3, 2x+4y=7 → solution?", steps:["x-ratio=1/2, y-ratio=1/2, const=3/7≠1/2","x/y same but const diff → No soln","✅ Inconsistent (parallel lines)"]},
+      {level:"Moderate", num:3, problem:"3x+6y=9, x+2y=3 → solution?", steps:["3/1=3, 6/2=3, 9/3=3 → all same","✅ Infinite solutions (dependent)"]},
+      {level:"Hard",     num:4, problem:"4x+6y=10, 6x+9y=15 → solution?", steps:["4/6=2/3, 6/9=2/3, 10/15=2/3","✅ Infinite solutions"]},
+      {level:"Advanced", num:5, problem:"5x+10y=15, 3x+6y=10 → solution?", steps:["5/3, 10/6=5/3, 15/10=3/2≠5/3","x/y ratio same, const alag","✅ No solution (inconsistent)"]},
+    ]
   },
   {
     id: 7, name: "Sankalana-Vyavakalanabhyam", emoji: "➕➖",
@@ -985,8 +1030,14 @@ const SUTRAS = [
     explanation: "Yeh sutra simultaneous equations ke liye addition aur subtraction ka smart use karta hai. Dono equations ko add karo — ek naya simple equation milega. Phir subtract karo — aur naya equation milega. In do naye equations se variables bahut easily nikal aate hain. Yeh elimination method ka fast Vedic version hai — mentally bhi kar sakte ho!",
     shortcut: "Add equations → ek variable solve karo. Subtract → doosra!",
     steps: ["Dono equations likhein side by side","Step 1: Dono equations add karo → naya equation (A)","Step 2: Equation 2 ko Equation 1 se subtract karo → naya equation (B)","Equation (A) aur (B) se variables solve karo","Values original equations mein daalkhar verify karo"],
-    ex1: { problem: "5x + 4y = 9  aur  4x + 5y = 9", steps: ["Add: 9(x+y) = 18 → x+y = 2","Subtract: x−y = 0","2x = 2 → x = 1, y = 1","✅ x = 1, y = 1"], last: true },
-    ex2: { problem: "3x + 2y = 16  aur  2x + 3y = 14", steps: ["Add: 5x + 5y = 30 → x+y = 6","Subtract: x − y = 2","x = 4, y = 2","✅ x = 4, y = 2"], last: true }
+    stepEgs: ["5x+4y=9 aur 4x+5y=9 likhein","Add: 9x+9y=18 → x+y=2 ...(A)","Subtract: x−y=0 ...(B)","A+B: 2x=2 → x=1; y=1","Verify: 5+4=9 ✓, 4+5=9 ✓"],
+    examples: [
+      {level:"Basic",    num:1, problem:"x+y=5, x−y=1 → x,y=?", steps:["Add: 2x=6 → x=3","Subtract: 2y=4 → y=2","✅ x=3, y=2"]},
+      {level:"Basic",    num:2, problem:"5x+4y=9, 4x+5y=9 → x,y=?", steps:["Add: 9(x+y)=18 → x+y=2","Subtract: x−y=0","✅ x=1, y=1"]},
+      {level:"Moderate", num:3, problem:"3x+2y=16, 2x+3y=14 → x,y=?", steps:["Add: 5x+5y=30 → x+y=6","Subtract: x−y=2","✅ x=4, y=2"]},
+      {level:"Hard",     num:4, problem:"6x+4y=20, 4x+6y=20 → x,y=?", steps:["Add: 10(x+y)=40 → x+y=4","Subtract: 2x−2y=0 → x=y","✅ x=2, y=2"]},
+      {level:"Advanced", num:5, problem:"11x+9y=38, 9x+11y=42 → x,y=?", steps:["Add: 20(x+y)=80 → x+y=4","Subtract: 2x−2y=−4 → x−y=−2","✅ x=1, y=3"]},
+    ]
   },
   {
     id: 8, name: "Puranapuranabhyam", emoji: "⬜",
@@ -995,8 +1046,14 @@ const SUTRAS = [
     explanation: "Yeh sutra 'completing the square' hai — Vedic style mein! Jab koi expression incomplete lage — jaise x² + 6x — toh kuch add/subtract karke use perfect square bana do: (x+3)². Yeh technique quadratic equations, conic sections, integration aur bahut zyada advanced math mein use hoti hai.",
     shortcut: "x² + bx → add (b/2)² → (x + b/2)² — Perfect square!",
     steps: ["Quadratic: ax² + bx + c = 0","Agar a ≠ 1 toh poora a se divide karo","Constant c ko RHS le jaao: x² + bx = −c","(b/2)² nikalo aur dono sides mein add karo","LHS → (x + b/2)² ban jaata hai","Square root lo dono sides ka","x nikalo!"],
-    ex1: { problem: "x² + 6x + 5 = 0", steps: ["x² + 6x = −5","b/2 = 3, (b/2)² = 9 → dono sides mein add karo","x² + 6x + 9 = 4","(x+3)² = 4 → x+3 = ±2","✅ x = −1  ya  x = −5"], last: true },
-    ex2: { problem: "x² − 10x + 16 = 0", steps: ["x² − 10x = −16","(b/2)² = 25","(x−5)² = 9 → x−5 = ±3","✅ x = 8  ya  x = 2"], last: true }
+    stepEgs: ["x²+8x+7=0 → a=1,b=8,c=7","a=1 ✓ (no division)","x²+8x = −7","(8/2)²=16 → add both sides","x²+8x+16=9 → (x+4)²=9","x+4 = ±3","x=−1 ya x=−7 ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"x²+4x+3=0 → x=?", steps:["x²+4x=−3","(4/2)²=4 → (x+2)²=1","x+2=±1","✅ x=−1 ya x=−3"]},
+      {level:"Basic",    num:2, problem:"x²+6x+5=0 → x=?", steps:["x²+6x=−5","(3)²=9 → (x+3)²=4","x+3=±2","✅ x=−1 ya x=−5"]},
+      {level:"Moderate", num:3, problem:"x²−8x+12=0 → x=?", steps:["x²−8x=−12","(−4)²=16 → (x−4)²=4","x−4=±2","✅ x=6 ya x=2"]},
+      {level:"Hard",     num:4, problem:"x²−10x+16=0 → x=?", steps:["x²−10x=−16","(−5)²=25 → (x−5)²=9","x−5=±3","✅ x=8 ya x=2"]},
+      {level:"Advanced", num:5, problem:"2x²−12x+10=0 → x=?", steps:["÷2: x²−6x+5=0","x²−6x=−5","(−3)²=9 → (x−3)²=4","x−3=±2","✅ x=5 ya x=1"]},
+    ]
   },
   {
     id: 9, name: "Chalana-Kalanabhyam", emoji: "🔀",
@@ -1005,8 +1062,14 @@ const SUTRAS = [
     explanation: "Yeh sutra polynomial roots nikalne ke liye hai using 'differences and similarities'. Practical use: quadratic ax² + bx + c ke roots ki sum = −b/a aur product = c/a hoti hai. In do values se directly factors nikalo bina formula use kiye. Mental math mein yeh fastest quadratic solver hai!",
     shortcut: "Sum of roots = −b/a   |   Product of roots = c/a",
     steps: ["Quadratic ax² + bx + c = 0 likho","Sum of roots = −b/a nikalo","Product of roots = c/a nikalo","Do numbers dhundho jinka sum aur product match kare","Woh numbers roots hain!","Factors likhein: (x − root1)(x − root2)"],
-    ex1: { problem: "x² − 5x + 6 = 0", steps: ["a=1, b=−5, c=6","Sum = 5, Product = 6","Kaun se do numbers? → 2 aur 3!","✅ (x−2)(x−3) = 0 → x = 2 ya x = 3"], last: true },
-    ex2: { problem: "x² + x − 12 = 0", steps: ["Sum = −1, Product = −12","Do numbers: 3 aur −4","(x+4)(x−3) = 0","✅ x = −4  ya  x = 3"], last: true }
+    stepEgs: ["x²−7x+12=0 → a=1,b=−7,c=12","Sum = −(−7)/1 = 7","Product = 12/1 = 12","3+4=7 ✓, 3×4=12 ✓ → roots 3 aur 4","Roots are 3 aur 4","(x−3)(x−4)=0 ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"x²−3x+2=0 → x=?", steps:["Sum=3, Product=2","1+2=3, 1×2=2","✅ x=1 ya x=2"]},
+      {level:"Basic",    num:2, problem:"x²−5x+6=0 → x=?", steps:["Sum=5, Product=6","2+3=5, 2×3=6","✅ x=2 ya x=3"]},
+      {level:"Moderate", num:3, problem:"x²+x−12=0 → x=?", steps:["Sum=−1, Product=−12","3+(−4)=−1, 3×(−4)=−12","✅ x=3 ya x=−4"]},
+      {level:"Hard",     num:4, problem:"x²−7x+12=0 → x=?", steps:["Sum=7, Product=12","3+4=7, 3×4=12","(x−3)(x−4)=0","✅ x=3 ya x=4"]},
+      {level:"Advanced", num:5, problem:"2x²−5x+3=0 → x=?", steps:["a=2 → Product target = 2×3=6, Sum=5","2+3=5 ✓, 2×3=6 ✓","2x²−2x−3x+3 → 2x(x−1)−3(x−1)","✅ x=1 ya x=3/2"]},
+    ]
   },
   {
     id: 10, name: "Yaavadunam", emoji: "📉",
@@ -1015,8 +1078,14 @@ const SUTRAS = [
     explanation: "Yeh sutra squaring ke liye Nikhilam ka special version hai. 'Yaavadunam' matlab 'jitni kami hai utna'. Number ki base se kitni kami (deficit) hai nikalo. Number mein se deficit ghataao → left part. Deficit ka square nikalo → right part. Combine karo — done! Yeh itna fast hai ki 997² bhi 5 seconds mein ho jaata hai!",
     shortcut: "n² = (n − deficit) | deficit²   (base ke paas numbers ke liye)",
     steps: ["Number lo jo 10, 100, 1000 ke paas ho","Nearest base identify karo","Deficit = Base − Number","Left part = Number − Deficit","Right part = Deficit² (utne digits jitne base mein zeros)","Left | Right = Answer!"],
-    ex1: { problem: "98² = ?", steps: ["Base = 100, Deficit = 2","Left = 98 − 2 = 96","Right = 2² = 04  (2 digits)","✅ 96|04 = 9604"], last: true },
-    ex2: { problem: "997² = ?", steps: ["Base = 1000, Deficit = 3","Left = 997 − 3 = 994","Right = 3² = 009  (3 digits)","✅ 994|009 = 994009"], last: true }
+    stepEgs: ["97² → 97 is near 100","Base = 100","Deficit = 100−97 = 3","Left = 97−3 = 94","Right = 3² = 09 (2 digits, base=100)","94|09 = 9409 ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"9² (near base 10) = ?", steps:["Base=10, Deficit=1","Left=9−1=8","Right=1²=1","✅ 8|1 = 81"]},
+      {level:"Basic",    num:2, problem:"98² = ?", steps:["Base=100, Deficit=2","Left=96, Right=04","✅ 9604"]},
+      {level:"Moderate", num:3, problem:"97² = ?", steps:["Base=100, Deficit=3","Left=94, Right=09","✅ 9409"]},
+      {level:"Hard",     num:4, problem:"999² = ?", steps:["Base=1000, Deficit=1","Left=998, Right=001","✅ 998001"]},
+      {level:"Advanced", num:5, problem:"9997² = ?", steps:["Base=10000, Deficit=3","Left=9994, Right=0009","✅ 99940009"]},
+    ]
   },
   {
     id: 11, name: "Vyashtisamanstih", emoji: "🧩",
@@ -1025,8 +1094,14 @@ const SUTRAS = [
     explanation: "Yeh sutra individual parts aur unke whole ke beech relationship use karta hai. Quadratic ax² + bx + c ko factor karne ke liye — product = a×c nikalo, phir do aise numbers dhundho jinki sum = b aur product = a×c ho. Middle term ko un numbers se replace karo aur grouping karo. Yeh 'split the middle term' method ka proper Vedic naam hai!",
     shortcut: "Find p,q such that p+q = b  and  p×q = a×c",
     steps: ["ax² + bx + c mein a, b, c identify karo","Product P = a × c nikalo","Do numbers p aur q dhundho: p+q = b, p×q = P","Middle term bx ko (px + qx) se replace karo","Pehle do terms se common factor nikalo","Doosre do terms se bhi common factor nikalo","Common binomial factor niklo → Factored form!"],
-    ex1: { problem: "6x² + 11x + 3 = ?", steps: ["a=6, b=11, c=3 → P = 18","p+q=11, p×q=18 → p=9, q=2","6x² + 9x + 2x + 3","3x(2x+3) + 1(2x+3)","✅ (3x+1)(2x+3)"], last: true },
-    ex2: { problem: "2x² + 7x + 3 = ?", steps: ["P = 6. p+q=7, p×q=6 → p=6, q=1","2x² + 6x + x + 3","2x(x+3) + 1(x+3)","✅ (2x+1)(x+3)"], last: true }
+    stepEgs: ["2x²+7x+3 → a=2, b=7, c=3","P = 2×3 = 6","p+q=7, p×q=6 → p=6, q=1","2x²+6x+x+3","2x(x+3)...","...+1(x+3) → common (x+3)","(x+3)(2x+1) ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"x²+5x+6 = ?", steps:["P=1×6=6; p+q=5: 2+3","x²+2x+3x+6 → x(x+2)+3(x+2)","✅ (x+2)(x+3)"]},
+      {level:"Basic",    num:2, problem:"x²+7x+12 = ?", steps:["P=12; p+q=7: 3+4","x²+3x+4x+12 → x(x+3)+4(x+3)","✅ (x+3)(x+4)"]},
+      {level:"Moderate", num:3, problem:"2x²+7x+3 = ?", steps:["P=6; p+q=7: 6+1","2x²+6x+x+3 → 2x(x+3)+1(x+3)","✅ (2x+1)(x+3)"]},
+      {level:"Hard",     num:4, problem:"6x²+11x+3 = ?", steps:["P=18; p+q=11: 9+2","6x²+9x+2x+3 → 3x(2x+3)+1(2x+3)","✅ (3x+1)(2x+3)"]},
+      {level:"Advanced", num:5, problem:"12x²−x−6 = ?", steps:["P=−72; p+q=−1: −9+8","12x²−9x+8x−6 → 3x(4x−3)+2(4x−3)","✅ (4x−3)(3x+2)"]},
+    ]
   },
   {
     id: 12, name: "Shesanyankena Charamena", emoji: "🔢",
@@ -1035,8 +1110,14 @@ const SUTRAS = [
     explanation: "Yeh sutra number ke digits ke sum aur remainder ke beech relationship use karta hai. Aapko pura division karne ki zaroorat nahi — sirf digits ka sum nikalo aur divisibility seedha pata chal jaata hai. Yeh vedic mathematicians ka ek brilliant observation hai jo aaj bhi school mein padhaya jaata hai!",
     shortcut: "Digit sum → 9/3 check | Alternating digit sum → 11 check",
     steps: ["Number ke saare digits add karo","Sum agar 9 ka multiple → number 9 se divisible","Sum agar 3 ka multiple → number 3 se divisible","11 check ke liye: alternating sum nikalo (d1 − d2 + d3...)","Alternating sum agar 0 ya 11 ka multiple → 11 se divisible"],
-    ex1: { problem: "Is 123456 divisible by 9?", steps: ["Digits sum: 1+2+3+4+5+6 = 21","21 → 2+1 = 3","3 is NOT a multiple of 9","3 is multiple of 3 → Divisible by 3!","✅ 123456 ÷ 9 = No. ÷ 3 = YES"], last: false },
-    ex2: { problem: "Is 847 divisible by 11?", steps: ["Alternating sum: 8 − 4 + 7 = 11","11 is divisible by 11 ✓","✅ 847 ÷ 11 = 77"], last: true }
+    stepEgs: ["729 → digits 7,2,9","7+2+9=18 → 1+8=9 → div by 9 ✓","18 div by 3 ✓ (also div by 3)","11 check: 7−2+9=14 (not 0 or 11)","729 ÷ 11 ✗"],
+    examples: [
+      {level:"Basic",    num:1, problem:"Is 252 divisible by 3?", steps:["2+5+2=9","9÷3=3 ✓","✅ Yes, divisible by 3"]},
+      {level:"Basic",    num:2, problem:"Is 999 divisible by 9?", steps:["9+9+9=27 → 2+7=9","9÷9=1 ✓","✅ Yes!"]},
+      {level:"Moderate", num:3, problem:"Is 123456 divisible by 9?", steps:["1+2+3+4+5+6=21 → 2+1=3","3÷9 ✗ → Not divisible by 9","✅ But ÷3 = Yes (3 is mult of 3)"]},
+      {level:"Hard",     num:4, problem:"Is 847 divisible by 11?", steps:["Alternating: 8−4+7=11","11÷11=1 ✓","✅ Yes! 847÷11=77"]},
+      {level:"Advanced", num:5, problem:"Is 7654321 divisible by 11?", steps:["7−6+5−4+3−2+1=4","4 not divisible by 11","✅ No"]},
+    ]
   },
   {
     id: 13, name: "Sopaantyadvayamantyam", emoji: "📐",
@@ -1045,8 +1126,14 @@ const SUTRAS = [
     explanation: "Yeh sutra ek specific pattern wali algebraic fractions ke liye hai. Jab denominator mein consecutive terms ka product ho, toh quick mental method se partial fraction A aur B ke values nikalo bina tedious algebra ke. Iska use integration mein bhi bahut hota hai.",
     shortcut: "1/(AB): substitute x = −a for A, x = −b for B",
     steps: ["Partial fraction: 1/((x+a)(x+b)) = A/(x+a) + B/(x+b) form mein likhein","Dono sides (x+a) se multiply karo","x = −a rakhein → A ki value niklo","Dono sides (x+b) se multiply karo","x = −b rakhein → B ki value niklo","Final partial fraction likhein"],
-    ex1: { problem: "1/((x+1)(x+3)) = ?", steps: ["A/(x+1) + B/(x+3) format mein likhein","x = −1: A = 1/(2) = 1/2","x = −3: B = 1/(−2) = −1/2","✅ (1/2)·[1/(x+1) − 1/(x+3)]"], last: true },
-    ex2: { problem: "2x/((x−1)(x+2)) = ?", steps: ["A/(x−1) + B/(x+2)","x=1: A = 2(1)/3 = 2/3","x=−2: B = 2(−2)/(−3) = 4/3","✅ (2/3)/(x−1) + (4/3)/(x+2)"], last: true }
+    stepEgs: ["1/((x+2)(x+3)) → A/(x+2)+B/(x+3)","Multiply by (x+2)","x=−2: A=1/(−2+3)=1","Multiply by (x+3)","x=−3: B=1/(−3+2)=−1","1/(x+2) − 1/(x+3) ✅"],
+    examples: [
+      {level:"Basic",    num:1, problem:"1/((x+1)(x+2)) = ?", steps:["A/(x+1)+B/(x+2)","x=−1: A=1/1=1","x=−2: B=1/(−1)=−1","✅ 1/(x+1) − 1/(x+2)"]},
+      {level:"Basic",    num:2, problem:"1/((x+1)(x+3)) = ?", steps:["x=−1: A=1/2","x=−3: B=−1/2","✅ (1/2)[1/(x+1) − 1/(x+3)]"]},
+      {level:"Moderate", num:3, problem:"2/((x)(x+2)) = ?", steps:["A/x + B/(x+2)","x=0: A=2/2=1","x=−2: B=2/(−2)=−1","✅ 1/x − 1/(x+2)"]},
+      {level:"Hard",     num:4, problem:"x/((x−1)(x+2)) = ?", steps:["A/(x−1)+B/(x+2)","x=1: A=1/3","x=−2: B=(−2)/(−3)=2/3","✅ (1/3)/(x−1) + (2/3)/(x+2)"]},
+      {level:"Advanced", num:5, problem:"2x/((x−1)(x+2)) = ?", steps:["x=1: A=2/3","x=−2: B=2(−2)/(−3)=4/3","✅ (2/3)/(x−1) + (4/3)/(x+2)"]},
+    ]
   },
   {
     id: 14, name: "Ekanyunena Purvena", emoji: "9️⃣",
@@ -1055,8 +1142,14 @@ const SUTRAS = [
     explanation: "Yeh Ekadhikena ka opposite hai — ek zyada ki jagah ek kam! Jab kisi number ko 9, 99, 999 ya kisi all-nines number se multiply karna ho, yeh sutra kaafi fast hai. Logic: 9 = 10−1, 99 = 100−1. Number se 1 ghataao → left part, aur (Base − number) → right part. Combine karo!",
     shortcut: "n × (10ᵏ−1) = (n−1) | (10ᵏ − n)",
     steps: ["Number aur multiplier (9, 99, 999...) identify karo","Multiplier ka base identify karo: 9→10, 99→100, 999→1000","Left part = Number − 1","Right part = Base − Number","Left | Right combine karo → Final answer!"],
-    ex1: { problem: "654 × 999 = ?", steps: ["999 = 1000 − 1, Base = 1000","Left part = 654 − 1 = 653","Right part = 1000 − 654 = 346","✅ 653|346 = 653346"], last: true },
-    ex2: { problem: "78 × 99 = ?", steps: ["99 = 100 − 1, Base = 100","Left = 78 − 1 = 77","Right = 100 − 78 = 22","✅ 77|22 = 7722"], last: true }
+    stepEgs: ["5 × 99 → Number=5, Multiplier=99","99 = 100−1 → Base=100","Left = 5−1 = 4","Right = 100−5 = 95","Answer = 4|95 = 495"],
+    examples: [
+      { level:"Basic", num:1, problem:"5 × 99 = ?", steps:["99 = 100−1, Base = 100","Left = 5−1 = 4","Right = 100−5 = 95","✅ 4|95 = 495"] },
+      { level:"Basic", num:2, problem:"78 × 99 = ?", steps:["99 = 100−1, Base = 100","Left = 78−1 = 77","Right = 100−78 = 22","✅ 77|22 = 7722"] },
+      { level:"Moderate", num:3, problem:"654 × 999 = ?", steps:["999 = 1000−1, Base = 1000","Left = 654−1 = 653","Right = 1000−654 = 346","✅ 653|346 = 653346"] },
+      { level:"Hard", num:4, problem:"123 × 9999 = ?", steps:["9999 = 10000−1, Base = 10000","Left = 123−1 = 122","Right = 10000−123 = 9877","✅ 122|9877 = 1229877"] },
+      { level:"Advanced", num:5, problem:"376 × 999 = ?", steps:["999 = 1000−1, Base = 1000","Left = 376−1 = 375","Right = 1000−376 = 624","✅ 375|624 = 375624"] }
+    ]
   },
   {
     id: 15, name: "Gunitasamuchyah", emoji: "✅",
@@ -1065,8 +1158,14 @@ const SUTRAS = [
     explanation: "Yeh sutra verification ke liye sabse important hai! Koi bhi multiplication karne ke baad answer sahi hai ya nahi, yeh Beejank (digit sum) method se check karo. Dono numbers ke digit sums nikalo, multiply karo, phir actual answer ka digit sum nikalo — dono match hone chahiye! Ek second mein error pakad lo!",
     shortcut: "DS(A) × DS(B) → DS = DS(A×B) ... agar na mile → calculation galat!",
     steps: ["Dono numbers ke digit sums nikalo (repeatedly sum till single digit)","Un digit sums ko multiply karo","Agar product > 9 toh uska bhi digit sum nikalo","Answer ka digit sum nikalo","Dono match karte hain → Answer sahi! ✓","Nahi milta → Calculation mein galti hai!"],
-    ex1: { problem: "Verify: 123 × 456 = 56088", steps: ["123 → 1+2+3 = 6","456 → 4+5+6 = 15 → 6","6 × 6 = 36 → 9","56088 → 5+6+0+8+8 = 27 → 9","✅ 9 = 9 → Answer sahi hai!"], last: true },
-    ex2: { problem: "Verify: 99 × 99 = 9801", steps: ["99 → 9","99 → 9","9 × 9 = 81 → 9","9801 → 18 → 9","✅ 9 = 9 → Correct!"], last: true }
+    stepEgs: ["12 → 1+2=3, 4 → 4","DS1=3, DS2=4","3×4=12 → 1+2=3","48 → 4+8=12 → 3","3=3 ✅","If mismatch → recheck calculation"],
+    examples: [
+      { level:"Basic", num:1, problem:"Verify: 12 × 4 = 48", steps:["12 → 1+2 = 3","4 → 4","3 × 4 = 12 → 3","48 → 4+8 = 12 → 3","✅ 3 = 3 → Answer sahi!"] },
+      { level:"Basic", num:2, problem:"Verify: 99 × 99 = 9801", steps:["99 → 18 → 9","99 → 18 → 9","9 × 9 = 81 → 9","9801 → 18 → 9","✅ 9 = 9 → Correct!"] },
+      { level:"Moderate", num:3, problem:"Verify: 123 × 456 = 56088", steps:["123 → 6","456 → 15 → 6","6 × 6 = 36 → 9","56088 → 27 → 9","✅ 9 = 9 → Answer sahi!"] },
+      { level:"Hard", num:4, problem:"Verify: 125 × 48 = 6000", steps:["125 → 8","48 → 12 → 3","8 × 3 = 24 → 6","6000 → 6","✅ 6 = 6 → Correct!"] },
+      { level:"Advanced", num:5, problem:"Catch error: 99 × 11 = 1099 (?)", steps:["99 → 9","11 → 2","9 × 2 = 18 → 9","1099 → 19 → 10 → 1","✗ 9 ≠ 1 → Answer galat! Correct: 1089"] }
+    ]
   },
   {
     id: 16, name: "Gunakasamuchyah", emoji: "🔍",
@@ -1075,8 +1174,14 @@ const SUTRAS = [
     explanation: "Yeh Gunitasamuchyah ka extension hai — sirf multiplication nahi, factorization bhi verify hoti hai isse. Agar tumne x² + 5x + 6 = (x+2)(x+3) factor kiya, toh koi bhi x ki value daalo dono mein — agar same answer aaye toh factorization correct hai! Exam mein apna answer verify karne ka yeh fastest method hai.",
     shortcut: "f(x) mein koi bhi x daalo. Factors mein same x daalo. Same answer → ✓",
     steps: ["Original expression aur factored form dono likhein","Koi bhi simple value lo: x = 1 ya x = 2","Woh value original expression mein daalo","Same value factored form mein daalo","Dono answers compare karo","Same? ✓ Factorization sahi. Different? ✗ Galti hai"],
-    ex1: { problem: "Verify: x²+5x+6 = (x+2)(x+3)", steps: ["x=1: LHS = 1+5+6 = 12","x=1: RHS = (3)(4) = 12","x=2: LHS = 20, RHS = (4)(5) = 20","✅ Match! Factorization sahi!"], last: true },
-    ex2: { problem: "Verify: 2x²+5x+3 = (2x+3)(x+1)", steps: ["x=1: LHS = 10,  RHS = 5×2 = 10 ✓","x=0: LHS = 3,  RHS = 3×1 = 3 ✓","x=−1: LHS = 0,  RHS = 1×0 = 0 ✓","✅ Factorization verified!"], last: true }
+    stepEgs: ["f(x)=x²+3x+2 and (x+1)(x+2)","Use x=1","LHS: 1+3+2=6","RHS: (2)(3)=6","6=6 ✅","Factorization confirmed!"],
+    examples: [
+      { level:"Basic", num:1, problem:"Verify: x²+3x+2 = (x+1)(x+2)", steps:["x=1: LHS = 1+3+2 = 6","x=1: RHS = (2)(3) = 6","x=0: LHS = 2, RHS = (1)(2) = 2","✅ Match! Factorization sahi!"] },
+      { level:"Basic", num:2, problem:"Verify: x²+5x+6 = (x+2)(x+3)", steps:["x=1: LHS = 1+5+6 = 12","x=1: RHS = (3)(4) = 12","x=2: LHS = 4+10+6 = 20, RHS = (4)(5) = 20","✅ Factorization correct!"] },
+      { level:"Moderate", num:3, problem:"Verify: 2x²+5x+3 = (2x+3)(x+1)", steps:["x=1: LHS = 2+5+3 = 10","x=1: RHS = 5×2 = 10 ✓","x=0: LHS = 3, RHS = 3×1 = 3 ✓","x=−1: LHS = 0, RHS = 1×0 = 0 ✓","✅ Factorization verified!"] },
+      { level:"Hard", num:4, problem:"Verify: x³−6x²+11x−6 = (x−1)(x−2)(x−3)", steps:["x=0: LHS = −6, RHS = (−1)(−2)(−3) = −6 ✓","x=4: LHS = 64−96+44−6 = 6","x=4: RHS = (3)(2)(1) = 6 ✓","✅ Cubic factorization sahi!"] },
+      { level:"Advanced", num:5, problem:"Find roots: x²−5x+6 = (x−2)(x−3)", steps:["x=2: LHS = 4−10+6 = 0, RHS = 0×(−1) = 0 ✓","x=3: LHS = 9−15+6 = 0, RHS = 1×0 = 0 ✓","x=1: LHS = 1−5+6 = 2 ≠ 0 (not a root)","✅ Roots are x=2 and x=3 confirmed!"] }
+    ]
   }
 ];
 
@@ -1109,10 +1214,24 @@ function renderSutraContent(id) {
   const s = SUTRAS.find(x => x.id === id);
   if (!s) return;
 
-  const stepsHtml = s.steps.map(st => `<div class="sc-step">${st}</div>`).join('');
-  const exHtml = (ex) => ex.steps.map((st, i) =>
-    `<div class="sc-step${i === ex.steps.length - 1 && ex.last ? ' hl' : ''}">${st}</div>`
-  ).join('');
+  const stepsHtml = s.steps.map((st, i) => {
+    const eg = s.stepEgs && s.stepEgs[i]
+      ? `<span class="sc-step-eg">eg: ${s.stepEgs[i]}</span>` : '';
+    return `<div class="sc-step"><div class="sc-step-body"><span>${st}</span>${eg}</div></div>`;
+  }).join('');
+
+  const LEVEL_CLS = { Basic:'ex-basic', Moderate:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
+  const examplesHtml = (s.examples || []).map(ex => {
+    const stH = ex.steps.map((st, i) =>
+      `<div class="sc-step${i === ex.steps.length - 1 ? ' hl' : ''}">${st}</div>`
+    ).join('');
+    return `<div class="sc-example apt-example">
+        <span class="ex-level-badge ${LEVEL_CLS[ex.level] || ''}">${ex.level}</span>
+        <div class="sc-ex-head"><i class="bx bx-calculator"></i>&nbsp; Example ${ex.num}</div>
+        <div class="sc-ex-prob">${ex.problem}</div>
+        <div class="sc-steps">${stH}</div>
+      </div>`;
+  }).join('');
 
   el.innerHTML = `
     <div class="sutra-card">
@@ -1142,25 +1261,14 @@ function renderSutraContent(id) {
       <!-- ── Explanation ── -->
       <p class="sc-explanation">${s.explanation}</p>
 
-      <!-- ── 3-column: Method Steps | Example 1 | Example 2 ── -->
-      <div class="sc-grid-3">
-        <div class="sc-example">
-          <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Method — Steps</div>
-          <div class="sc-steps">${stepsHtml}</div>
-        </div>
-
-        <div class="sc-example">
-          <div class="sc-ex-head"><i class="bx bx-calculator"></i>&nbsp; Example 1</div>
-          <div class="sc-ex-prob">${s.ex1.problem}</div>
-          <div class="sc-steps">${exHtml(s.ex1)}</div>
-        </div>
-
-        <div class="sc-example">
-          <div class="sc-ex-head"><i class="bx bx-calculator"></i>&nbsp; Example 2</div>
-          <div class="sc-ex-prob">${s.ex2.problem}</div>
-          <div class="sc-steps">${exHtml(s.ex2)}</div>
-        </div>
+      <!-- ── Method Steps ── -->
+      <div class="sc-example sc-steps-full">
+        <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Method — Steps</div>
+        <div class="sc-steps">${stepsHtml}</div>
       </div>
+
+      <!-- ── Examples grid (Basic / Moderate / Hard / Advanced) ── -->
+      <div class="apt-examples-grid">${examplesHtml}</div>
 
       <!-- ── Try It Yourself ── -->
       <div class="sc-try-it" id="scTryIt">
@@ -1250,6 +1358,7 @@ const APTITUDE_TOPICS = [
     hint:"2 + 3 * 4 - 1",
     explanation:"Whole numbers 0 se shuru hote hain aur infinite tak jaate hain. Inka calculation mein sabse important rule BODMAS hai. Is rule ko follow karo toh koi bhi complex expression galat nahi hogi!",
     steps:["Expression mein brackets check karo — pehle solve karo","'Of' matlab multiplication — percent/fraction ke saath aata hai","Division aur Multiplication left to right solve karo","Addition aur Subtraction left to right solve karo","Negative numbers ka sign dhyan se rakhna"],
+    stepEgs:["(3+5)×2 → pehle (3+5)=8, phir 8×2=16","½ of 10 = ½×10 = 5","6÷2×3 → left to right: 3×3=9 ✓ (6÷6=1 ✗)","10−3+2 → left to right: 7+2=9 ✓ (10−5=5 ✗)","5+(−3) = 5−3 = 2"],
     examples:[
       {level:"Basic",    num:1, problem:"Solve: 5 + 3 × 2", steps:["Multiply first: 3×2=6","5+6=11","✅ = 11"]},
       {level:"Basic",    num:2, problem:"Solve: 20 − 4 ÷ 2", steps:["Division: 4÷2=2","20−2=18","✅ = 18"]},
@@ -1264,6 +1373,7 @@ const APTITUDE_TOPICS = [
     hint:"0.125 * 8",
     explanation:"Decimal numbers mein point ke baad wale digits tenths, hundredths, thousandths represent karte hain. Exam mein decimals ko fractions mein convert karo — calculation bahut easy ho jaati hai! 0.5 = 1/2, 0.25 = 1/4, 0.125 = 1/8 yaad rakhlo.",
     steps:["Decimal ko fraction mein convert karo (0.5=1/2, 0.25=1/4, etc.)","Recurring decimals: x = 0.333... → 10x = 3.333... → 9x=3 → x=1/3","Multiplication: 2.5 × 4 = 25 × 4 ÷ 10 = 10","Division: 1.5 ÷ 0.3 = 15 ÷ 3 = 5 (dono ×10)","Comparison: same digits tak 0 add karo"],
+    stepEgs:["0.75 = 75/100 = 3/4; 0.125 = 1/8","x=0.666…, 10x=6.666…, 9x=6, x=2/3","3.6×5 = 36×5÷10 = 180÷10 = 18","2.4÷0.06 = 240÷6 = 40","0.8 vs 0.75 → 0.80 > 0.75 ✓"],
     examples:[
       {level:"Basic",    num:1, problem:"0.5 × 8 = ?", steps:["0.5 = 1/2","1/2 × 8 = 4","✅ = 4"]},
       {level:"Basic",    num:2, problem:"1.5 ÷ 0.3 = ?", steps:["Dono ×10 → 15 ÷ 3","= 5","✅ = 5"]},
@@ -1278,6 +1388,7 @@ const APTITUDE_TOPICS = [
     hint:"3/4 + 5/6",
     explanation:"Fractions mein numerator (upar) aur denominator (neeche) hota hai. Addition ke liye LCM nikalo, multiplication seedha karo, division mein doosre fraction ko ulta karke multiply karo. Mixed fractions ko improper mein convert karo phir calculate karo.",
     steps:["Addition/Subtraction: LCM of denominators nikalo","Equivalent fractions banao same denominator ke saath","Numerators add/subtract karo","Multiplication: seedha numerator × numerator, denominator × denominator","Division: doosre fraction ko flip karke multiply karo"],
+    stepEgs:["1/2 + 1/3 → LCM(2,3) = 6","1/2 = 3/6, 1/3 = 2/6 (same denominator)","3/6 + 2/6 = 5/6","2/3 × 3/4 = 6/12 = 1/2","2/3 ÷ 4/5 = 2/3 × 5/4 = 10/12 = 5/6"],
     examples:[
       {level:"Basic",    num:1, problem:"1/2 + 1/3 = ?", steps:["LCM of 2,3 = 6","3/6 + 2/6 = 5/6","✅ = 5/6"]},
       {level:"Basic",    num:2, problem:"3/4 × 8/9 = ?", steps:["= (3×8)/(4×9) = 24/36","= 2/3","✅ = 2/3"]},
@@ -1292,6 +1403,7 @@ const APTITUDE_TOPICS = [
     hint:"12 * 18",
     explanation:"Numbers ke beech relationships mein HCF (sabse bada common factor) aur LCM (sabse chhota common multiple) sabse important hain. Exam mein shortcut: HCF × LCM = N1 × N2. Division method se HCF aur prime factorization se LCM fastest hai!",
     steps:["HCF: Bade number ko chhote se divide karo, remainder se phir divide — jab remainder 0 ho woh HCF","LCM: HCF × LCM = N1 × N2 → LCM = (N1×N2)/HCF","Divisibility: 2 → last digit even, 3 → digit sum divisible by 3, 9 → digit sum div by 9","11 → alternating digit sum divisible by 11","Co-prime numbers: HCF = 1"],
+    stepEgs:["HCF(18,12): 18÷12=R6, 12÷6=R0 → HCF=6","LCM = 12×18÷6 = 36","252: last digit 2 (÷2✓), 2+5+2=9 (÷9✓)","121: 1−2+1=0 → divisible by 11 ✓","8 aur 9: HCF=1 → co-prime"],
     examples:[
       {level:"Basic",    num:1, problem:"Is 987 divisible by 3?", steps:["9+8+7 = 24 → 2+4 = 6","6 ÷ 3 = 2 ✓","✅ Yes, divisible by 3"]},
       {level:"Basic",    num:2, problem:"HCF of 12 and 18 = ?", steps:["18 = 12×1 + 6","12 = 6×2 + 0 → HCF = 6","✅ HCF = 6"]},
@@ -1308,6 +1420,7 @@ const APTITUDE_TOPICS = [
     hint:"500 * 120 / 100",
     explanation:"CP (Cost Price) woh price hai jis pe cheez khareedte hain, SP (Selling Price) jis pe bechte hain. SP > CP = Profit, SP < CP = Loss. Exam trick: SP seedha formula se nikalo — CP × (100 ± %) ÷ 100. Successive discount/profit ke liye: multiply karo percentages.",
     steps:["CP aur SP identify karo","Profit = SP − CP (agar SP > CP)","Profit% = (Profit ÷ CP) × 100","SP from CP: SP = CP × (100+P%) ÷ 100","CP from SP: CP = SP × 100 ÷ (100+P%)"],
+    stepEgs:["Buy ₹200, sell ₹250 → CP=200, SP=250","SP>CP → Profit = 250−200 = ₹50","Profit% = (50÷200)×100 = 25%","CP=500, P%=20 → SP=500×120÷100 = ₹600","SP=₹720, P%=20 → CP=720×100÷120 = ₹600"],
     examples:[
       {level:"Basic",    num:1, problem:"CP=₹200, SP=₹250. Profit%?", steps:["Profit = 250−200 = ₹50","Profit% = 50/200×100 = 25%","✅ Profit = 25%"]},
       {level:"Basic",    num:2, problem:"CP=₹500, Loss=10%. SP=?", steps:["SP = 500×(100−10)/100","= 500×90/100 = ₹450","✅ SP = ₹450"]},
@@ -1322,6 +1435,7 @@ const APTITUDE_TOPICS = [
     hint:"1000 * 85 / 100",
     explanation:"Discount hamesha Marked Price (MP) pe milta hai, CP pe nahi — yeh bahut important hai! Successive discounts ke liye trick: 20% aur 10% = single discount of 28% (100−20=80, 80−10%of80=72, so 28% off). Formula: SP = MP × (100−D%)/100.",
     steps:["MP aur Discount% identify karo","Discount amount = MP × D% ÷ 100","SP = MP − Discount","Ya directly: SP = MP × (100−D%) ÷ 100","Successive discounts: (100−d1)/100 × (100−d2)/100 × MP"],
+    stepEgs:["Tag ₹1000, 20% off → MP=1000, D%=20","Discount = 1000×20÷100 = ₹200","SP = 1000−200 = ₹800","SP = 1000×80÷100 = ₹800 (faster!)","20% then 10%: 1000×0.8×0.9 = ₹720"],
     examples:[
       {level:"Basic",    num:1, problem:"MP=₹800, Discount=15%. SP=?", steps:["SP = 800×(100−15)/100","= 800×85/100 = ₹680","✅ SP = ₹680"]},
       {level:"Basic",    num:2, problem:"MP=₹500, SP=₹425. Discount%?", steps:["Discount = 500−425 = ₹75","D% = 75/500×100 = 15%","✅ Discount = 15%"]},
@@ -1336,6 +1450,7 @@ const APTITUDE_TOPICS = [
     hint:"12000 * 6",
     explanation:"Partnership mein profit ka baantna Capital aur Time pe depend karta hai. Simple partnership mein time same hota hai toh sirf capital ka ratio lelo. Compound partnership mein Capital × Time nikalo. Yeh ratio hi profit division ka basis hai!",
     steps:["Har partner ka Capital × Time nikalo","Ye values ka ratio lo","Total profit × ek ka ratio / total ratio = us partner ka share","Sleeping partner vs working partner — problem mein clearly mention hoga","Agar time mein bhi investment change ho toh alag alag period ke liye calculate karo"],
+    stepEgs:["A: ₹5000×6mo=30000, B: ₹4000×9mo=36000","Ratio = 30000:36000 = 5:6","Profit ₹1100 → A's share = 5/11×1100 = ₹500","Working partner gets salary first, rest split by ratio","A: ₹2000×3mo + ₹4000×9mo = 6000+36000 = 42000"],
     examples:[
       {level:"Basic",    num:1, problem:"A=₹5000, B=₹3000, C=₹2000. Profit=₹1000. B's share?", steps:["Ratio = 5:3:2, Total = 10 parts","B = 3/10×1000 = ₹300","✅ B's share = ₹300"]},
       {level:"Basic",    num:2, problem:"A:B invest 2:3. Profit=₹5000. A's share?", steps:["A gets 2/5 of profit","= 2/5×5000 = ₹2000","✅ A's share = ₹2000"]},
@@ -1350,6 +1465,7 @@ const APTITUDE_TOPICS = [
     hint:"(80 - 60) / (60 - 40)",
     explanation:"Alligation ka cross method fastest technique hai! Ek cross banao — ऊपर dono values, beech mein mean value, phir cross difference nikalo. Yeh differences hi mixing ratio hoga. Milk-water problems, salary average problems — sab isme aate hain!",
     steps:["Cheaper value (c), Dearer value (d), aur Mean (m) identify karo","Cross banao: c aur d upar, m beech mein","Left difference: d − m (neeche right)","Right difference: m − c (neeche left)","Ratio = (d−m) : (m−c)"],
+    stepEgs:["₹20/kg + ₹80/kg → blend ₹50/kg: c=20, d=80, m=50","c=20 upar left, d=80 upar right, m=50 centre","d−m = 80−50 = 30 (cheaper ki quantity)","m−c = 50−20 = 30 (dearer ki quantity)","Ratio = 30:30 = 1:1 (equal mix)"],
     examples:[
       {level:"Basic",    num:1, problem:"₹40/kg aur ₹80/kg mix karke ₹60/kg. Ratio?", steps:["d−m = 80−60 = 20","m−c = 60−40 = 20","Ratio = 20:20 = 1:1","✅ Equal quantities"]},
       {level:"Basic",    num:2, problem:"40% aur 60% alcohol mix → 50%. Ratio?", steps:["d−m = 60−50 = 10","m−c = 50−40 = 10","Ratio = 1:1","✅ Equal parts"]},
@@ -1364,6 +1480,7 @@ const APTITUDE_TOPICS = [
     hint:"60 * 5/18",
     explanation:"D = S × T — yeh teen formula se sab solve hota hai. Trains ke problems mein: relative speed, length of train + platform. Boats mein: upstream = u−v, downstream = u+v. Speed units convert karna mat bhoolna — km/h to m/s × 5/18!",
     steps:["D=S×T, S=D/T, T=D/S identify karo","km/h to m/s: × 5/18","Two objects same direction: relative speed = |S1−S2|","Two objects opposite direction: relative speed = S1+S2","Train length problems: length = speed × time to cross"],
+    stepEgs:["Speed=60km/h, Time=2hr → D=60×2=120 km","36 km/h × 5/18 = 10 m/s","Train 60, Car 40, same dir → relative = 20 km/h","Car A 60 + Car B 40, opposite → relative = 100 km/h","Train 100m, crosses pole in 5s → speed=20 m/s"],
     examples:[
       {level:"Basic",    num:1, problem:"Car 60km/h, 3 hours. Distance?", steps:["D = S×T = 60×3","= 180 km","✅ Distance = 180 km"]},
       {level:"Basic",    num:2, problem:"72 km/h = ? m/s", steps:["× 5/18","= 72×5/18 = 20 m/s","✅ = 20 m/s"]},
@@ -1378,6 +1495,7 @@ const APTITUDE_TOPICS = [
     hint:"1/8 + 1/12",
     explanation:"Time & Work mein sabse important concept: agar koi kaam n dino mein kare, toh 1 din ka kaam = 1/n. Do log saath mein kaam karein toh unke 1-din work add karo. Pipe-cistern bhi same concept — filling pipe positive, leaking pipe negative karo!",
     steps:["A ka 1-din kaam = 1/a, B ka 1-din kaam = 1/b","Together 1-din kaam = 1/a + 1/b","Total days together = 1/(1/a+1/b) = ab/(a+b)","Efficiency ratio = inverse of time ratio","Pipes: inlet + outlet (outlet ko negative lo)"],
+    stepEgs:["A 10 din mein → 1 din = 1/10 kaam","A: 1/10, B: 1/15 → together = 5/30 = 1/6 per day","Days = 6 (finish in 6 days)","A: 6 days, B: 12 days → efficiency 2:1","Inlet 1/4 hr, outlet 1/6 hr → net = 1/4−1/6 = 1/12 per hr"],
     examples:[
       {level:"Basic",    num:1, problem:"A = 10 days. 1 din mein kitna kaam?", steps:["1 din kaam = 1/10","= 10% per day","✅ = 1/10 of work"]},
       {level:"Basic",    num:2, problem:"A=8 days, B=12 days. Together kab?", steps:["Together = 1/8 + 1/12 = 5/24","Days = 24/5 = 4.8 days","✅ = 4 days 19.2 hrs"]},
@@ -1392,6 +1510,7 @@ const APTITUDE_TOPICS = [
     hint:"35 * 240 / 100",
     explanation:"Percentage ek universal concept hai — har topic mein aata hai. Shortcut: fractions yaad rakho! 25%=1/4, 20%=1/5, 33.33%=1/3, 12.5%=1/8. Population increase/decrease ke liye: new = old × (1 ± %/100). Exam mein percentage tricks se 3 seconds mein answer!",
     steps:["x% of N = N×x/100","% change = (New−Old)/Old × 100","Agar A, B se P% zyada: A = B×(100+P)/100","Common fractions: 10%=1/10, 25%=1/4, 50%=1/2","Successive %: first % pe → phir second %"],
+    stepEgs:["15% of 200 = 200×15÷100 = 30","Old=500, New=600 → change=(100÷500)×100 = 20%","B=100, A 20% zyada → A=100×120÷100 = 120","12.5% of 80 = 1/8×80 = 10 (instant!)","10%↑ then 10%↓: 100×1.1×0.9 = 99 (net −1%)"],
     examples:[
       {level:"Basic",    num:1, problem:"25% of 200 = ?", steps:["25% = 1/4","200 × 1/4 = 50","✅ = 50"]},
       {level:"Basic",    num:2, problem:"35% of 240 = ?", steps:["30% = 72, 5% = 12","72+12 = 84","✅ = 84"]},
@@ -1406,6 +1525,7 @@ const APTITUDE_TOPICS = [
     hint:"sqrt(16 * 25)",
     explanation:"Ratio a:b matlab a/b. Proportion mein a:b :: c:d hota hai, yaani ad = bc. Fourth proportional: a:b :: c:? = bc/a. Mean proportional: a:? :: ?:b = √(ab). Compound ratio: multiply karo. Exam mein mostly ek simple equation banti hai — cross multiply aur solve!",
     steps:["a:b:c ko simplify karo — HCF nikalo","Compound ratio: (a:b) aur (c:d) ka compound = ac:bd","Duplicate ratio: a:b ka duplicate = a²:b²","Sub-duplicate: √a:√b","Fourth proportional to a,b,c: d = bc/a"],
+    stepEgs:["12:18:24 → HCF=6 → simplified 2:3:4","2:3 aur 4:5 → compound = 8:15","3:4 ka duplicate = 9:16","4:9 ka sub-duplicate = 2:3","a=4, b=6, c=8 → d = 6×8÷4 = 12"],
     examples:[
       {level:"Basic",    num:1, problem:"4:5 :: 8:? (Fourth proportional)", steps:["4×d = 5×8 → d = 40/4","= 10","✅ = 10"]},
       {level:"Basic",    num:2, problem:"Mean proportional of 9 and 25 = ?", steps:["Mean prop = √(9×25) = √225","= 15","✅ = 15"]},
@@ -1420,6 +1540,7 @@ const APTITUDE_TOPICS = [
     hint:"sqrt(1764)",
     explanation:"Square root ki fastest trick: prime factorization karo, pairs banao, ek ek nikalo. Approximation ke liye nearest perfect square dhundho. Exam mein common perfect squares yaad rakhlo: 1,4,9,16,25,36,49,64,81,100,121,144,169,196,225,256,289,324,361,400.",
     steps:["Prime factorization karo","Pairs banao aur ek-ek factor bahar nikalo","Agar perfect square nahi: neighbor squares use karo","√(ab) = √a × √b ka use karo simplify karne ke liye","Rationalize: 1/√2 = √2/2"],
+    stepEgs:["√144: 144=2²×2²×3² → pairs of 2,2,3","One each: 2×2×3 = 12 → √144=12","√50: near √49=7, √64=8 → ≈ 7.07","√72 = √36×√2 = 6√2","3/√5 = 3√5÷5 (multiply top & bottom by √5)"],
     examples:[
       {level:"Basic",    num:1, problem:"√144 = ?", steps:["12×12 = 144","✅ √144 = 12"]},
       {level:"Basic",    num:2, problem:"√0.0256 = ?", steps:["= √(256/10000) = 16/100","= 0.16","✅ = 0.16"]},
@@ -1434,6 +1555,7 @@ const APTITUDE_TOPICS = [
     hint:"(45 + 60 + 75 + 80 + 90) / 5",
     explanation:"Average = Total Sum ÷ Number of items. Trick: agar average mein change aaye toh actual sum se kaam karo. Weighted average ke liye: Σ(weight × value)/Σweight. Exam shortcut: deviation method — ek assume karo phir deviations average karo!",
     steps:["Average = Sum/n","Sum = Average × n","Ek value add hone par: new sum = old avg×n + new value","New average = new sum/(n+1)","Deviation method: assume koi number, deviations nikalo, average deviation add karo"],
+    stepEgs:["10,20,30,40,50 → sum=150, avg=150÷5=30","Avg=25, n=4 → sum=25×4=100","Old avg=25, n=4, add 45 → new sum=100+45=145","New avg = 145÷5 = 29","Assume 30: deviations −10,0,+10 → avg of dev=0 → actual avg=30"],
     examples:[
       {level:"Basic",    num:1, problem:"4 numbers: 10,20,30,40. Average?", steps:["Sum = 100, n = 4","Avg = 100/4 = 25","✅ Average = 25"]},
       {level:"Basic",    num:2, problem:"Average of 1 to 9 = ?", steps:["Consecutive numbers: avg = (1+9)/2","= 10/2 = 5","✅ Average = 5"]},
@@ -1448,6 +1570,7 @@ const APTITUDE_TOPICS = [
     hint:"10000 * 5 * 3 / 100",
     explanation:"Simple Interest (SI) mein har saal same interest milta hai. Compound Interest (CI) mein interest pe bhi interest milta hai — zyada faaydemand! 2 saal ka CI aur SI ka difference = P×(r/100)². Exam shortcut: effective CI rate ek formula se niklo.",
     steps:["SI: P×R×T/100 (seedha multiply)","CI (annual): P×(1+r/100)^n − P","CI 2yr shortcut: CI = 2×SI + SI×r/100","Half-yearly: rate halve, time double","Quarterly: rate quarter, time quadruple"],
+    stepEgs:["P=1000, R=10%, T=2yr → SI=1000×10×2÷100=₹200","P=1000, R=10%, T=2yr → CI=1000×1.1²−1000=₹210","SI=200, r=10% → CI=200+200×10÷100=₹220 ✓","10% annual half-yearly → 5% per 6mo, 4 periods (2yr)","10% annual quarterly → 2.5% per quarter, 8 periods (2yr)"],
     examples:[
       {level:"Basic",    num:1, problem:"P=₹5000, R=10%, T=3yr. SI=?", steps:["SI = 5000×10×3/100","= ₹1500","✅ SI = ₹1500"]},
       {level:"Basic",    num:2, problem:"SI=₹600, P=₹2000, T=3yr. R=?", steps:["600 = 2000×R×3/100","R = 60000/6000 = 10%","✅ R = 10%"]},
@@ -1464,6 +1587,7 @@ const APTITUDE_TOPICS = [
     hint:"(25 + 1)^2 - 4*25",
     explanation:"Algebraic identities se complex expressions instantly simplify hoti hain. (a+b)² aur a²+b² mein 2ab ka fark hai — yeh yaad rakhlo! Surds mein √a × √b = √(ab) aur rationalize karne ke liye multiply by conjugate. Exam mein identity recognize karo — answer ek second mein!",
     steps:["(a+b)² = a² + 2ab + b² → if a+b aur ab diya toh a²+b² = (a+b)²−2ab","(a−b)² = a²−2ab+b²","a²−b² = (a+b)(a−b) — factoring shortcut","Rationalize 1/(a+√b) = (a−√b)/(a²−b)","a³+b³ = (a+b)(a²−ab+b²)"],
+    stepEgs:["a+b=5, ab=6 → a²+b²=25−12=13","(8−3)²=25; 64+9=73, 73−2×24=25 ✓","99×101=(100−1)(100+1)=10000−1=9999","1/(2+√3) = (2−√3)÷(4−3) = 2−√3","8+27=2³+3³=(2+3)(4−6+9)=5×7=35"],
     examples:[
       {level:"Basic",    num:1, problem:"(a+b)² jab a=3, b=4 = ?", steps:["(3+4)² = 7² = 49","OR: 9+24+16 = 49","✅ = 49"]},
       {level:"Basic",    num:2, problem:"a+b=7, ab=12. a²+b²=?", steps:["a²+b² = (a+b)²−2ab","= 49−24 = 25","✅ = 25"]},
@@ -1478,6 +1602,7 @@ const APTITUDE_TOPICS = [
     hint:"2*3 + 5",
     explanation:"Linear equation ka graph hamesha ek seedhi line hoti hai. Slope (m) = y mein change ÷ x mein change. y = mx + c mein c y-axis pe milta point hai. Do lines parallel hain agar slope same ho, perpendicular hain agar slopes ka product = −1. Equation se seedha slope-intercept form nikalo!",
     steps:["Equation ko y = mx + c form mein likho","m = slope (angle of line), c = y-intercept","x-intercept: y=0 rakhke x nikalo","y-intercept: x=0 rakhke y nikalo","Do points plot karo → line draw karo"],
+    stepEgs:["2x+3y=6 → y=−2x/3+2 (slope=−2/3, c=2)","y=3x+5: slope=3 (steep), y-intercept=5","y=2x−4: x-int → 0=2x−4 → x=2","y=2x−4: y-int → y=−4 (put x=0)","Plot (0,−4) aur (2,0) → connect → line!"],
     examples:[
       {level:"Basic",    num:1, problem:"y = 3x + 2. y-intercept?", steps:["y = mx+c form mein: c = 2","y-intercept = (0, 2)","✅ y-intercept = 2"]},
       {level:"Basic",    num:2, problem:"2x + 3y = 6. x-intercept aur y-intercept?", steps:["x-int: y=0 → x=3","y-int: x=0 → y=2","✅ (3,0) aur (0,2)"]},
@@ -1494,6 +1619,7 @@ const APTITUDE_TOPICS = [
     hint:"",
     explanation:"Triangle ke 4 centres yaad rakhlo: (1) Centroid — 3 medians ka meeting point, median 2:1 mein divide hota hai. (2) Incentre — angle bisectors ka meeting point, inscribed circle ka centre. (3) Circumcentre — perpendicular bisectors ka point, circumscribed circle ka centre. (4) Orthocentre — altitudes ka point.",
     steps:["Centroid: G divides median in 2:1 from vertex","Incentre (I): angle bisectors milte hain, always inside","Circumcentre (O): perpendicular bisectors, outside for obtuse triangle","Orthocentre (H): altitudes mein milta, outside for obtuse","Euler line: O, G, H ek hi line pe hote hain, OG:GH = 1:2"],
+    stepEgs:["Median=12cm → vertex to G=2/3×12=8cm, G to midpoint=4cm","Incentre always INSIDE — all triangle types mein","Equilateral triangle → O=I=G (all 3 same point)","Right triangle → Orthocentre at right angle vertex","OG=2, GH=4 → ratio 1:2 on Euler's line"],
     examples:[
       {level:"Basic",    num:1, problem:"Centroid G, AG=8cm. Full median length?", steps:["Centroid 2:1 divide karta hai","AG:GM = 2:1, AG=8 → GM=4","Median = 12 cm","✅ = 12 cm"]},
       {level:"Basic",    num:2, problem:"Obtuse triangle mein circumcentre kahan?", steps:["Acute → inside","Right → hypotenuse midpoint","Obtuse → OUTSIDE triangle","✅ Outside"]},
@@ -1508,6 +1634,7 @@ const APTITUDE_TOPICS = [
     hint:"",
     explanation:"Congruent triangles bilkul same hote hain (size+shape same). Similar triangles same shape ke hote hain lekin size alag. Similarity mein sides ka ratio same hota hai. Important: agar triangles similar hain aur sides ka ratio k hai, toh areas ka ratio k² hoga. Exam mein mostly AA similarity use hoti hai!",
     steps:["Congruence: SSS(3 sides), SAS(2 sides+angle), ASA(2 angles+side), AAS, RHS","Similarity: AA (2 angles equal ho toh 3rd bhi equal)","Similar ratio r → perimeter ratio r, area ratio r²","Corresponding sides proportion mein hoti hain","BPT (Basic Proportionality Theorem): line parallel to base sides proportional divide karta hai"],
+    stepEgs:["3-4-5 aur 3-4-5 triangles → SSS → Congruent","∠A=50°,∠B=60° in both → AA → Similar","Ratio 2:3 → perimeter 2:3, area 4:9","AB/PQ = BC/QR = CA/RP (all equal)","DE∥BC → AD/DB = AE/EC"],
     examples:[
       {level:"Basic",    num:1, problem:"Do triangles congruent hain: SSS se. Sides 3,4,5 dono mein. Congruent?", steps:["3 sides equal → SSS criterion","✅ Yes, Congruent (SSS)"]},
       {level:"Basic",    num:2, problem:"ΔABC ~ ΔPQR, ratio 1:2. Perimeter ABC=18. PQR?", steps:["Perimeter ratio = similarity ratio","PQR = 18 × 2 = 36","✅ Perimeter = 36"]},
@@ -1522,6 +1649,7 @@ const APTITUDE_TOPICS = [
     hint:"",
     explanation:"Circle ke important theorems: (1) Tangent radius pe perpendicular hoti hai. (2) Ek bahar ke point se do tangents equal hoti hain. (3) Same arc pe angle at centre = 2 × angle at circumference. (4) Semicircle mein angle = 90°. Exam mein mostly tangent-secant aur chord-angle problems aate hain!",
     steps:["Tangent from external point: PA = PB (equal tangents)","Chord bisect: radius perpendicular to chord → bisects it","Angles: inscribed angle = half of central angle","Same segment: sab inscribed angles equal","Secant rule: PA×PB = PC×PD"],
+    stepEgs:["P bahar, PA aur PB tangents → PA=PB (both 10cm)","Chord 8cm, radius⊥chord → each half = 4cm","Central angle 80° → inscribed angle = 40°","∠APB = ∠AQB (same arc, both inscribed angles)","PA=3, PB=12, PC=4 → PD=3×12÷4=9"],
     examples:[
       {level:"Basic",    num:1, problem:"Arc AB=100°. Inscribed angle=?", steps:["Inscribed = Central/2","= 100/2 = 50°","✅ = 50°"]},
       {level:"Basic",    num:2, problem:"Semicircle mein inscribed angle=?", steps:["Semicircle → arc = 180°","Inscribed angle = 180/2 = 90°","✅ Always 90°"]},
@@ -1536,6 +1664,7 @@ const APTITUDE_TOPICS = [
     hint:"sqrt(13*3*5*5)",
     explanation:"Triangle ka area = ½ × base × height. Right triangle mein Pythagoras use karo. Common Pythagorean triplets yaad rakhlo: 3-4-5, 5-12-13, 8-15-17, 7-24-25. Heron's formula tab use karo jab teeno sides diye hon aur height nahi. Equilateral triangle area = (√3/4)a².",
     steps:["Right triangle: a²+b²=c²","Equilateral: Area = (√3/4)a², Height = (√3/2)a","Isosceles: split into 2 right triangles","Heron's formula: s = (a+b+c)/2, A = √(s(s−a)(s−b)(s−c))","Common triplets: 3-4-5, 5-12-13, 8-15-17"],
+    stepEgs:["a=6, b=8 → c=√(36+64)=10","Side=6 → Area=9√3≈15.6, Height=3√3≈5.2","Isosceles: sides=5, base=6 → h=√(25−9)=4","Sides 7,8,9: s=12, A=√(12×5×4×3)≈26.8","5²+12²=25+144=169=13² ✓"],
     examples:[
       {level:"Basic",    num:1, problem:"Right triangle: legs 3 aur 4. Hypotenuse?", steps:["c² = 3²+4² = 9+16 = 25","c = 5","✅ Hypotenuse = 5"]},
       {level:"Basic",    num:2, problem:"Base=10cm, height=6cm. Area?", steps:["Area = ½×b×h = ½×10×6","= 30 cm²","✅ = 30 cm²"]},
@@ -1550,6 +1679,7 @@ const APTITUDE_TOPICS = [
     hint:"0.5 * (12 + 8) * 6",
     explanation:"Quadrilateral ke types aur unke area formulas yaad rakhlo. Trapezium: ek pair of parallel sides, area = ½×sum of parallel sides×height. Rhombus: diagonals bisect at 90°, area = ½×d1×d2. Parallelogram: opposite sides equal, area = base×height. Square: sab same!",
     steps:["Square: Area=a², Perimeter=4a, Diagonal=a√2","Rectangle: Area=lb, Perimeter=2(l+b), Diagonal=√(l²+b²)","Rhombus: Area=½d1d2, Perimeter=4a","Parallelogram: Area=b×h, adjacent angles supplementary","Trapezium: Area=½(a+b)×h"],
+    stepEgs:["Square a=5 → Area=25, Perim=20, Diag=5√2≈7.07","l=6, b=4 → Area=24, Diag=√(36+16)=√52≈7.2","d1=6, d2=8 → Area=24, side=√(3²+4²)=5","base=8, h=5 → Area=40; angles 60°+120°=180°","parallel sides 7+9=16, h=4 → Area=½×16×4=32"],
     examples:[
       {level:"Basic",    num:1, problem:"Rectangle: l=8, b=5. Area aur diagonal?", steps:["Area = 8×5 = 40 cm²","Diagonal = √(64+25) = √89 ≈ 9.43","✅ Area=40, Diag≈9.43"]},
       {level:"Basic",    num:2, problem:"Trapezium: parallel sides 10,14cm, h=8. Area?", steps:["Area = ½×(10+14)×8 = ½×192","= 96 cm²","✅ = 96 cm²"]},
@@ -1564,6 +1694,7 @@ const APTITUDE_TOPICS = [
     hint:"(6-2)*180/6",
     explanation:"Regular polygon mein saari sides aur saare angles equal hote hain. n-sided polygon ka angle sum = (n−2)×180°. Exterior angle sum HAMESHA 360° hota hai — yeh rule perfect hai! Pentagon=108°, Hexagon=120°, Octagon=135°. Hexagon ka area = (3√3/2)a² — exam mein aata hai!",
     steps:["Sum of interior angles = (n−2) × 180°","Each interior angle (regular) = (n−2)×180°/n","Exterior angle = 360°/n","Interior + Exterior = 180° (supplementary)","Number of diagonals = n(n−3)/2"],
+    stepEgs:["Hexagon n=6: sum=(6−2)×180=720°","Hexagon each angle = 720÷6 = 120°","Hexagon exterior = 360÷6 = 60°","120°+60° = 180° ✓","Hexagon diagonals = 6×3÷2 = 9"],
     examples:[
       {level:"Basic",    num:1, problem:"Pentagon ka each angle?", steps:["n=5: (5−2)×180/5","= 540/5 = 108°","✅ = 108°"]},
       {level:"Basic",    num:2, problem:"Exterior angle=24°. Sides=?", steps:["n = 360/24 = 15","✅ = 15 sides"]},
@@ -1580,6 +1711,7 @@ const APTITUDE_TOPICS = [
     hint:"4 * 5 * 10",
     explanation:"Right Prism mein lateral (side) faces rectangles hote hain. Base koi bhi polygon ho sakta hai — triangle, square, hexagon. LSA (Lateral Surface Area) = base perimeter × height. Volume = base area × height. Exam mein mostly triangular prism aur square prism (cuboid) aate hain!",
     steps:["Base shape identify karo (triangle/square/hexagon)","Base area nikalo","Base perimeter nikalo","LSA = Perimeter × Height","TSA = LSA + 2×Base area | Volume = Base area × Height"],
+    stepEgs:["Square base 4cm → cuboid (square prism)","Square base 4cm → area=16 cm²","Square 4cm → perimeter=4×4=16 cm","LSA = 16×10 = 160 cm² (h=10cm)","TSA=160+2×16=192 cm², Vol=16×10=160 cm³"],
     examples:[
       {level:"Basic",    num:1, problem:"Square prism: base 4cm, h=6cm. Volume?", steps:["Base area = 4² = 16","Volume = 16×6 = 96 cm³","✅ = 96 cm³"]},
       {level:"Basic",    num:2, problem:"Square prism: base 5cm, h=8cm. TSA?", steps:["LSA = 4×5×8 = 160","TSA = 160 + 2×25 = 210 cm²","✅ = 210 cm²"]},
@@ -1594,6 +1726,7 @@ const APTITUDE_TOPICS = [
     hint:"3.14159 * 6 * 10",
     explanation:"Cone mein r (radius), h (height), l (slant height) — teen values hote hain. l = √(r²+h²). LSA = πrl (curved surface), TSA includes the base circle bhi. Volume = ⅓ × cylinder ka volume. Exam trick: agar cylinder aur cone ka same base aur height hai toh Volume ratio = 3:1!",
     steps:["l (slant height) = √(r²+h²) nikalo","LSA (curved) = π×r×l","TSA = π×r×(r+l)","Volume = (1/3)×π×r²×h","Frustum (cone ka chhota hissa): alag formula — mostly not asked"],
+    stepEgs:["r=3, h=4 → l=√(9+16)=5 cm","r=6, l=10 → LSA=π×6×10=60π≈188.5","r=6, l=10 → TSA=π×6×(6+10)=96π≈301.6","r=6, h=8 → Vol=(1/3)×π×36×8=96π≈301.6","Frustum = cone ka beech se kata hua bottom part"],
     examples:[
       {level:"Basic",    num:1, problem:"r=3, h=4. Slant height l=?", steps:["l = √(9+16) = √25 = 5","✅ l = 5 cm"]},
       {level:"Basic",    num:2, problem:"Cone r=6, h=8. LSA aur Volume?", steps:["l=√(36+64)=10","LSA=π×6×10=60π","Vol=(1/3)π×36×8=96π","✅ LSA=60π, Vol=96π"]},
@@ -1608,6 +1741,7 @@ const APTITUDE_TOPICS = [
     hint:"3.14159 * 7 * 7 * 10",
     explanation:"Cylinder mein r (radius) aur h (height) — sirf do values yaad rakhne hain. LSA = 2πrh (roll karo toh rectangle milega jiska width=2πr, height=h). TSA = LSA + 2 circles. Hollow cylinder mein outer radius R aur inner radius r ke beech ka material calculate karo. π ≈ 22/7 use karo integer results ke liye!",
     steps:["LSA = 2πrh","TSA = 2πr(r+h) = LSA + 2πr²","Volume = πr²h","Hollow: Volume = π(R²−r²)h","If bent into cylinder: πr²h = volume of original material"],
+    stepEgs:["r=7, h=10 → LSA=2×22/7×7×10=440 cm²","TSA=2×22/7×7×17=748 cm²","Vol=22/7×49×10=1540 cm³","R=5, r=3, h=10 → V=π(25−9)×10=160π","Wire r=0.1cm, L=1000cm → V=π×0.01×1000=10π"],
     examples:[
       {level:"Basic",    num:1, problem:"r=7, h=10. Volume?", steps:["V = πr²h = (22/7)×49×10","= 1540 cm³","✅ = 1540 cm³"]},
       {level:"Basic",    num:2, problem:"r=7, h=10. TSA=?", steps:["TSA = 2πr(r+h) = 2×22/7×7×17","= 2×22×17 = 748 cm²","✅ = 748 cm²"]},
@@ -1622,6 +1756,7 @@ const APTITUDE_TOPICS = [
     hint:"4 * 3.14159 * 7 * 7",
     explanation:"Sphere ka surface area = 4πr², Volume = 4/3×πr³. Hemisphere (aadha gola): curved SA = 2πr², total SA = 3πr² (curved + circle base), Volume = 2/3×πr³. Exam shortcut: agar n chote spheres bante hain ek bade se, toh R³ = n×r³. Yeh relation se r ya R nikal lo!",
     steps:["Sphere SA = 4πr²","Sphere Volume = (4/3)πr³","Hemisphere curved SA = 2πr²","Hemisphere TSA = 3πr²","n small spheres from 1 big: R³ = n×r³"],
+    stepEgs:["r=7 → SA=4×22/7×49=616 cm²","r=3 → Vol=4/3×π×27=36π≈113.1 cm³","r=7 → Curved SA=2×22/7×49=308 cm²","r=7 → TSA=3×22/7×49=462 cm²","Big r=6, small r=1 → 216=n×1 → n=216"],
     examples:[
       {level:"Basic",    num:1, problem:"Sphere r=7. SA=?", steps:["SA = 4πr² = 4×22/7×49","= 616 cm²","✅ = 616 cm²"]},
       {level:"Basic",    num:2, problem:"Big sphere r=6. Small spheres r=1. Count?", steps:["R³ = n×r³","216 = n×1","✅ n = 216"]},
@@ -1636,6 +1771,7 @@ const APTITUDE_TOPICS = [
     hint:"2 * 3.14159 * 7 * 7",
     explanation:"Hemisphere ek sphere ka bilkul aadha hissa hai. Curved surface area = 2πr² (sirf gola part). Jab table pe rakhte hain: Total SA = curved + flat circle = 2πr² + πr² = 3πr². Bowl problems, dome problems — yeh concept use hota hai. Volume = ½ of sphere = 2/3 × πr³.",
     steps:["Curved SA = 2πr²","Flat circular base = πr²","TSA (when placed) = 3πr²","Volume = (2/3)πr³","Hollow bowl: inner + outer curved + ring at top"],
+    stepEgs:["r=7 → Curved SA=2×22/7×49=308 cm²","r=7 → Base=22/7×49=154 cm²","r=7 → TSA=308+154=462 cm²","r=3 → Vol=2/3×π×27=18π≈56.5 cm³","Bowl: inner SA + outer SA + annular ring area"],
     examples:[
       {level:"Basic",    num:1, problem:"Hemisphere r=7. Curved SA?", steps:["Curved SA = 2πr² = 2×22/7×49","= 308 cm²","✅ = 308 cm²"]},
       {level:"Basic",    num:2, problem:"Hemisphere r=7. TSA?", steps:["TSA = 3πr² = 3×22/7×49","= 462 cm²","✅ = 462 cm²"]},
@@ -1650,6 +1786,7 @@ const APTITUDE_TOPICS = [
     hint:"2*(6*8 + 8*5 + 5*6)",
     explanation:"Rectangular Parallelepiped ka matlab cuboid (dikbbe ke jaisa shape). L, B, H — teen dimensions. TSA = 2(lb+bh+hl), Volume = l×b×h. Body diagonal (corner to corner) = √(l²+b²+h²). Exam mein box, room, tank problems isi se solve hote hain. Cube ek special cuboid hai jahan l=b=h=a.",
     steps:["TSA = 2(lb + bh + hl)","LSA (excluding top/bottom) = 2h(l+b)","Volume = l × b × h","Diagonal = √(l²+b²+h²)","Cube: TSA=6a², Vol=a³, Diagonal=a√3"],
+    stepEgs:["l=5, b=4, h=3 → TSA=2(20+12+15)=94 cm²","l=5, b=4, h=3 → LSA=2×3×9=54 cm²","l=5, b=4, h=3 → Vol=5×4×3=60 cm³","l=3, b=4, h=12 → D=√(9+16+144)=√169=13 cm","Cube a=4: TSA=96, Vol=64, Diag=4√3"],
     examples:[
       {level:"Basic",    num:1, problem:"Cube: a=5. Volume?", steps:["V = a³ = 125 cm³","✅ = 125 cm³"]},
       {level:"Basic",    num:2, problem:"Cube Volume=1000. TSA?", steps:["a³=1000 → a=10","TSA = 6×100 = 600 cm²","✅ = 600 cm²"]},
@@ -1664,6 +1801,7 @@ const APTITUDE_TOPICS = [
     hint:"(1/3) * 6*6 * 10",
     explanation:"Pyramid mein ek polygonal base hota hai aur saare sides ek apex pe milte hain. Slant height (l) triangular face ki height hai — body height se alag! Slant height = √(h² + apothem²). LSA = ½ × base perimeter × slant height. Volume = ⅓ × base area × height — cone jaisa!",
     steps:["Base shape identify karo","Apothem = base ke centre se edge ka perpendicular distance","Slant height l = √(h² + apothem²)","LSA = (1/2) × Perimeter × l","Volume = (1/3) × Base area × Height"],
+    stepEgs:["Square base → apothem = side÷2","Square side=6 → apothem=6÷2=3 cm","h=4, apothem=3 → l=√(16+9)=5 cm","Perim=4×6=24, l=5 → LSA=½×24×5=60 cm²","Base area=36, h=4 → Vol=(1/3)×36×4=48 cm³"],
     examples:[
       {level:"Basic",    num:1, problem:"Square base 6cm, h=4cm. Volume?", steps:["Base area = 36 cm²","V = (1/3)×36×4 = 48 cm³","✅ = 48 cm³"]},
       {level:"Basic",    num:2, problem:"Square base 8cm, slant h=10cm. LSA?", steps:["LSA = ½×(4×8)×10 = ½×32×10","= 160 cm²","✅ = 160 cm²"]},
@@ -1680,6 +1818,7 @@ const APTITUDE_TOPICS = [
     hint:"tan(30 * 3.14159 / 180)",
     explanation:"Heights & Distances mein Angle of Elevation (upar dekhne ka angle) aur Angle of Depression (neeche dekhne ka angle) use hote hain. tan θ = opposite/adjacent sabse useful formula hai. Common angles: tan 30°=1/√3, tan 45°=1, tan 60°=√3. Tower, building, ship problems — sab isi formula se!",
     steps:["Diagram banao — tower/height aur base/distance identify karo","Angle of elevation ya depression identify karo","tan(θ) = Height/Base use karo","Multiple observers: do equations banao, solve simultaneously","Sun/shadow problems: tan θ = height/shadow length"],
+    stepEgs:["Tower T, observer O at ground level, distance d from base","Looking UP at tower → Angle of Elevation","Tower=30m, angle=30° → Base=30÷tan30°=30√3≈52m","Near boat angle 45°, far boat 30° → two equations","Pole=10m, shadow=10m → tanθ=1 → θ=45°"],
     examples:[
       {level:"Basic",    num:1, problem:"Height = Distance. Angle of elevation?", steps:["tan θ = height/distance = 1","θ = 45°","✅ = 45°"]},
       {level:"Basic",    num:2, problem:"Tower 30m, elevation 60°. Distance?", steps:["tan 60° = 30/Base","√3 = 30/Base → Base = 10√3","≈ 17.32 m","✅ ≈ 17.32 m"]},
@@ -1696,6 +1835,7 @@ const APTITUDE_TOPICS = [
     hint:"(15 + 20 + 25 + 18 + 12) / 5",
     explanation:"Histogram mein continuous data ko class intervals mein group karke bars banate hain. Bars ke beech gap nahi hota (bar chart se alag!). Frequency density = frequency ÷ class width. Agar class width same hai toh Y-axis pe seedha frequency likhte hain. Mode = sabse lambe bar ki class mein hota hai.",
     steps:["Class intervals aur frequencies table banao","X-axis pe class intervals, Y-axis pe frequency (ya frequency density)","Bars draw karo — no gaps between them","Class width alag hone pe frequency density use karo","Mode class = highest frequency wali class"],
+    stepEgs:["0-10:f=5, 10-20:f=12, 20-30:f=8 → table ready","X: 0,10,20,30; Y: 5,12,8 pe bars draw karo","Bar 0-10 is adjacent to 10-20 — no space between them","0-20:f=10, width=20 → FD=10÷20=0.5","Highest bar f=12 → Modal class = 10-20"],
     examples:[
       {level:"Basic",    num:1, problem:"Classes: 0-10(f=5), 10-20(f=15), 20-30(f=20). Modal class?", steps:["Highest f = 20 (class 20-30)","Modal class = 20-30","✅ = 20-30"]},
       {level:"Basic",    num:2, problem:"f=15, total=50. Relative frequency%?", steps:["= 15/50×100 = 30%","✅ = 30%"]},
@@ -1710,6 +1850,7 @@ const APTITUDE_TOPICS = [
     hint:"(10 + 20) / 2",
     explanation:"Frequency polygon banane ke liye pehle har class ka midpoint nikalo, phir midpoints ko X-axis pe aur frequency ko Y-axis pe rakho, sab points ko lines se connect karo. Closed polygon ke liye dono ends pe extra zero-frequency classes add karo. Frequency distribution ka visual comparison ke liye perfect!",
     steps:["Har class interval ka midpoint nikalo: (lower+upper)/2","Points (midpoint, frequency) plot karo","Sab points ko straight lines se connect karo","Polygon close karne ke liye: pehle class se pehle aur last class ke baad zero-frequency add karo","Two frequency polygons compare karo ek hi graph pe"],
+    stepEgs:["10-20 → midpoint=(10+20)÷2=15; 20-30 → midpoint=25","Plot (15,f1), (25,f2), (35,f3) on graph","Connect (15,f1)→(25,f2)→(35,f3) with straight lines","Add (5,0) before first and (45,0) after last → close shape","Boys' polygon vs Girls' polygon, same graph pe dono"],
     examples:[
       {level:"Basic",    num:1, problem:"Class 20-30 ka midpoint?", steps:["= (20+30)/2 = 25","✅ = 25"]},
       {level:"Basic",    num:2, problem:"Class 0-10 ka midpoint?", steps:["= (0+10)/2 = 5","✅ = 5"]},
@@ -1724,6 +1865,7 @@ const APTITUDE_TOPICS = [
     hint:"(45/200) * 360",
     explanation:"Pie chart mein circle 360° ka hota hai. Kisi bhi sector ka angle = (Value/Total) × 360°. Bar chart mein bars ki height frequency dikhati hai — bars ke beech gap hota hai (histogram se alag!). DI (Data Interpretation) mein: pehle values read karo, phir percentage/ratio/difference nikalo — question carefully padho!",
     steps:["Pie chart: Angle = (value/total) × 360°","Pie chart: % = angle/360 × 100","Bar chart: comparison karo heights ko","Multiple bar chart: categories side by side","Stacked bar: parts ek bar mein stack hote hain"],
+    stepEgs:["A=50, total=200 → angle=50÷200×360=90°","Angle=90° → %=90÷360×100=25%","2020 bar h=500, 2021 h=600 → 2021 > 2020","Boys vs Girls bars side by side per subject","One bar shows Q1+Q2+Q3+Q4 stacked on top"],
     examples:[
       {level:"Basic",    num:1, problem:"Total=500, A=125. Pie angle of A?", steps:["= (125/500)×360 = 90°","✅ = 90°"]},
       {level:"Basic",    num:2, problem:"Sector angle=72°. % share?", steps:["= (72/360)×100 = 20%","✅ = 20%"]},
@@ -1740,8 +1882,14 @@ const APTITUDE_TOPICS = [
     hint:"sin(30 * 3.14159 / 180)",
     explanation:"Trig ratios yaad karne ka shortcut — SOHCAHTOA: Sin=Opposite/Hypotenuse, Cos=Adjacent/Hypotenuse, Tan=Opposite/Adjacent. Table yaad karo: sin 0°=0, 30°=1/2, 45°=1/√2, 60°=√3/2, 90°=1. Tan = sin/cos. Exam mein table se seedha substitute karo!",
     steps:["Right triangle mein: P=Perpendicular, B=Base, H=Hypotenuse","sin θ = P/H, cos θ = B/H, tan θ = P/B","Standard values table: 0°,30°,45°,60°,90°","sin increases 0→1, cos decreases 1→0","tan 0°=0, tan 45°=1, tan 90°=∞"],
-    ex1:{ problem:"sin 30° + cos 60° + tan 45° = ?", steps:["sin 30° = 1/2","cos 60° = 1/2","tan 45° = 1","= 1/2 + 1/2 + 1 = 2","✅ = 2"], last:true },
-    ex2:{ problem:"If tan θ = 3/4. sin θ = ?", steps:["P=3, B=4, H=√(9+16)=5","sin θ = P/H = 3/5","✅ sin θ = 3/5 = 0.6"], last:true }
+    stepEgs:["3-4-5 triangle: P=3 (opp), B=4 (adj), H=5","sinθ=3/5=0.6, cosθ=4/5=0.8, tanθ=3/4=0.75","sin 30°=0.5, sin 45°=0.707, sin 60°=0.866, sin 90°=1","sin: 0→0.5→0.707→0.866→1 (increases); cos: 1→0.866→0.707→0.5→0","tan 30°=0.577, tan 45°=1, tan 60°=1.732, tan 90°=undefined"],
+    examples:[
+      {level:"Basic",    num:1, problem:"sin 30° + cos 60° + tan 45° = ?", steps:["sin 30° = 1/2","cos 60° = 1/2","tan 45° = 1","1/2 + 1/2 + 1 = 2","✅ = 2"]},
+      {level:"Basic",    num:2, problem:"P=3, B=4. H aur sin θ, cos θ, tan θ = ?", steps:["H = √(3²+4²) = 5","sin θ = 3/5, cos θ = 4/5","tan θ = 3/4","✅ All ratios found"]},
+      {level:"Moderate", num:3, problem:"tan θ = 3/4. cosec θ = ?", steps:["P=3, B=4, H=5","cosec θ = H/P = 5/3","✅ cosec θ = 5/3 ≈ 1.667"]},
+      {level:"Hard",     num:4, problem:"sin θ = 5/13. All 6 trig ratios nikalo", steps:["P=5, H=13, B=√(169−25)=12","sin=5/13, cos=12/13, tan=5/12","cosec=13/5, sec=13/12, cot=12/5","✅ All 6 ratios found"]},
+      {level:"Advanced", num:5, problem:"sin⁴θ + cos⁴θ = 1 − 2sin²θcos²θ. Prove karo", steps:["sin⁴θ + cos⁴θ = (sin²θ + cos²θ)² − 2sin²θcos²θ","= 1² − 2sin²θcos²θ","= 1 − 2sin²θcos²θ","✅ Proved"]},
+    ]
   },
   {
     id:36, name:"Degree and Radian Measures", emoji:"🔄", cat:"Trigonometry",
@@ -1749,8 +1897,14 @@ const APTITUDE_TOPICS = [
     hint:"90 * 3.14159 / 180",
     explanation:"Degree aur Radian dono angle measure karne ke unit hain. π radians = 180°. Convert: Degrees to Radians — × π/180. Radians to Degrees — × 180/π. Common values: 30°=π/6, 45°=π/4, 60°=π/3, 90°=π/2, 180°=π, 360°=2π. Arc length = r × θ (θ radians mein)!",
     steps:["Degrees → Radians: multiply by π/180","Radians → Degrees: multiply by 180/π","Common: 30°=π/6, 45°=π/4, 60°=π/3, 90°=π/2","Arc length = r × θ (θ in radians)","Sector area = ½r²θ"],
-    ex1:{ problem:"120° = ? radians", steps:["120 × π/180","= 2π/3 radians","≈ 2.094 rad","✅ 120° = 2π/3 rad"], last:true },
-    ex2:{ problem:"5π/4 radians = ?°", steps:["5π/4 × 180/π","= 5×180/4","= 225°","✅ 5π/4 rad = 225°"], last:true }
+    stepEgs:["90° → 90×π/180 = π/2 radians","π/3 → π/3×180/π = 60°","180°=π, 270°=3π/2, 360°=2π","r=10, θ=π/3 → Arc=10π/3≈10.47 cm","r=6, θ=π/4 → Area=½×36×π/4=4.5π≈14.1 cm²"],
+    examples:[
+      {level:"Basic",    num:1, problem:"60° = ? radians", steps:["60 × π/180","= π/3 radians","≈ 1.047 rad","✅ 60° = π/3 rad"]},
+      {level:"Basic",    num:2, problem:"3π/4 radians = ?°", steps:["3π/4 × 180/π","= 3×180/4 = 135°","✅ 3π/4 rad = 135°"]},
+      {level:"Moderate", num:3, problem:"120° = ? radians", steps:["120 × π/180 = 2π/3","≈ 2.094 rad","✅ 120° = 2π/3 rad"]},
+      {level:"Hard",     num:4, problem:"r=14 cm, θ=60°. Arc length = ?", steps:["θ in radians = 60 × π/180 = π/3","Arc = r × θ = 14 × π/3","= 14π/3 ≈ 14.66 cm","✅ Arc ≈ 14.66 cm"]},
+      {level:"Advanced", num:5, problem:"r=10, θ=π/4. Sector area = ?", steps:["Sector area = ½r²θ","= ½ × 100 × π/4","= 25π ≈ 78.54 cm²","✅ Area = 25π cm²"]},
+    ]
   },
   {
     id:37, name:"Standard Identities", emoji:"🔑", cat:"Trigonometry",
@@ -1758,8 +1912,14 @@ const APTITUDE_TOPICS = [
     hint:"1 - (0.6)^2",
     explanation:"Teen fundamental Pythagorean identities yaad rakhlo — yeh sab questions mein kaam aate hain! (1) sin²θ + cos²θ = 1. (2) 1 + tan²θ = sec²θ. (3) 1 + cot²θ = cosec²θ. Derivations: identity (1) ko sin² ya cos² se divide karo baaki nikal jaate hain. Exam mein expression simplify karne ke liye seedha substitute karo!",
     steps:["sin²θ + cos²θ = 1 (most important)","Divide by cos²θ: tan²θ+1 = sec²θ","Divide by sin²θ: 1+cot²θ = cosec²θ","sin θ = √(1−cos²θ), cos θ = √(1−sin²θ)","Simplify: (sinθ+cosθ)² = 1 + 2sinθcosθ"],
-    ex1:{ problem:"sin θ = 0.6. cos θ = ?", steps:["sin²θ + cos²θ = 1","0.36 + cos²θ = 1","cos²θ = 0.64","cos θ = 0.8","✅ cos θ = 0.8"], last:true },
-    ex2:{ problem:"tan θ = 5/12. sec θ = ?", steps:["1 + tan²θ = sec²θ","1 + 25/144 = sec²θ","sec²θ = 169/144","sec θ = 13/12","✅ sec θ = 13/12"], last:true }
+    stepEgs:["sin30°=0.5, cos30°=0.866 → 0.25+0.75=1 ✓","tan45°=1 → 1²+1=2=sec²45° → sec45°=√2 ✓","cot60°=1/√3 → 1+1/3=4/3=cosec²60° ✓","cosθ=0.8 → sinθ=√(1−0.64)=√0.36=0.6","(sin45°+cos45°)²=(√2)²=2=1+2×½=2 ✓"],
+    examples:[
+      {level:"Basic",    num:1, problem:"sin²θ + cos²θ ka value = ?", steps:["Yeh fundamental identity hai","sin²θ + cos²θ = 1 (hamesha)","✅ = 1"]},
+      {level:"Basic",    num:2, problem:"sin θ = 0.6. cos θ = ?", steps:["sin²θ + cos²θ = 1","0.36 + cos²θ = 1","cos²θ = 0.64","cos θ = 0.8","✅ cos θ = 0.8"]},
+      {level:"Moderate", num:3, problem:"tan θ = 5/12. sec θ = ?", steps:["1 + tan²θ = sec²θ","1 + 25/144 = sec²θ","sec²θ = 169/144","sec θ = 13/12","✅ sec θ = 13/12"]},
+      {level:"Hard",     num:4, problem:"(sinθ + cosθ)² + (sinθ − cosθ)² = ?", steps:["= sin²θ+2sinθcosθ+cos²θ + sin²θ−2sinθcosθ+cos²θ","= 1 + 1 = 2","✅ = 2"]},
+      {level:"Advanced", num:5, problem:"Prove: (1−sin²θ)(1+tan²θ) = 1", steps:["1−sin²θ = cos²θ","1+tan²θ = sec²θ = 1/cos²θ","cos²θ × 1/cos²θ = 1","✅ Proved"]},
+    ]
   },
   {
     id:38, name:"Complementary Angles", emoji:"🔁", cat:"Trigonometry",
@@ -1767,8 +1927,14 @@ const APTITUDE_TOPICS = [
     hint:"",
     explanation:"Complementary angles ka sum = 90°. Trig mein: sin aur cos complementary hain — sin(90°−θ) = cos θ. Similarly tan↔cot, sec↔cosec. Exam shortcut: sin 20° = cos 70°, sin 35° = cos 55°. Expression mein sin aur cos ek saath ho toh complementary property se simplify karo — instant zero ya one milega!",
     steps:["sin(90°−θ) = cos θ, cos(90°−θ) = sin θ","tan(90°−θ) = cot θ, cot(90°−θ) = tan θ","sec(90°−θ) = cosec θ","Exam: sin A × cosec A = 1, cos A × sec A = 1, tan A × cot A = 1","Simplify: sin²10°+sin²80° = sin²10°+cos²10° = 1"],
-    ex1:{ problem:"sin²10°+sin²20°+...+sin²80° = ?", steps:["Pair karo: sin²10°+sin²80° = sin²10°+cos²10° = 1","sin²20°+sin²70° = 1","sin²30°+sin²60° = 1","sin²40°+sin²50° = 1 (4 pairs)","✅ Sum = 4"], last:true },
-    ex2:{ problem:"tan 35° × tan 55° = ?", steps:["tan 55° = tan(90°−35°) = cot 35°","tan 35° × cot 35° = 1","✅ = 1"], last:true }
+    stepEgs:["sin70°=cos20°; cos35°=sin55°","tan25°=cot65°; cot40°=tan50°","sec30°=cosec60°; cosec45°=sec45°","sin30°×cosec30°=0.5×2=1 ✓; tan45°×cot45°=1×1=1 ✓","sin²20°+sin²70°=sin²20°+cos²20°=1"],
+    examples:[
+      {level:"Basic",    num:1, problem:"sin 60° = cos ?°", steps:["sin θ = cos(90°−θ)","sin 60° = cos(90°−60°)","= cos 30°","✅ sin 60° = cos 30°"]},
+      {level:"Basic",    num:2, problem:"tan 35° × tan 55° = ?", steps:["tan 55° = tan(90°−35°) = cot 35°","tan 35° × cot 35° = 1","✅ = 1"]},
+      {level:"Moderate", num:3, problem:"sin²25° + sin²65° = ?", steps:["sin 65° = sin(90°−25°) = cos 25°","sin²25° + cos²25° = 1","✅ = 1"]},
+      {level:"Hard",     num:4, problem:"sin²10°+sin²20°+sin²30°+...+sin²80° = ?", steps:["Pair karo: sin²10°+sin²80° = 1","sin²20°+sin²70° = 1","sin²30°+sin²60° = 1","sin²40°+sin²50° = 1 (4 pairs)","✅ Sum = 4"]},
+      {level:"Advanced", num:5, problem:"(sin25°+cos65°)² + (cos25°−sin65°)² = ?", steps:["sin25°=cos65° → (cos65°+cos65°)² = (2cos65°)²","cos25°=sin65° → (sin65°−sin65°)² = 0","= 4cos²65° + 0","cos²65°=sin²25° → 4sin²25°","✅ = 4sin²25° (simplifies by identity)"]},
+    ]
   }
 ];
 
@@ -1815,7 +1981,11 @@ function renderAptitudeContent(id) {
   const t = APTITUDE_TOPICS.find(x => x.id === id);
   if (!t) return;
 
-  const stepsHtml = t.steps.map(st => `<div class="sc-step">${st}</div>`).join('');
+  const stepsHtml = t.steps.map((st, i) => {
+    const eg = t.stepEgs && t.stepEgs[i]
+      ? `<span class="sc-step-eg">eg: ${t.stepEgs[i]}</span>` : '';
+    return `<div class="sc-step"><div class="sc-step-body"><span>${st}</span>${eg}</div></div>`;
+  }).join('');
 
   const LEVEL_CLS = { Basic:'ex-basic', Moderate:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
   const examplesHtml = (t.examples || []).map(ex => {
