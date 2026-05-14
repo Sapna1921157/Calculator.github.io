@@ -10,6 +10,9 @@
 
 'use strict';
 
+// Start canvas immediately on load
+document.addEventListener('DOMContentLoaded', () => initCanvas());
+
 /* ════════════════════════════════════════════════════════════
    TAB NAVIGATION
 ════════════════════════════════════════════════════════════ */
@@ -22,8 +25,7 @@ function switchTab(tabId) {
   if (section) section.classList.add('active');
   if (btn)     btn.classList.add('active');
 
-  // Lazy-init canvas animation only when home tab is visible
-  if (tabId === 'home' && !canvasInited) initCanvas();
+  // canvas runs globally — no lazy init needed
 }
 
 document.querySelectorAll('.nav-tab').forEach(btn => {
@@ -52,8 +54,8 @@ function initCanvas() {
   let W, H, particles;
 
   function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
 
   function createParticle() {
