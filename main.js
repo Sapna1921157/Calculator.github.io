@@ -1984,9 +1984,21 @@ function renderAptitudeContent(id) {
   if (!t) return;
 
   const stepsHtml = t.steps.map((st, i) => {
-    const eg = t.stepEgs && t.stepEgs[i]
-      ? `<span class="sc-step-eg">eg: ${t.stepEgs[i]}</span>` : '';
-    return `<div class="sc-step"><div class="sc-step-body"><span>${st}</span>${eg}</div></div>`;
+    const eg = t.stepEgs && t.stepEgs[i];
+    const egBox = eg
+      ? `<div class="qs-eg-box"><span class="qs-eg-label">eg</span><span class="qs-eg-text">${eg}</span></div>`
+      : '';
+    const isLast = i === t.steps.length - 1;
+    return `<div class="qs-step locked" data-num="${i + 1}">
+      <div class="qs-left">
+        <div class="qs-bubble">${i + 1}</div>
+        ${!isLast ? '<div class="qs-line"></div>' : ''}
+      </div>
+      <div class="qs-content">
+        <div class="qs-rule">${st}</div>
+        ${egBox}
+      </div>
+    </div>`;
   }).join('');
 
   const LEVEL_CLS = { Basic:'ex-basic', Moderate:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
@@ -2024,9 +2036,21 @@ function renderAptitudeContent(id) {
 
       <p class="sc-explanation">${t.explanation}</p>
 
-      <div class="sc-example sc-steps-full">
-        <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Quick Steps</div>
-        <div class="sc-steps">${stepsHtml}</div>
+      <div class="sc-example sc-steps-full" id="qsCard">
+        <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Quick Steps — Learn One by One</div>
+        <div class="qs-prog-bar-wrap">
+          <div class="qs-prog-track"><div class="qs-prog-fill" id="qsProgFill"></div></div>
+          <span class="qs-prog-label" id="qsProgLabel">0 / ${t.steps.length}</span>
+        </div>
+        <div class="qs-wrap">${stepsHtml}</div>
+        <div class="qs-done-banner" id="qsDoneBanner">🎉 Sab steps samajh aa gaye! Ab examples dekho 👇</div>
+        <div class="qs-controls">
+          <button class="qs-btn primary" id="qsPlayBtn"><i class="bx bx-play"></i> Start</button>
+          <button class="qs-btn" id="qsNextBtn" disabled><i class="bx bx-right-arrow-alt"></i> Next</button>
+          <button class="qs-btn" id="qsResetBtn"><i class="bx bx-reset"></i></button>
+          <button class="qs-showall" id="qsShowAll">Show All</button>
+          <span class="qs-counter" id="qsCounter">0 / ${t.steps.length}</span>
+        </div>
       </div>
 
       <div class="apt-examples-grid">${examplesHtml}</div>
@@ -2044,6 +2068,111 @@ function renderAptitudeContent(id) {
     </div>
   `;
   el.scrollTop = 0;
+
+  /* ── Quick Steps: Interactive Learning Journey ── */
+  (function initQS() {
+    const qsSteps   = [...el.querySelectorAll('.qs-step')];
+    const progFill  = document.getElementById('qsProgFill');
+    const progLabel = document.getElementById('qsProgLabel');
+    const playBtn   = document.getElementById('qsPlayBtn');
+    const nextBtn   = document.getElementById('qsNextBtn');
+    const resetBtn  = document.getElementById('qsResetBtn');
+    const showAllBtn= document.getElementById('qsShowAll');
+    const counter   = document.getElementById('qsCounter');
+    const banner    = document.getElementById('qsDoneBanner');
+    const total     = qsSteps.length;
+    let current = -1, timer = null, playing = false;
+
+    function setProgress(n) {
+      progFill.style.width  = (n / total * 100) + '%';
+      progLabel.textContent = `${n} / ${total}`;
+      counter.textContent   = `${n} / ${total}`;
+    }
+
+    function applyStates(idx) {
+      qsSteps.forEach((s, i) => {
+        s.classList.remove('locked', 'active', 'done');
+        const bub = s.querySelector('.qs-bubble');
+        if (i < idx)        { s.classList.add('done');   bub.textContent = '✓'; }
+        else if (i === idx) { s.classList.add('active');  bub.textContent = s.dataset.num; }
+        else                { s.classList.add('locked');  bub.textContent = s.dataset.num; }
+      });
+    }
+
+    function reveal(idx) {
+      if (idx < 0 || idx >= total) return;
+      current = idx;
+      applyStates(idx);
+      setProgress(idx + 1);
+      nextBtn.disabled = idx >= total - 1;
+      if (idx === total - 1) {
+        stopTimer();
+        banner.classList.add('show');
+        playBtn.innerHTML = '<i class="bx bx-check-circle"></i> Done!';
+        playBtn.disabled  = true;
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timer); timer = null; playing = false;
+      if (current < total - 1 && current >= 0) {
+        playBtn.innerHTML = '<i class="bx bx-play"></i> Resume';
+        playBtn.classList.remove('paused');
+      }
+    }
+
+    function startAuto() {
+      playing = true;
+      playBtn.innerHTML = '<i class="bx bx-pause"></i> Pause';
+      playBtn.classList.add('paused');
+      if (current === -1) reveal(0);
+      timer = setInterval(() => {
+        if (current < total - 1) reveal(current + 1);
+        else stopTimer();
+      }, 1500);
+    }
+
+    function reset() {
+      stopTimer(); current = -1; playing = false;
+      qsSteps.forEach(s => {
+        s.classList.remove('active', 'done');
+        s.classList.add('locked');
+        s.querySelector('.qs-bubble').textContent = s.dataset.num;
+      });
+      banner.classList.remove('show');
+      setProgress(0);
+      nextBtn.disabled  = true;
+      playBtn.disabled  = false;
+      playBtn.innerHTML = '<i class="bx bx-play"></i> Start';
+      playBtn.classList.remove('paused');
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (playBtn.disabled) return;
+      playing ? stopTimer() : startAuto();
+    });
+    nextBtn.addEventListener('click', () => {
+      stopTimer();
+      if (current < total - 1) reveal(current + 1);
+    });
+    resetBtn.addEventListener('click', reset);
+    showAllBtn.addEventListener('click', () => {
+      stopTimer(); playing = false;
+      qsSteps.forEach((s, i) => {
+        s.classList.remove('locked', 'active', 'done');
+        const bub = s.querySelector('.qs-bubble');
+        if (i < total - 1) { s.classList.add('done');  bub.textContent = '✓'; }
+        else                { s.classList.add('active'); bub.textContent = s.dataset.num; }
+      });
+      current = total - 1;
+      setProgress(total);
+      banner.classList.add('show');
+      nextBtn.disabled  = true;
+      playBtn.disabled  = true;
+      playBtn.innerHTML = '<i class="bx bx-check-circle"></i> Done!';
+    });
+    setProgress(0);
+  })();
 
   const tryInput  = document.getElementById('aptTryInput');
   const tryBtn    = document.getElementById('aptTryBtn');
