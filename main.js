@@ -1188,6 +1188,124 @@ const SUTRAS = [
 ];
 
 /* ════════════════════════════════════════════════════════════
+   VEDIC BASICS — Fundamentals for all 16 Sutras
+════════════════════════════════════════════════════════════ */
+const VEDIC_BASICS = {
+  1: {
+    hook: "75² = 5625. Mentally in 2 seconds! 7×8=56, add '25' → 5625. Any number ending in 5!",
+    tricks: ["Formula: <strong>n5² = [n×(n+1)] then append '25'</strong>","35²: take 3, multiply by 4 → 12, append 25 → <strong>1225</strong>","65²: 6×7=42, append 25 → <strong>4225</strong>","Works for ANY ending-in-5 number: 15², 25², 105², 115², 205²..."],
+    mnemonic: "🔼 <strong>Ek-adhik = ONE MORE</strong>. Take digit(s) before 5, multiply by ONE MORE than itself, then stick '25' at end!",
+    realLife: ["📐", "Room: 35 feet × 35 feet = 1225 sq ft. Or 45m × 45m = 2025 sq m. Mental math in seconds!"],
+    funFact: "This works because (10n+5)² = 100n(n+1) + 25. Pure algebra — ancient Indian mathematicians found this pattern thousands of years ago!"
+  },
+  2: {
+    hook: "96 × 94 = 9024. Deviations from 100: −4 and −6. Left: 96−6=90. Right: 4×6=24. Done: 9024!",
+    tricks: ["Deviations = Base − Number (negative if below, positive if above base)","<strong>Left part = either number − other's deviation</strong>","<strong>Right part = product of deviations</strong>","Right part digits = zeros in base (100→2 digits, 1000→3 digits)"],
+    mnemonic: "🔟 <strong>Nikhilam = All from 9, last from 10</strong>. Deviation from base is your key number!",
+    realLife: ["🛒", "Price: ₹97 × 96 items = ? Deviations −3, −4. Left: 97−4=93. Right: 12. Total: ₹9312!"],
+    funFact: "This uses identity (100−a)(100−b) = 100(100−a−b) + ab. Ancient Indians embedded algebra in a simple 3-step method!"
+  },
+  3: {
+    hook: "48 × 47 near 50 (not 100). Use 50 as sub-base, deviations −2 and −3. Left: 45×50=2250. Right: 6. Total: 2256!",
+    tricks: ["When numbers aren't near 10/100/1000, choose a <strong>convenient sub-base</strong>","Common sub-bases: <strong>50 (=100÷2), 25 (=100÷4), 500, 250</strong>","Apply Nikhilam method → then scale left part by sub-base/10ⁿ","Sub-base 50: left×½ | Sub-base 25: left×¼"],
+    mnemonic: "⚖️ <strong>Anurupyena = by proportion</strong>. Choose smart base → Nikhilam → scale proportionally!",
+    realLife: ["🛍️", "52 items at ₹53 each = ? Sub-base 50: deviations +2,+3. Left: 55×50=2750. Right: 6. Total: ₹2756!"],
+    funFact: "This sutra shows ancient Indian mathematicians understood 'change of base' — a concept modern computers use in binary/hex/decimal conversions!"
+  },
+  4: {
+    hook: "1452 ÷ 12 = 121. Transpose 12 → leading 1, flip remaining 2 → −2. Running multiply → 121 in seconds!",
+    tricks: ["<strong>Transpose: reverse signs of all digits AFTER the first digit of divisor</strong>","12 → leading=1, remaining=2 → transpose to −2","Write first dividend digit as first quotient digit","quotient digit × transposed value → add to next dividend digit"],
+    mnemonic: "🔄 <strong>Paravartya = transpose and adjust</strong>. Flip the sign of divisor's non-leading digits!",
+    realLife: ["💰", "Split ₹1452 among 12 people = ? Paravartya: 121 rupees each, instantly!"],
+    funFact: "This is essentially synthetic division — a method reinvented by Western mathematicians in the 19th century. India had it 1500+ years earlier!"
+  },
+  5: {
+    hook: "3x+5 = 2x+5 → constants both sides = 5 (same!) → x = 0. Zero appears by Shunyam! Instant!",
+    tricks: ["Check if 'samuccaya' (common sum/factor) is same on both sides","If constants equal on both sides → variable part = 0 → <strong>x = 0</strong>","If ALL coefficients and constants match → identity → <strong>infinite solutions</strong>","Applicable to linear, quadratic, and higher-degree equations"],
+    mnemonic: "0️⃣ <strong>Shunyam = zero</strong>. When samuccaya matches both sides → set that samuccaya to zero!",
+    realLife: ["⚖️", "Balance sheet: both sides have same fixed costs → profit − loss = 0 → break-even point found instantly!"],
+    funFact: "This sutra anticipates modern 'trivial solutions' and 'identically zero polynomials' — fundamental concepts of abstract algebra!"
+  },
+  6: {
+    hook: "2x+3y=6, 4x+6y=12 → ratios 2:4=3:6=6:12 = 1:2 all same → Infinite solutions! No solving needed!",
+    tricks: ["<strong>a₁/a₂ = b₁/b₂ = c₁/c₂ → Infinite solutions</strong> (same line)","<strong>a₁/a₂ = b₁/b₂ ≠ c₁/c₂ → No solution</strong> (parallel lines)","a₁/a₂ ≠ b₁/b₂ → Unique solution (lines intersect)","Just ratio check — no actual solving needed!"],
+    mnemonic: "📊 <strong>Ratio check</strong>: x-ratio = y-ratio = const-ratio → same line. x=y ≠ const → parallel!",
+    realLife: ["🗺️", "Two navigation equations give same location (dependent lines) or impossible point (inconsistent) → ratio method tells instantly!"],
+    funFact: "This is equivalent to the 'rank of matrix' method in linear algebra — a concept Western math formalized only in the 19th century!"
+  },
+  7: {
+    hook: "5x+4y=9 aur 4x+5y=9. Add → 9x+9y=18 → x+y=2. Subtract → x−y=0. Therefore x=1, y=1!",
+    tricks: ["<strong>Add</strong> both equations → eliminates or simplifies one variable","<strong>Subtract</strong> one from other → another simple relationship","Works fastest when coefficients are <strong>symmetric or swapped</strong>","Two new equations → two variables solved elegantly!"],
+    mnemonic: "➕➖ <strong>Sankalana + Vyavakalana</strong>: Add AND subtract → two new equations → both unknowns found!",
+    realLife: ["🛒", "5 apples+4 oranges=₹9, 4 apples+5 oranges=₹9. By this sutra: apple=orange=₹1 in seconds!"],
+    funFact: "This technique was rediscovered as 'Gaussian Elimination' by Carl Friedrich Gauss in 18th century — India used it in Vedic times!"
+  },
+  8: {
+    hook: "x²+8x+7=0. Move 7 to right: x²+8x=−7. Add (4)²=16 both sides. (x+4)²=9. x=−1 or x=−7!",
+    tricks: ["Move constant to RHS: x²+bx = −c","Add <strong>(b/2)²</strong> to BOTH sides","LHS becomes perfect square: <strong>(x + b/2)²</strong>","Take ± square root → two x values"],
+    mnemonic: "⬜ <strong>Pura-na = completion</strong>. FILL IN the missing piece to complete the perfect square!",
+    realLife: ["📡", "Parabolic satellite dishes: complete-the-square to find focal point for maximum signal reception!"],
+    funFact: "Al-Khwarizmi (800 AD) called this method 'al-jabr' (completing) — which became the word '<strong>ALGEBRA</strong>'! This sutra predates him significantly!"
+  },
+  9: {
+    hook: "x²−7x+12=0. Sum of roots=7, product=12. Which pair? 3+4=7 and 3×4=12 → Roots: 3 and 4!",
+    tricks: ["<strong>Sum of roots = −b/a</strong>","<strong>Product of roots = c/a</strong>","Find two numbers matching BOTH sum AND product","Works like a puzzle — think of factor pairs of product!"],
+    mnemonic: "🔀 <strong>Chalana-Kalana = motion and differences</strong>. Roots 'move apart' by sum, 'combine' by product!",
+    realLife: ["🌱", "Garden area x(x−7)=12 sq m → x²−7x−12=0 → find dimensions using sum/product roots method!"],
+    funFact: "Vieta's formulas (François Viète, 1591 AD) state exactly sum=−b/a and product=c/a. Vedic sutras embedded this principle much earlier!"
+  },
+  10: {
+    hook: "97² = 9409. Base 100, deficit=3. Left: 97−3=94. Right: 3²=09 (2 digits). Answer: 9409 in 3 sec!",
+    tricks: ["For numbers near base: <strong>deficit = base − number</strong>","Left = <strong>number − deficit</strong>","Right = <strong>deficit²</strong> (padded to base-zeros digits)","For numbers ABOVE base: use surplus, ADD to left instead"],
+    mnemonic: "📉 <strong>Yaavadunam = whatever the deficiency</strong>. Deficit → left. Deficit² → right. Combine!",
+    realLife: ["📱", "Screen resolution: 998 × 997 pixels. Base 1000, dev −2,−3. Left: 995. Right: 006. = 995006!"],
+    funFact: "This is a special application of (a−b)² = a² − 2ab + b². Ancient Indians packaged the formula into a 3-step mental process!"
+  },
+  11: {
+    hook: "2x²+7x+3: Product P = 2×3=6. Find p+q=7, pq=6 → 6,1. Split: 2x²+6x+x+3 → (2x+1)(x+3)!",
+    tricks: ["Find <strong>P = a×c</strong> (outer × inner coefficients)","Find two numbers: <strong>sum = b AND product = P</strong>","<strong>Split middle term</strong> using those two numbers","Factor by grouping → two binomial factors!"],
+    mnemonic: "🧩 <strong>Vyashti-samanstih = individual and total</strong>. Split middle → group → factor common binomial!",
+    realLife: ["🏗️", "Area = 2x²+7x+3 sq m → dimensions are (2x+1) by (x+3). Factor to find rectangle sides!"],
+    funFact: "This 'splitting the middle term' is the most universal factoring method in high school algebra worldwide — its roots trace back to Vedic mathematics!"
+  },
+  12: {
+    hook: "Is 847 divisible by 11? Alternating sum: 8−4+7=11 → divisible! No actual division performed!",
+    tricks: ["Div by 9: <strong>digit sum divisible by 9</strong>","Div by 3: digit sum divisible by 3","Div by 11: <strong>alternating sum (d1−d2+d3−...) divisible by 11</strong>","Repeat digit sum till single digit for easy 9/3 check"],
+    mnemonic: "🔢 <strong>Shesha = remainder</strong>. Digit sum REVEALS the remainder when dividing by 9 — no division needed!",
+    realLife: ["💳", "Credit card Luhn algorithm uses digit sums to validate card numbers — SAME concept as this sutra! Banks use Vedic-style math!"],
+    funFact: "ISBN book numbers use alternating digit sums (like 11-divisibility) to detect printing errors. This sutra lives in everyday objects!"
+  },
+  13: {
+    hook: "1/((x+2)(x+3)) = A/(x+2) + B/(x+3). Put x=−2 for A, x=−3 for B. No system of equations needed!",
+    tricks: ["Cover each factor, plug in its root → get coefficient directly","To find A: multiply by (x+a), then set <strong>x = −a</strong>","To find B: multiply by (x+b), set <strong>x = −b</strong>","Each coefficient found independently and instantly"],
+    mnemonic: "📐 <strong>Sopaantya = penultimate</strong>. Cover each factor, substitute its root → coefficient appears!",
+    realLife: ["🔬", "Partial fractions essential in Physics (circuits), Engineering (signals), Calculus (integration). This sutra is a daily power tool!"],
+    funFact: "This is the 'Heaviside cover-up method' by Oliver Heaviside (1890s). The exact same technique existed in Vedic sutras centuries earlier!"
+  },
+  14: {
+    hook: "654 × 999 = 653346. Left = 654−1 = 653. Right = 1000−654 = 346. Combine: 653|346 = 653346!",
+    tricks: ["n × 9 = (n−1) | (10−n)","n × 99 = (n−1) | (100−n)","<strong>n × 999 = (n−1) | (1000−n)</strong>","Digits in right part = digits in the all-9s number"],
+    mnemonic: "9️⃣ <strong>Ekanyunena = ONE LESS</strong>. Left = number MINUS ONE. Right = base MINUS number. Simple!",
+    realLife: ["🛒", "EMI: ₹654 per day for 999 days = ₹653,346. Mental math: 654−1=653, 1000−654=346 → ₹653,346!"],
+    funFact: "Works because n×(10ᵏ−1) = n×10ᵏ − n = (n−1)×10ᵏ + (10ᵏ−n). Beautifully elegant algebra in a 2-step trick!"
+  },
+  15: {
+    hook: "123×456=56088. Verify: DS(123)=6, DS(456)=6, 6×6=36→9. DS(56088)=27→9. MATCH ✓ Answer is right!",
+    tricks: ["<strong>Digit sum (Beejank)</strong>: add all digits, repeat till single digit","DS(A) × DS(B) = DS(A×B) — always!","Mismatch → calculation <strong>definitely wrong</strong>","Match → calculation <strong>probably right</strong> (catches most errors)"],
+    mnemonic: "✅ <strong>Gunita-samuchyah = product verification</strong>. DS of product = product of DS values!",
+    realLife: ["🧾", "Long bills: shopkeeper uses digit sum check to spot calculation errors before handing receipt!"],
+    funFact: "Based on modular arithmetic mod 9 — every integer ≡ its digit sum (mod 9). Ancient Indians discovered modular arithmetic through this sutra!"
+  },
+  16: {
+    hook: "x²+3x+2 = (x+1)(x+2)? Put x=1: LHS=6, RHS=2×3=6. Put x=2: LHS=12, RHS=12. Match → Correct!",
+    tricks: ["Substitute simple x values (0, 1, 2) into <strong>both</strong> original and factored forms","If they match → factorization is correct","If they don't match → error found!","Test with x=0 AND x=1 for double confirmation"],
+    mnemonic: "🔍 <strong>Gunaka-samuchyah = verification by factors</strong>. Plug in numbers → same answer both sides → done!",
+    realLife: ["💻", "Software testing: same concept! Input test values to verify code output. This sutra is the world's first unit testing method!"],
+    funFact: "This evaluation method is called 'polynomial interpolation' in modern math. René Descartes formalized it in 1637 — Vedic sutras used it much earlier!"
+  }
+};
+
+/* ════════════════════════════════════════════════════════════
    VEDIC SIDEBAR — render sutra list & content
 ════════════════════════════════════════════════════════════ */
 function renderSutraList() {
@@ -1215,13 +1333,47 @@ function renderSutraContent(id) {
   if (!el) return;
   const s = SUTRAS.find(x => x.id === id);
   if (!s) return;
+  const b = VEDIC_BASICS[id] || {};
 
+  /* ── Basics panel HTML ── */
+  function buildBasicsHTML() {
+    let html = '<div class="basics-card">';
+    if (b.hook) {
+      html += `<div class="basics-hook">💬 ${b.hook}</div>`;
+    } else {
+      html += `<div class="basics-hook">💬 ${s.explanation}</div>`;
+    }
+    if (b.realLife) {
+      html += `<div class="reallife-box"><span class="reallife-icon">${b.realLife[0]}</span><span>${b.realLife[1]}</span></div>`;
+    }
+    if (b.tricks && b.tricks.length) {
+      html += `<div><div class="basics-section-title">✨ Memory Tricks &amp; Shortcuts</div><div class="basics-tricks-list">`;
+      b.tricks.forEach((tr, i) => {
+        html += `<div class="basics-trick-item"><span class="basics-trick-num">${i + 1}</span><span>${tr}</span></div>`;
+      });
+      html += `</div></div>`;
+    }
+    if (b.mnemonic) {
+      html += `<div class="basics-mnemonic"><div class="basics-mnemonic-title">🧠 Mnemonic — Dil Se Yaad Karo!</div><div class="basics-mnemonic-text">${b.mnemonic}</div></div>`;
+    }
+    if (b.funFact) {
+      html += `<div class="fun-fact-box"><span>💡</span><span>${b.funFact}</span></div>`;
+    }
+    html += `<div style="text-align:center;font-size:0.78rem;color:var(--text-faint);padding:0.5rem 0">
+      Click <strong style="color:var(--sci-color)">⚡ Method Steps</strong> for step-by-step walkthrough, or <strong style="color:var(--sci-color)">🎯 Examples</strong> to practice!
+    </div>`;
+    html += '</div>';
+    return html;
+  }
+
+  /* ── Steps panel HTML ── */
   const stepsHtml = s.steps.map((st, i) => {
     const eg = s.stepEgs && s.stepEgs[i]
       ? `<span class="sc-step-eg">eg: ${s.stepEgs[i]}</span>` : '';
     return `<div class="sc-step"><div class="sc-step-body"><span>${st}</span>${eg}</div></div>`;
   }).join('');
 
+  /* ── Examples panel HTML ── */
   const LEVEL_CLS = { Basic:'ex-basic', Moderate:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
   const examplesHtml = (s.examples || []).map(ex => {
     const stH = ex.steps.map((st, i) =>
@@ -1238,7 +1390,7 @@ function renderSutraContent(id) {
   el.innerHTML = `
     <div class="sutra-card">
 
-      <!-- ── Header: name + emoji badge ── -->
+      <!-- Header -->
       <div class="sc-header">
         <div class="sc-header-text">
           <div class="sc-num">Sutra ${s.id} of 16</div>
@@ -1248,7 +1400,7 @@ function renderSutraContent(id) {
         <div class="sc-emoji-badge">${s.emoji}</div>
       </div>
 
-      <!-- ── Use-case + Shortcut side by side ── -->
+      <!-- Use + Shortcut -->
       <div class="sc-info-row">
         <div class="sc-use">
           <i class="bx bx-target-lock"></i>
@@ -1260,19 +1412,35 @@ function renderSutraContent(id) {
         </div>
       </div>
 
-      <!-- ── Explanation ── -->
+      <!-- Explanation -->
       <p class="sc-explanation">${s.explanation}</p>
 
-      <!-- ── Method Steps ── -->
-      <div class="sc-example sc-steps-full">
-        <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Method — Steps</div>
-        <div class="sc-steps">${stepsHtml}</div>
+      <!-- Topic Tabs -->
+      <div class="topic-tabs">
+        <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
+        <button class="topic-tab-btn" data-panel="steps">⚡ Method Steps</button>
+        <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
       </div>
 
-      <!-- ── Examples grid (Basic / Moderate / Hard / Advanced) ── -->
-      <div class="apt-examples-grid">${examplesHtml}</div>
+      <!-- Basics Panel -->
+      <div class="topic-tab-panel active" data-panel="basics">
+        ${buildBasicsHTML()}
+      </div>
 
-      <!-- ── Try It Yourself ── -->
+      <!-- Steps Panel -->
+      <div class="topic-tab-panel" data-panel="steps">
+        <div class="sc-example sc-steps-full">
+          <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Method — Steps</div>
+          <div class="sc-steps">${stepsHtml}</div>
+        </div>
+      </div>
+
+      <!-- Examples Panel -->
+      <div class="topic-tab-panel" data-panel="examples">
+        <div class="apt-examples-grid">${examplesHtml}</div>
+      </div>
+
+      <!-- Try It — always visible -->
       <div class="sc-try-it" id="scTryIt">
         <div class="sc-try-label"><i class="bx bx-bolt-circle"></i> Try It Yourself — Quick Calculator</div>
         <div class="sc-try-row">
@@ -1286,6 +1454,16 @@ function renderSutraContent(id) {
     </div>
   `;
   el.scrollTop = 0;
+
+  /* Tab switching */
+  el.querySelectorAll('.topic-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      el.querySelectorAll('.topic-tab-btn').forEach(b2 => b2.classList.remove('active'));
+      el.querySelectorAll('.topic-tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      el.querySelector(`.topic-tab-panel[data-panel="${btn.dataset.panel}"]`).classList.add('active');
+    });
+  });
 
   /* Wire Try-It button */
   const tryInput  = document.getElementById('scTryInput');
@@ -1941,6 +2119,357 @@ const APTITUDE_TOPICS = [
 ];
 
 /* ════════════════════════════════════════════════════════════
+   TRIG CHART HTML HELPER
+════════════════════════════════════════════════════════════ */
+function getTrigChartHTML() {
+  return `
+    <div class="basics-section-title" style="margin-top:0.5rem">📊 Standard Values Chart — Isko Zaroor Yaad Karo!</div>
+    <div class="trig-chart-wrap">
+      <table class="trig-chart">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding-left:0.9rem">θ →</th>
+            <th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="func-label">sin θ</td><td>0</td><td>½</td><td>1/√2</td><td>√3/2</td><td class="val-special">1</td></tr>
+          <tr><td class="func-label">cos θ</td><td class="val-special">1</td><td>√3/2</td><td>1/√2</td><td>½</td><td>0</td></tr>
+          <tr><td class="func-label">tan θ</td><td>0</td><td>1/√3</td><td class="val-special">1</td><td>√3</td><td class="val-special">∞</td></tr>
+          <tr><td class="func-label">cosec θ</td><td class="val-special">∞</td><td>2</td><td>√2</td><td>2/√3</td><td>1</td></tr>
+          <tr><td class="func-label">sec θ</td><td>1</td><td>2/√3</td><td>√2</td><td>2</td><td class="val-special">∞</td></tr>
+          <tr><td class="func-label">cot θ</td><td class="val-special">∞</td><td>√3</td><td class="val-special">1</td><td>1/√3</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="basics-mnemonic" style="margin-top:0.8rem">
+      <div class="basics-mnemonic-title">🏆 SONA CHANDI TOLE — Trig Table Yaad Karne Ki MAGIC Trick!</div>
+      <div class="basics-mnemonic-text">
+        <strong>SONA 🥇</strong> = <em>sin</em> values (gold = increases 0 → 1)<br>
+        Pattern under √: <strong>√0/2, √1/2, √2/2, √3/2, √4/2</strong><br>
+        Simply: 0 se 4 tak count karo under √ → <strong>0, ½, 1/√2, √3/2, 1</strong><br><br>
+        <strong>CHANDI 🥈</strong> = <em>cos</em> values (silver = REVERSE of sin, decreases 1 → 0)<br>
+        <strong>1, √3/2, 1/√2, ½, 0</strong> — bas sin ulta karo!<br><br>
+        <strong>TOLE ⚖️</strong> = <em>tan</em> = sin ÷ cos (weighing = dividing!)<br>
+        <strong>0, 1/√3, 1, √3, ∞</strong>
+      </div>
+    </div>
+    <div class="mnemonic-grid">
+      <div class="mnemo-card">
+        <div class="mnemo-card-title sona">SONA 🥇</div>
+        <div class="mnemo-card-sub">sin (0 → 1)</div>
+        <div class="mnemo-card-vals">
+          <div class="mnemo-card-val">0° → 0</div>
+          <div class="mnemo-card-val">30° → ½</div>
+          <div class="mnemo-card-val">45° → 1/√2</div>
+          <div class="mnemo-card-val">60° → √3/2</div>
+          <div class="mnemo-card-val">90° → 1</div>
+        </div>
+      </div>
+      <div class="mnemo-card">
+        <div class="mnemo-card-title chandi">CHANDI 🥈</div>
+        <div class="mnemo-card-sub">cos (1 → 0)</div>
+        <div class="mnemo-card-vals">
+          <div class="mnemo-card-val">0° → 1</div>
+          <div class="mnemo-card-val">30° → √3/2</div>
+          <div class="mnemo-card-val">45° → 1/√2</div>
+          <div class="mnemo-card-val">60° → ½</div>
+          <div class="mnemo-card-val">90° → 0</div>
+        </div>
+      </div>
+      <div class="mnemo-card">
+        <div class="mnemo-card-title tole">TOLE ⚖️</div>
+        <div class="mnemo-card-sub">tan = sin÷cos</div>
+        <div class="mnemo-card-vals">
+          <div class="mnemo-card-val">0° → 0</div>
+          <div class="mnemo-card-val">30° → 1/√3</div>
+          <div class="mnemo-card-val">45° → 1</div>
+          <div class="mnemo-card-val">60° → √3</div>
+          <div class="mnemo-card-val">90° → ∞</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ════════════════════════════════════════════════════════════
+   APTITUDE BASICS — Fundamentals for all 38 topics
+════════════════════════════════════════════════════════════ */
+const APTITUDE_BASICS = {
+  1: {
+    hook: "2 + 3 × 4 = 20 ya 14? BODMAS kehta hai 14 — multiplication pehle, addition baad mein!",
+    tricks: ["Yaad karo: <strong>B</strong>hai <strong>O</strong>ften <strong>D</strong>rinks <strong>M</strong>ilk <strong>A</strong>nd <strong>S</strong>ugar → Brackets, Of, Division, Multiplication, Addition, Subtraction","D aur M same level → left se right! 6÷2×3 = 3×3 = 9 ✓ (6÷6=1 ✗)","A aur S same level → 10−3+2 = 7+2 = 9 ✓ (10−5=5 ✗)","Negative numbers: hamesha ( ) mein rakhna safer hai"],
+    mnemonic: "🎵 <strong>Bhai Often Drinks Milk And Sugar</strong> → B.O.D.M.A.S.",
+    realLife: ["🛒", "Grocery bill: (3 items × ₹50) + (2 items × ₹30) − ₹20 coupon = 150+60−20 = ₹190 → BODMAS se calculate karo!"],
+    funFact: "USA mein BODMAS ko <strong>PEMDAS</strong> kehte hain (Parentheses, Exponents, Multiplication, Division, Addition, Subtraction) — same concept, different name!"
+  },
+  2: {
+    hook: "0.125 × 8 = ? Fraction trick se: 1/8 × 8 = 1! Calculator ki zaroorat hi nahi!",
+    tricks: ["Fraction-decimal table YAAD karo: <strong>0.5=½, 0.25=¼, 0.75=¾, 0.125=⅛, 0.333=⅓, 0.667=⅔</strong>","Multiply: 2.5×4 → 25×4=100 → ÷10 = <strong>10</strong>","Divide: 1.5÷0.3 → dono ×10 → 15÷3 = <strong>5</strong>","Recurring 0.333…: x=0.333, 10x=3.333, 9x=3 → x=1/3"],
+    mnemonic: "💰 <strong>Paisa yaad rakho</strong>: 0.25 = 25 paise = ¼ rupee, 0.50 = 50 paise = ½ rupee, 0.75 = ¾ rupee",
+    realLife: ["⛽", "Petrol 98.75/litre × 40.5 litres — decimal multiplication aata hai kaam. Convert to fractions for quick mental math!"],
+    funFact: "0.999999… = 1 exactly! Proof: x=0.999…, 10x=9.999…, 9x=9, x=1. Surprised? It's mathematically true!"
+  },
+  3: {
+    hook: "1/2 + 1/3 = 2/5 nahi! LCM nikalo first → 3/6 + 2/6 = 5/6. Seedha add karna GALAT hai!",
+    tricks: ["Addition/Subtraction: <strong>LCM nikalo → same denominator → numerator operate karo</strong>","Multiplication: seedha (a×c)/(b×d) → then simplify","Division: doosre ko FLIP karo → multiply karo (<strong>KFC: Keep Flip Change</strong>)","Mixed 3½ → improper: (3×2+1)/2 = 7/2"],
+    mnemonic: "🍕 <strong>Pizza analogy</strong>: ½ + ⅓ pizza = barabar pieces banao (6 total) → 3/6 + 2/6 = 5/6 pizza!",
+    realLife: ["🧪", "Recipe: 2½ cups aata + ¾ cup sugar → fractions add karo. 2½ + ¾ = 5/2 + 3/4 = 10/4+3/4 = 13/4 = 3¼ cups!"],
+    funFact: "Ancient Egyptians (1650 BC) unit fractions use karte the — sirf 1/n form ki fractions! ½, ⅓, ¼, etc. koi proper fraction nahi!"
+  },
+  4: {
+    hook: "HCF × LCM = N1 × N2. Ek formula → ek nikalo → doosra seedha calculate! Golden shortcut!",
+    tricks: ["<strong>HCF (Division method)</strong>: bade ko chhote se divide, remainder se divide, 0 aane tak. Last divisor = HCF","<strong>LCM shortcut</strong>: LCM = (N1 × N2) ÷ HCF","Divisibility: 2→last digit even, 3→digit sum ÷3, 9→digit sum ÷9, 11→alternating sum ÷11","Co-prime: HCF=1 → e.g., 8 aur 9"],
+    mnemonic: "⚡ <strong>HCF × LCM = Product of two numbers</strong> — yeh Golden Formula hai!",
+    realLife: ["📐", "Tiles problem: 12m × 8m room mein largest square tile? HCF(12,8) = 4m → 4m × 4m tiles use karo!"],
+    funFact: "Every integer can be expressed as a product of primes in EXACTLY one way — called the <strong>Fundamental Theorem of Arithmetic</strong>! Primes are the 'atoms' of numbers."
+  },
+  5: {
+    hook: "₹100 ki cheez ₹120 mein becho → 20% profit! SP = CP × (100+P%) ÷ 100. Itna simple!",
+    tricks: ["<strong>SP = CP × (100 ± P%) ÷ 100</strong> — ek formula sab solve karta hai","<strong>CP from SP</strong>: CP = SP × 100 ÷ (100 + P%)","Same SP pe x% profit + x% loss → Net Loss = (x/10)² % hamesha!","Discount hamesha MP pe, profit hamesha CP pe — confuse mat hona!"],
+    mnemonic: "💡 <strong>SP se CP nikalna</strong>: SP ke peeche ×100/(100±%) lagao → CP milta hai!",
+    realLife: ["🛍️", "Flipkart sale: ₹5000 ki laptop ₹4000 mein → Loss% = 1000/5000×100 = 20% loss. Seller ne kya socha hoga?"],
+    funFact: "India mein e-commerce mein sellers kaafi baar inflated MRP dikhate hain to show big discounts — par actual cost? Always check original CP!"
+  },
+  6: {
+    hook: "Successive discounts 20% aur 10% = 28% off, not 30%! Multiply karo: 0.8 × 0.9 = 0.72 → 28% off!",
+    tricks: ["<strong>SP = MP × (100−D%) ÷ 100</strong>","Successive discounts: <strong>multiply the remainders</strong> → 20% + 10% = 100×0.8×0.9 = 72 → 28% effective","Formula: effective discount = d1+d2 − d1×d2/100","Discount always on <strong>Marked Price</strong>, not CP!"],
+    mnemonic: "📉 <strong>20% + 10% ≠ 30%!</strong> It's 28%! 100 × 0.8 × 0.9 = 72 → 28% off.",
+    realLife: ["🏬", "Store sale: 30% off then extra 10% → total = 100×0.7×0.9 = 63 → 37% off, not 40%! Successive ≠ additive!"],
+    funFact: "This 'successive discounts' trick is why credit card companies love offering '20% off + extra 10%' — sounds like 30% but it's only 28%!"
+  },
+  7: {
+    hook: "Profit ratio = Capital × Time. A ne ₹6000 × 6 months, B ne ₹4000 × 9 months → 36:36 = 1:1!",
+    tricks: ["<strong>Ratio = Capital × Time</strong> for each partner","Same time → sirf Capital ratio","Working partner ko pehle salary, baaki profit split","Investment beech mein change hone pe: alag alag period calculate karo"],
+    mnemonic: "🤝 <strong>Capital × Time = Effort</strong> — profit isi proportion mein baanto!",
+    realLife: ["🏪", "Startup: A ₹5 lakh (full year), B ₹3 lakh (8 months) → A: 60L, B: 24L → ratio 5:2. Profit ₹1.4L → A=₹1L, B=₹0.4L"],
+    funFact: "Ancient Rome mein bhi partnership agreements hote the — 'societas' kehte the! Aaj ka Limited Liability Partnership usi concept ka evolution hai."
+  },
+  8: {
+    hook: "Alligation cross method: 5 second mein mixing ratio nikalo! C upar left, D upar right, M beech → differences ka ratio = mixing ratio!",
+    tricks: ["<strong>Cross method</strong>: Cheaper (C) aur Dearer (D) upar, Mean (M) beech mein","Ratio = (D−M) : (M−C)","Milk-water problems: water = 0 price, milk = actual price","Average salary problems bhi alligation se fastest!"],
+    mnemonic: "✝️ Cross banao: <strong>C ... D</strong>, M beech mein → neeche: (D−M) aur (M−C) = mixing ratio!",
+    realLife: ["☕", "Tea blend: ₹80/kg + ₹120/kg → ₹100/kg blend → (120−100):(100−80) = 20:20 = 1:1 equal mix!"],
+    funFact: "'Alligation' Latin word 'alligare' se aaya = to bind/tie together. Mixing ka concept!"
+  },
+  9: {
+    hook: "18 km/h = 5 m/s (×5/18). 5 m/s = 18 km/h (×18/5). Convert karna MUST hai — always!",
+    tricks: ["<strong>D = S × T</strong>: triangle mein D upar, S × T neeche — cover karo jo nikalna hai","km/h → m/s: ×5/18 | m/s → km/h: ×18/5","Opposite direction: speeds <strong>add</strong> | Same direction: speeds <strong>subtract</strong>","Train + platform cross: distance = train + platform length!"],
+    mnemonic: "🚗 <strong>DST Triangle</strong>: D on top, S×T on bottom. Cover D → S×T. Cover S → D/T. Cover T → D/S!",
+    realLife: ["🚂", "Delhi to Agra 200 km, Rajdhani 160 km/h → Time = 200/160 = 1.25 hours = 1 hr 15 min. Simple!"],
+    funFact: "Sound ki speed 343 m/s = 1235 km/h. Light ki speed 3×10⁸ m/s = 1.08×10⁹ km/h. Imagine relative speed mein! Light relative to anything = same speed (Special Relativity)!"
+  },
+  10: {
+    hook: "A 10 din mein kaam karta hai → 1 din = 1/10 kaam. B 15 din mein → 1 din = 1/15. Saath: 1/10+1/15 = 1/6 → 6 din!",
+    tricks: ["1 din kaam = <strong>1/(total days)</strong>","Together 1 din: <strong>1/a + 1/b</strong> → Days = ab/(a+b)","Pipe fill: inlet positive, leak <strong>negative</strong>","Efficiency ratio = <strong>inverse of time ratio</strong>"],
+    mnemonic: "⚙️ <strong>1/a + 1/b = 1/together</strong> — exactly like parallel resistors in physics!",
+    realLife: ["🏗️", "Construction: A 30 din, B 20 din → saath = 30×20/(30+20) = 600/50 = 12 din. Project planner ka kaam!"],
+    funFact: "Time & Work = Power in physics! Power = Work/Time. Zyada power → kaam jaldi. Same concept, different name!"
+  },
+  11: {
+    hook: "12.5% of 80 = 1/8 × 80 = 10 — 1 second mein! Fraction table yaad karo, calculator chalana band karo!",
+    tricks: ["Fraction shortcuts: <strong>10%=1/10, 20%=1/5, 25%=1/4, 33.3%=1/3, 50%=1/2, 12.5%=1/8</strong>","% change = (New−Old)/Old × 100","Successive %: (1+a/100) × (1+b/100) × original","<strong>A is 20% more than B ≠ B is 20% less than A</strong>! (B is 16.67% less)"],
+    mnemonic: "💯 <strong>Teen-Char-Paanch</strong>: 33%=⅓, 25%=¼, 50%=½ → quick mental math!",
+    realLife: ["💰", "GST 18% on ₹5000: quick way → 10% = 500, 8% = 400, total GST = ₹900. Amount = ₹5900."],
+    funFact: "'Per cent' Latin mein 'per hundred' hai. 100 years = 1 Century bhi isi se! Romans ne 'per centum' (per hundred) use kiya."
+  },
+  12: {
+    hook: "a:b = 2:3 matlab a/b = 2/3. Cross multiply: 3a = 2b. Proportion = equal ratios!",
+    tricks: ["Simplify: HCF nikalo → 12:18 → HCF=6 → <strong>2:3</strong>","a:b::c:d → <strong>extremes × extremes = means × means</strong> → ad = bc","Mean proportional of a,b = <strong>√(ab)</strong>","Three quantities: find LCM of B's values to combine"],
+    mnemonic: "⚖️ <strong>Extremes ka product = Means ka product</strong>. 2:3::4:6 → 2×6=12 = 3×4=12 ✓",
+    realLife: ["🗺️", "Map scale 1:50000 → 3 cm on map = 3 × 50000 cm = 1500 m = 1.5 km actual!"],
+    funFact: "Golden Ratio 1:1.618 (φ) — Da Vinci used it in Mona Lisa, nautilus shells have it, sunflower spiral follows it! Nature loves this ratio!"
+  },
+  13: {
+    hook: "√1764 = ? Prime factorize: 1764 = 4×9×49 → √4×√9×√49 = 2×3×7 = 42. No calculator needed!",
+    tricks: ["Perfect squares 1–400 YAAD karo: <strong>1,4,9,16,25,36,49,64,81,100,121,144,169,196,225,256,289,324,361,400</strong>","Simplify: √72 = √(36×2) = <strong>6√2</strong>","Approximate: √50 near √49=7 → 7.07","√(a/b) = √a/√b | √(ab) = √a × √b"],
+    mnemonic: "📋 <strong>1² se 20² yaad karo</strong>: 1,4,9...400 — yeh 20 values sab kuch solve kar deti hain!",
+    realLife: ["🏠", "Room area = 576 sq ft → Side = √576 = 24 ft. Perfect square room!"],
+    funFact: "√2 = 1.41421356… irrational hai — decimal kabhi repeat nahi karta! Ancient Greeks ne yeh discover kiya aur yeh itna shocking tha ki unka ek student maraa (legend ke according to)!"
+  },
+  14: {
+    hook: "5 numbers avg 30, 6th number add hone pe avg 32. 6th = 32×6 − 30×5 = 192−150 = 42!",
+    tricks: ["<strong>Sum = Average × Count</strong> — formula zyada useful hai simple Average = Sum/Count se","New element: old sum + new = new avg × new count","Weighted average: <strong>Σ(weight × value) / Σweight</strong>","Deviation method: assume convenient number, deviations ka avg nikaalo, add karo"],
+    mnemonic: "📊 <strong>Sum = Avg × n</strong> — this is the KEY formula. Direct avg = sum/n is for easy problems; Sum=Avg×n solves hard ones!",
+    realLife: ["🎓", "5 exams mein 80% average chahiye → total = 400 marks chahiye. Pehle 4 mein 340 mile → 5th mein minimum 60 chahiye!"],
+    funFact: "Lake Wobegon effect: surveys mein 70%+ drivers rate themselves as 'above average' drivers — statistically impossible but psychologically very real!"
+  },
+  15: {
+    hook: "CI − SI (2 years) = P × (r/100)² — yeh shortcut exam mein gold hai! Seedha substitute karo!",
+    tricks: ["<strong>SI = P×R×T/100</strong>","CI 2yr shortcut: <strong>CI = SI₁ + SI₁ + SI₁×r/100</strong> = 2×SI₁ + SI₁²/P","CI − SI (2yr) = <strong>P×(r/100)²</strong>","Half-yearly: rate ÷2, time ×2"],
+    mnemonic: "🏦 <strong>CI−SI = P(r/100)²</strong> — 2 saal ke liye difference formula yaad karo, rest derive karo!",
+    realLife: ["📈", "FD: ₹10000 at 10% annual CI → after 2yr = 10000×1.1² = ₹12100. SI would give ₹12000. CI extra = ₹100."],
+    funFact: "Albert Einstein allegedly said: <strong>'Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.'</strong>"
+  },
+  16: {
+    hook: "99 × 101 = (100−1)(100+1) = 100²−1 = 9999. Mentally in 3 seconds! Identity = SPEED!",
+    tricks: ["(a+b)² = a²+2ab+b² | (a−b)² = a²−2ab+b²","<strong>(a+b)(a−b) = a²−b²</strong> — fastest multiplication trick!","a+b=7, ab=12 → a²+b² = (a+b)²−2ab = 49−24 = <strong>25</strong>","Rationalize: 1/(√5+√3) = (√5−√3)/(5−3) = (√5−√3)/2"],
+    mnemonic: "⚡ <strong>(a+b)(a−b) = a²−b²</strong>: 99×101 = 100²−1 = 9999, 49×51 = 50²−1 = 2499, instant!",
+    realLife: ["🧮", "Mental math: 45² = (40+5)² = 1600+400+25 = 2025. Or: 45² = (50−5)² = 2500−500+25 = 2025. Calculator se bhi fast!"],
+    funFact: "Brahmagupta (628 AD), Indian mathematician, discovered algebraic identities! India ka contribution to world mathematics is immense!"
+  },
+  17: {
+    hook: "y = mx + c: m = slope (line kitni steep), c = y-intercept (kahan cross karta y-axis). Straight line!",
+    tricks: ["Slope m = (y2−y1)/(x2−x1) = <strong>rise/run</strong>","Parallel lines: m1 = m2 (equal slopes)","Perpendicular: m1 × m2 = <strong>−1</strong>","x-intercept: y=0 set karo | y-intercept: x=0 set karo"],
+    mnemonic: "📈 <strong>y = mx + c</strong>: m = steepness, c = where line starts on Y-axis",
+    realLife: ["📊", "COVID graph: daily cases over time. Positive slope = growing, zero slope = plateau, negative slope = declining. Policy decisions use this!"],
+    funFact: "René Descartes (of 'I think therefore I am' fame) ne coordinate geometry invent ki! Cartesian coordinate system unhi ke naam se hai — thank you Descartes!"
+  },
+  18: {
+    hook: "4 centres: Centroid (medians), Incentre (angle bisectors), Circumcentre (⊥ bisectors), Orthocentre (altitudes). Equilateral mein sab EK POINT!",
+    tricks: ["<strong>Centroid G</strong>: median ko 2:1 mein divide karta hai vertex se","<strong>Incentre</strong>: hamesha INSIDE triangle","<strong>Circumcentre</strong>: obtuse triangle mein OUTSIDE","<strong>Euler's Line</strong>: O, G, H collinear! OG:GH = 1:2"],
+    mnemonic: "📍 <strong>2:1 Centroid Rule</strong>: G median ko vertex se 2:1 mein divide karta hai — hamesha!",
+    realLife: ["🏛️", "Architecture: centroid se load distribution calculate hota hai — building balance maintain karta hai!"],
+    funFact: "Leonhard Euler ne 18th century mein Euler's Line discover ki — O, G, H ek line pe aur OG:GH = 1:2 bhi! Ek insaan ne geometry mein kitna kuch discover kiya!"
+  },
+  19: {
+    hook: "Similar triangles ka area ratio = k² (side ratio). Sides 2:3 → Area 4:9. Sides 3:5 → Area 9:25!",
+    tricks: ["<strong>Congruent (≅)</strong>: same size + shape → SSS, SAS, ASA, AAS, RHS","<strong>Similar (~)</strong>: same shape, different size → AA enough to prove!","Ratio k → perimeter k, area k², volume k³","BPT: line ∥ base → sides proportionally divide hoti hain"],
+    mnemonic: "🔄 <strong>AA enough</strong> for similarity — 2 angles same → 3rd automatically same → similar triangle!",
+    realLife: ["🗺️", "Map = similar to actual land! Scale 1:50000 = k. Areas on map × 50000² = actual area!"],
+    funFact: "Ancient Egyptians measured pyramid heights using shadow similarity! Person ka shadow + height vs pyramid shadow + height = similar triangles. 2500 BC mein!"
+  },
+  20: {
+    hook: "Circle ka sabse powerful theorem: Tangent ⊥ Radius at point of contact — HAMESHA 90°!",
+    tricks: ["External point tangents: <strong>PA = PB</strong> (always equal)","Radius bisects chord: radius ⊥ chord → chord bisect hoti hai","<strong>Inscribed angle = ½ × Central angle</strong> (same arc)","Angle in semicircle = <strong>90°</strong> — very important!"],
+    mnemonic: "⭕ <strong>APEX rule</strong>: A=half angle, P=equal tangents, E=equal inscribed angles, X=90° in semicircle!",
+    realLife: ["🚲", "Bicycle wheel: spokes are radii, road is tangent. Tangent ⊥ radius → explains why bicycle moves forward smoothly!"],
+    funFact: "Thales of Miletus (600 BC) proved 'angle in semicircle = 90°' — called Thales' Theorem. One of the first mathematical proofs in history!"
+  },
+  21: {
+    hook: "3-4-5, 5-12-13, 8-15-17 — Pythagorean triplets! Ek dekhte hi right triangle recognize karo!",
+    tricks: ["Pythagoras: <strong>a²+b²=c²</strong> only for RIGHT triangle","Triplets: <strong>3-4-5, 5-12-13, 8-15-17, 7-24-25</strong>","Equilateral area = <strong>(√3/4)a²</strong>","Heron's: s=(a+b+c)/2, A=√(s(s−a)(s−b)(s−c))"],
+    mnemonic: "📐 <strong>3-4-5 multiples</strong>: 6-8-10, 9-12-15, 12-16-20 — sab right triangles!",
+    realLife: ["🏗️", "Builder right angle check: 3m, 4m, 5m rope se perfect 90° corner banta hai. Ancient builders yahi karte the!"],
+    funFact: "Pythagorean theorem 3000+ saal se jaana jaata tha! Babylonian clay tablets (1800 BC) mein Pythagorean triplets mile hain — Pythagoras se 1200 saal pehle!"
+  },
+  22: {
+    hook: "Rhombus ka area = ½ × d1 × d2. Diagonals seedha multiply karo, half karo — done!",
+    tricks: ["Square: 4a² | Rectangle: lb | Parallelogram: b×h","<strong>Rhombus: ½×d1×d2</strong> (diagonals bisect at 90°)","<strong>Trapezium: ½×(a+b)×h</strong> (parallel sides ka average × height)","Rectangle diagonal: √(l²+b²) — Pythagoras!"],
+    mnemonic: "⬛ <strong>Rhombus = ½×d1×d2</strong>: kite shape bhi yahi formula use karta hai!",
+    realLife: ["🪁", "Kite shape = 4-sided rhombus-like! Area = ½×d1×d2 → kite paper ka area nikaal sakte hain!"],
+    funFact: "Taj Mahal gardens — 4 perfect charbaghs (square gardens). Area = side² se perfect symmetry achieve ki architecture mein!"
+  },
+  23: {
+    hook: "Polygon ka exterior angle sum ALWAYS 360° — chahe pentagon ho ya 1000-gon. Always 360°!",
+    tricks: ["Interior sum = <strong>(n−2)×180°</strong>","Regular polygon each angle = (n−2)×180°/n","<strong>Exterior angle = 360°/n</strong>","Diagonals = n(n−3)/2"],
+    mnemonic: "🔢 <strong>Exterior always 360°</strong>: hexagon = 60° each, pentagon = 72° each, octagon = 45° each!",
+    realLife: ["⬡", "Honeycomb = regular hexagons — bees intuitively use 120° angles to maximize area with minimum wax. Nature's math!"],
+    funFact: "Honeybee hexagonal honeycomb is the most efficient tessellation — same perimeter, maximum area. Mathematically proven in 1999!"
+  },
+  24: {
+    hook: "Prism = same cross-section throughout height. Volume = Base Area × Height — always!",
+    tricks: ["Identify base shape first","<strong>LSA = Perimeter of base × Height</strong>","TSA = LSA + 2 × Base area","Volume = Base area × Height"],
+    mnemonic: "📦 <strong>Prism = Base × Height throughout</strong> — like a Toblerone chocolate box!",
+    realLife: ["🏕️", "Triangular tent, Toblerone box, glass prism — sab right prisms! Volume = base × height."],
+    funFact: "Glass triangular prism light ko 7 colors mein split karta hai. Newton ne 1666 mein yeh demonstrate kiya tha — light aur math ka khoobsoorat combination!"
+  },
+  25: {
+    hook: "Cone tip se kisi bhi direction seedha jao → slant height milti hai! l = √(r²+h²).",
+    tricks: ["<strong>l = √(r²+h²)</strong> pehle nikalo","LSA = πrl (curved surface only)","TSA = πr(r+l)","Volume = (1/3)πr²h → exactly 1/3 of cylinder!"],
+    mnemonic: "🍦 <strong>Ice cream cone</strong>: curved part = πrl (lick area), base = πr², total = TSA!",
+    realLife: ["🎉", "Birthday dunce cap, traffic cone, ice cream cone — sab cones! Area = πrl (surface) + πr² (base) = TSA."],
+    funFact: "Agar same base aur height ka cylinder aur cone ho → Volume ratio = 3:1 always! Cylinder 3 times more volume."
+  },
+  26: {
+    hook: "Cylinder ko unroll karo → rectangle milega! Width = 2πr (circumference), Height = h. LSA = 2πrh!",
+    tricks: ["<strong>LSA = 2πrh</strong> (label/wrapper)","TSA = 2πr(r+h) = LSA + 2πr²","Volume = πr²h","π = 22/7 use karo integer answers ke liye"],
+    mnemonic: "🥫 <strong>Tin can</strong>: label = 2πrh, two lids = 2πr², total = 2πr(r+h)!",
+    realLife: ["🥤", "Soft drink can: r≈3.3cm, h≈11.5cm → V = π×10.89×11.5 ≈ 393 mL ≈ 400mL. Formula se exact!"],
+    funFact: "Archimedes (287 BC) ne prove kiya: Cylinder volume = (3/2) × inscribed sphere volume. Usne khud kahaa tha ki yeh uski sabse badi discovery hai!"
+  },
+  27: {
+    hook: "n spheres bante hain ek bade se → R³ = n × r³. Volume cube mein proportional hota hai!",
+    tricks: ["SA = 4πr² | Volume = (4/3)πr³","n spheres se bada: <strong>R³ = n × r³</strong>","SA ratio k² → Volume ratio <strong>k³</strong>","Hemisphere: SA=3πr², Vol=(2/3)πr³"],
+    mnemonic: "🌐 <strong>4πr² surface = 4 circles</strong> of radius r. Volume = (4/3)πr³.",
+    realLife: ["🌍", "Earth ka SA = 4π(6371)² km² ≈ 510 million km². Oceans cover about 71% of that = 362 million km²!"],
+    funFact: "Sphere is nature's most efficient 3D shape — minimum surface area for given volume. Soap bubbles, planets, raindrops — sab spherical isliye!"
+  },
+  28: {
+    hook: "tan(45°) = 1 matlab Height = Distance! Tower jitna uuncha utni hi door se 45° angle milega!",
+    tricks: ["<strong>tan θ = Height/Base</strong> — Heights & Distances main formula","tan 30°=1/√3, tan 45°=1, tan 60°=√3 — yaad karo!","Angle of Elevation: upar dekhna | Angle of Depression: neeche dekhna","<strong>Diagram zaroor banao</strong> — question solve hone lagtaa hai drawing se!"],
+    mnemonic: "🏔️ <strong>tan θ = Opposite/Adjacent = Height/Distance</strong> — SOH-CAH-<strong>TOA</strong>!",
+    realLife: ["🗼", "Eiffel Tower survey: theodolite se angle of elevation measure kiya, distance measured → tan θ = height/distance → height!"],
+    funFact: "Ancient Egyptians used 'shadow sticks' (gnomons) to measure pyramid heights using shadow angles — 2500 BC mein trig bina formula ke!",
+    hasTrigChart: true
+  },
+  29: {
+    hook: "Histogram mein bars ke beech GAP NAHI HOTA — bar chart se yahi fark hai! Continuous data!",
+    tricks: ["<strong>No gaps</strong> between bars (continuous data — bar chart se alag!)","Mode = <strong>tallest bar</strong> ki class","Unequal width: <strong>Frequency Density = f ÷ class width</strong>","Area of bar = frequency (FD on y-axis)"],
+    mnemonic: "📊 <strong>HIST = History bars touch karte hain</strong> — no gaps, no space between time periods!",
+    realLife: ["🌡️", "Delhi temperature distribution: January mein kitne din 5-10°C, 10-15°C, 15-20°C raha → histogram from weather data!"],
+    funFact: "William Playfair (1759–1823) ne statistical charts invent kiye — bar chart, pie chart, line chart sab usne banaye! Scotland ka genius economist."
+  },
+  30: {
+    hook: "Midpoints connect karo → Frequency Polygon banta hai! Area same as histogram!",
+    tricks: ["Midpoint = <strong>(lower + upper)/2</strong>","Points (midpoint, frequency) plot karo, join with lines","<strong>Close the polygon</strong>: extra 0-frequency classes dono ends pe add karo","Mean = Σ(midpoint × frequency) / Σfrequency"],
+    mnemonic: "📉 <strong>Connect the midpoints</strong> of histogram bars → Frequency Polygon!",
+    realLife: ["🏃", "Marathon runners: har 30-min bracket mein kitne runners finished → frequency polygon se peak completion time visible!"],
+    funFact: "Frequency polygon ki area = histogram ki area — mathematically proven! Polygon smooths out the bars into a curve-like shape."
+  },
+  31: {
+    hook: "Pie chart = 360° total. Sector angle = (value/total) × 360°. ₹100 out of ₹400 = 90°!",
+    tricks: ["Pie angle: <strong>(value/total) × 360°</strong>","% from angle: <strong>(angle/360) × 100</strong>","<strong>Bar chart: gaps between bars</strong> (discrete data)","Histogram = no gaps (continuous), Bar chart = gaps (discrete)"],
+    mnemonic: "🥧 <strong>360° full pie</strong>: sector = (part/whole) × 360° — pizza slice analogy!",
+    realLife: ["💰", "Budget: Education 30%, Health 25%, Infrastructure 20%, Others 25% → Pie angles: 108°, 90°, 72°, 90°. Sab total = 360°!"],
+    funFact: "Florence Nightingale (the nurse) ne 1858 mein pie chart invent kiya tha — Crimean War mein preventable deaths dikhaane ke liye! Data visualization ne policy change karayi!"
+  },
+  32: {
+    hook: "Hemisphere = exactly half sphere. Curved SA = 2πr² (dome only). TSA = 3πr² (dome + flat base)!",
+    tricks: ["Curved SA = 2πr² | Flat base = πr²","<strong>TSA = 3πr²</strong> (dome + base)","Volume = (2/3)πr³","Bowl TSA = inner curved + outer curved + rim ring"],
+    mnemonic: "🌓 <strong>TSA = 3πr²</strong>: 2 (curved) + 1 (flat base) = 3 times πr²!",
+    realLife: ["🏟️", "Stadium dome shape = hemisphere! Curved surface area = 2πr² — material needed for the dome."],
+    funFact: "The Pantheon in Rome (125 AD) has a perfect hemispherical dome of 43.3m diameter — standing for 1900 years! Roman engineering used hemisphere geometry."
+  },
+  33: {
+    hook: "Longest diagonal of cuboid = √(l²+b²+h²). 3D Pythagoras! Body diagonal corner to corner!",
+    tricks: ["TSA = <strong>2(lb+bh+hl)</strong>","Volume = <strong>l×b×h</strong>","Diagonal = <strong>√(l²+b²+h²)</strong>","Cube (a): TSA=6a², Vol=a³, Diag=a√3"],
+    mnemonic: "📦 <strong>Longest stick in box = √(l²+b²+h²)</strong> — 3D Pythagoras theorem!",
+    realLife: ["🎁", "Gift box l=30, b=20, h=10 cm → longest diagonal ribbon = √(900+400+100) = √1400 ≈ 37 cm!"],
+    funFact: "Rubik's cube = 3×3×3 cuboid. 43 quintillion possible combinations (43,252,003,274,489,856,000). Solving it uses group theory math!"
+  },
+  34: {
+    hook: "Pyramid volume = ⅓ × base area × height. ALWAYS 1/3. Cone volume bhi ⅓ formula — same idea!",
+    tricks: ["<strong>Slant height l = √(h² + apothem²)</strong> — body height se alag!","LSA = ½ × Perimeter × slant height","<strong>Volume = (1/3) × base area × h</strong>","Square pyramid apothem = side/2"],
+    mnemonic: "🔺 <strong>⅓ Rule</strong>: Pyramid = ⅓ Prism, Cone = ⅓ Cylinder — same base, same height, always one-third!",
+    realLife: ["🏺", "Great Pyramid of Giza: base 230m, height 146m → V = ⅓×230²×146 ≈ 2.58 million m³. Ancient builders used this exact formula!"],
+    funFact: "Ancient Egyptians built 138 pyramids. The Great Pyramid used ~2.3 million stone blocks averaging 2.5 tonnes each — all precisely calculated using geometry!"
+  },
+  35: {
+    hook: "SOHCAHTOA! Sin=Opp/Hyp, Cos=Adj/Hyp, Tan=Opp/Adj. Yaad karo aur 6 ratios nikalo!",
+    tricks: ["<strong>SOHCAHTOA</strong>: Sin=Opp/Hyp, Cos=Adj/Hyp, Tan=Opp/Adj","cosec = 1/sin, sec = 1/cos, cot = 1/tan — reciprocals","sin increases (0→1), cos decreases (1→0) for 0°→90°","<strong>Pandit Badri Prasad</strong>: P/H=sin, B/H=cos, P/B=tan, H/P=cosec, H/B=sec, B/P=cot"],
+    mnemonic: "🎵 <strong>Pandit Badri Prasad Har Har Bole</strong>: P/H, B/H, P/B, H/P, H/B, B/P = sin,cos,tan,cosec,sec,cot!",
+    realLife: ["📡", "GPS triangulation uses sin, cos, tan thousands of times per second to pinpoint your location to within meters!"],
+    funFact: "Hipparchus (190 BC), Greek mathematician, created first trig tables. 'Trigonometry' = Greek trigonon (triangle) + metron (measure). 2000+ saal pehle!",
+    hasTrigChart: true
+  },
+  36: {
+    hook: "π radians = 180°. So 90° = π/2 rad, 60° = π/3 rad, 45° = π/4 rad. Multiply by π/180 to convert!",
+    tricks: ["Degrees → Radians: <strong>× π/180</strong>","Radians → Degrees: <strong>× 180/π</strong>","Must-know: <strong>30°=π/6, 45°=π/4, 60°=π/3, 90°=π/2, 180°=π, 360°=2π</strong>","Arc length = <strong>r × θ</strong> (θ in radians only!)"],
+    mnemonic: "⭕ <strong>π/180 to radians, 180/π to degrees</strong>. Full circle = 2π rad = 360°.",
+    realLife: ["🎡", "Ferris wheel radius 20m, angle 2π/3 → Arc = 20×2π/3 = 40π/3 ≈ 41.9m of travel!"],
+    funFact: "360° kyun? Babylonians (2000 BC) ne choose kiya kyunki 360 ≈ days in year aur highly divisible (1,2,3,4,5,6,8,9,10,12...). Radians are the 'natural' unit — just math.",
+    hasTrigChart: true
+  },
+  37: {
+    hook: "sin²θ + cos²θ = 1 — ALWAYS! Ise cos² se divide karo → tan²+1=sec². Sin² se → 1+cot²=cosec²!",
+    tricks: ["<strong>sin²θ + cos²θ = 1</strong> — fundamental identity","÷ cos²θ → <strong>tan²θ + 1 = sec²θ</strong>","÷ sin²θ → <strong>1 + cot²θ = cosec²θ</strong>","These 3 identities solve 90% of trig simplification problems!"],
+    mnemonic: "🔑 <strong>1 → 3 identities</strong>: start with sin²+cos²=1, divide by cos² and sin² to get the other two!",
+    realLife: ["🌊", "Ocean wave equations use sin + cos. sin²θ + cos²θ = 1 ensures wave energy is mathematically conserved!"],
+    funFact: "sin²+cos²=1 IS Pythagoras theorem in disguise! (P/H)²+(B/H)²=1 → P²+B²=H² → Pythagoras! Trig identities aur geometry ek hi cheez hain!",
+    hasTrigChart: true
+  },
+  38: {
+    hook: "sin(90°−θ) = cos θ! sin 40° = cos 50°, sin 23° = cos 67°. Pair karo → instant calculation!",
+    tricks: ["<strong>sin↔cos, tan↔cot, sec↔cosec</strong> all swap at 90°−θ","sin A × cosec A = 1, cos A × sec A = 1, <strong>tan A × cot A = 1</strong>","sin²A + sin²(90°−A) = <strong>sin²A + cos²A = 1</strong> — pair karo!","Series: sin²10°+…+sin²80° → 4 pairs each=1 → = 4"],
+    mnemonic: "🔁 <strong>Co-function pairs</strong>: sin↔cos, tan↔cot, sec↔cosec always sum to 90°!",
+    realLife: ["☀️", "Elevation angle at sunrise + depression angle at sunset ≈ complementary. sin(sunrise angle) = cos(sunset angle)!"],
+    funFact: "Word 'cosine' literally means '<strong>complement's sine</strong>'! cos(θ) = sin(90°−θ) = sin(complement). English language ne math bhi encode kiya hai!",
+    hasTrigChart: true
+  }
+};
+
+/* ════════════════════════════════════════════════════════════
    APTITUDE SIDEBAR & CONTENT RENDERING
 ════════════════════════════════════════════════════════════ */
 function renderAptitudeList() {
@@ -1982,7 +2511,43 @@ function renderAptitudeContent(id) {
   if (!el) return;
   const t = APTITUDE_TOPICS.find(x => x.id === id);
   if (!t) return;
+  const b = APTITUDE_BASICS[id] || {};
 
+  /* ── Basics panel HTML ── */
+  function buildBasicsHTML() {
+    let html = '<div class="basics-card">';
+    if (b.hook) {
+      html += `<div class="basics-hook">💬 ${b.hook}</div>`;
+    } else {
+      html += `<div class="basics-hook">💬 ${t.explanation}</div>`;
+    }
+    if (b.realLife) {
+      html += `<div class="reallife-box"><span class="reallife-icon">${b.realLife[0]}</span><span>${b.realLife[1]}</span></div>`;
+    }
+    if (b.tricks && b.tricks.length) {
+      html += `<div><div class="basics-section-title">✨ Memory Tricks &amp; Shortcuts</div><div class="basics-tricks-list">`;
+      b.tricks.forEach((tr, i) => {
+        html += `<div class="basics-trick-item"><span class="basics-trick-num">${i + 1}</span><span>${tr}</span></div>`;
+      });
+      html += `</div></div>`;
+    }
+    if (b.mnemonic) {
+      html += `<div class="basics-mnemonic"><div class="basics-mnemonic-title">🧠 Mnemonic — Dil Se Yaad Karo!</div><div class="basics-mnemonic-text">${b.mnemonic}</div></div>`;
+    }
+    if (b.hasTrigChart) {
+      html += getTrigChartHTML();
+    }
+    if (b.funFact) {
+      html += `<div class="fun-fact-box"><span>💡</span><span>${b.funFact}</span></div>`;
+    }
+    html += `<div style="text-align:center;font-size:0.78rem;color:var(--text-faint);padding:0.5rem 0">
+      Click <strong style="color:var(--sci-color)">⚡ Learn Steps</strong> to start step-by-step learning, or <strong style="color:var(--sci-color)">🎯 Examples</strong> to jump to practice!
+    </div>`;
+    html += '</div>';
+    return html;
+  }
+
+  /* ── Steps panel HTML ── */
   const stepsHtml = t.steps.map((st, i) => {
     const eg = t.stepEgs && t.stepEgs[i];
     const egBox = eg
@@ -2001,6 +2566,7 @@ function renderAptitudeContent(id) {
     </div>`;
   }).join('');
 
+  /* ── Examples panel HTML ── */
   const LEVEL_CLS = { Basic:'ex-basic', Moderate:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
   const examplesHtml = (t.examples || []).map(ex => {
     const stH = ex.steps.map((s, i) =>
@@ -2036,25 +2602,44 @@ function renderAptitudeContent(id) {
 
       <p class="sc-explanation">${t.explanation}</p>
 
-      <div class="sc-example sc-steps-full" id="qsCard">
-        <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Quick Steps — Learn One by One</div>
-        <div class="qs-prog-bar-wrap">
-          <div class="qs-prog-track"><div class="qs-prog-fill" id="qsProgFill"></div></div>
-          <span class="qs-prog-label" id="qsProgLabel">0 / ${t.steps.length}</span>
-        </div>
-        <div class="qs-wrap">${stepsHtml}</div>
-        <div class="qs-done-banner" id="qsDoneBanner">🎉 Sab steps samajh aa gaye! Ab examples dekho 👇</div>
-        <div class="qs-controls">
-          <button class="qs-btn primary" id="qsPlayBtn"><i class="bx bx-play"></i> Start</button>
-          <button class="qs-btn" id="qsNextBtn" disabled><i class="bx bx-right-arrow-alt"></i> Next</button>
-          <button class="qs-btn" id="qsResetBtn"><i class="bx bx-reset"></i></button>
-          <button class="qs-showall" id="qsShowAll">Show All</button>
-          <span class="qs-counter" id="qsCounter">0 / ${t.steps.length}</span>
+      <!-- Topic Tabs -->
+      <div class="topic-tabs">
+        <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
+        <button class="topic-tab-btn" data-panel="steps">⚡ Learn Steps</button>
+        <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
+      </div>
+
+      <!-- Basics Panel -->
+      <div class="topic-tab-panel active" data-panel="basics">
+        ${buildBasicsHTML()}
+      </div>
+
+      <!-- Steps Panel -->
+      <div class="topic-tab-panel" data-panel="steps">
+        <div class="sc-example sc-steps-full" id="qsCard">
+          <div class="sc-ex-head"><i class="bx bx-list-ol"></i>&nbsp; Quick Steps — Learn One by One</div>
+          <div class="qs-prog-bar-wrap">
+            <div class="qs-prog-track"><div class="qs-prog-fill" id="qsProgFill"></div></div>
+            <span class="qs-prog-label" id="qsProgLabel">0 / ${t.steps.length}</span>
+          </div>
+          <div class="qs-wrap">${stepsHtml}</div>
+          <div class="qs-done-banner" id="qsDoneBanner">🎉 Sab steps samajh aa gaye! Ab examples dekho 👇</div>
+          <div class="qs-controls">
+            <button class="qs-btn primary" id="qsPlayBtn"><i class="bx bx-play"></i> Start</button>
+            <button class="qs-btn" id="qsNextBtn" disabled><i class="bx bx-right-arrow-alt"></i> Next</button>
+            <button class="qs-btn" id="qsResetBtn"><i class="bx bx-reset"></i></button>
+            <button class="qs-showall" id="qsShowAll">Show All</button>
+            <span class="qs-counter" id="qsCounter">0 / ${t.steps.length}</span>
+          </div>
         </div>
       </div>
 
-      <div class="apt-examples-grid">${examplesHtml}</div>
+      <!-- Examples Panel -->
+      <div class="topic-tab-panel" data-panel="examples">
+        <div class="apt-examples-grid">${examplesHtml}</div>
+      </div>
 
+      <!-- Try It — always visible -->
       <div class="sc-try-it">
         <div class="sc-try-label"><i class="bx bx-bolt-circle"></i> Try It — Calculator</div>
         <div class="sc-try-row">
@@ -2069,8 +2654,21 @@ function renderAptitudeContent(id) {
   `;
   el.scrollTop = 0;
 
-  /* ── Quick Steps: Interactive Learning Journey ── */
-  (function initQS() {
+  /* ── Tab switching ── */
+  el.querySelectorAll('.topic-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      el.querySelectorAll('.topic-tab-btn').forEach(b2 => b2.classList.remove('active'));
+      el.querySelectorAll('.topic-tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      el.querySelector(`.topic-tab-panel[data-panel="${btn.dataset.panel}"]`).classList.add('active');
+      if (btn.dataset.panel === 'steps' && !qsInited) initQS();
+    });
+  });
+
+  /* ── Quick Steps: Interactive Learning Journey (lazy init) ── */
+  let qsInited = false;
+  function initQS() {
+    qsInited = true;
     const qsSteps   = [...el.querySelectorAll('.qs-step')];
     const progFill  = document.getElementById('qsProgFill');
     const progLabel = document.getElementById('qsProgLabel');
@@ -2172,7 +2770,7 @@ function renderAptitudeContent(id) {
       playBtn.innerHTML = '<i class="bx bx-check-circle"></i> Done!';
     });
     setProgress(0);
-  })();
+  }
 
   const tryInput  = document.getElementById('aptTryInput');
   const tryBtn    = document.getElementById('aptTryBtn');
