@@ -39,6 +39,10 @@
       <i class="bx bx-brain"></i>
       <span>Aptitude</span>
     </button>
+    <button class="nav-tab" data-tab="reasoning">
+      <i class="bx bx-bulb"></i>
+      <span>Reasoning</span>
+    </button>
   </div>
 
   <div class="nav-right">
@@ -130,7 +134,12 @@
         </div>
         <div class="count-divider"></div>
         <div class="count-item">
-          <span class="count-num" data-target="5">0</span>
+          <span class="count-num" data-target="20">0</span>
+          <span class="count-label">Reasoning Topics</span>
+        </div>
+        <div class="count-divider"></div>
+        <div class="count-item">
+          <span class="count-num" data-target="7">0</span>
           <span class="count-label">Themes</span>
         </div>
       </div>
@@ -180,6 +189,18 @@
           <p>38 topics — Profit & Loss se Trigonometry tak. Hinglish mein super-easy explanation, fastest tricks aur solved examples. Exam ready!</p>
           <div class="feat-tags">
             <span>38 Topics</span><span>Fast Tricks</span><span>Hinglish</span>
+          </div>
+          <div class="feat-arrow"><i class="bx bx-right-arrow-alt"></i></div>
+        </div>
+
+        <div class="feat-card featured" data-goto="reasoning">
+          <div class="feat-glow glow-purple"></div>
+          <div class="feat-badge">🧠 SSC · Bank · Railway</div>
+          <div class="feat-icon"><i class="bx bx-bulb"></i></div>
+          <h3>General Intelligence & Reasoning</h3>
+          <p>20 topics — Analogies, Blood Relations, Coding-Decoding, Syllogism aur sabhi reasoning types. Pattern-based tricks aur examples ke saath!</p>
+          <div class="feat-tags">
+            <span>20 Topics</span><span>Pattern Tricks</span><span>Hinglish</span>
           </div>
           <div class="feat-arrow"><i class="bx bx-right-arrow-alt"></i></div>
         </div>
@@ -418,8 +439,38 @@
     </div>
   </section>
 
+  <!-- ══ REASONING TAB ══ -->
+  <section id="tab-reasoning" class="tab-section">
+    <div class="vedic-page">
+
+      <!-- Sidebar -->
+      <aside class="vedic-sidebar">
+        <div class="vs-header">
+          <span>🧠 20 Topics</span>
+        </div>
+        <div class="vs-list" id="reasonList"></div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="vedic-main" id="reasonMain">
+        <div class="vedic-intro">
+          <div class="vi-om">🧠</div>
+          <h2>General Intelligence &amp; Reasoning</h2>
+          <p>SSC CGL, CHSL, Banking, Railways ke liye 20 essential reasoning topics. Analogies se Syllogistic Reasoning tak — har topic pe step-by-step approach, Hinglish tricks aur practice examples. Left side se koi bhi topic select karo!</p>
+          <div class="vi-grid">
+            <div class="vi-card"><span>20</span><small>Topics</small></div>
+            <div class="vi-card"><span>🔍</span><small>Pattern Based</small></div>
+            <div class="vi-card"><span>🎯</span><small>Exam Ready</small></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 </main>
 
+<script src="reasoning-questions.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
