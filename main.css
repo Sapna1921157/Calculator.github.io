@@ -1,111 +1,73 @@
 /* ════════════════════════════════════════════════════════
    THEME VARIABLES
 ════════════════════════════════════════════════════════ */
-:root, [data-theme="dark"] {
-  --bg-a:#1a1a2e; --bg-b:#16213e; --bg-c:#0f3460;
-  --glass:rgba(255,255,255,0.05); --glass-border:rgba(255,255,255,0.09);
-  --keys-bg:rgba(0,0,0,0.28);
-  --key-bg:rgba(255,255,255,0.07); --key-hover:rgba(255,255,255,0.13); --key-active:rgba(255,255,255,0.03);
-  --op-bg:rgba(235,102,102,0.13); --op-border:rgba(235,102,102,0.22); --op-color:#EB6666;
-  --action-bg:rgba(38,254,215,0.1); --action-border:rgba(38,254,215,0.18); --action-color:#26FED7;
-  --sci-bg:rgba(162,155,254,0.1); --sci-border:rgba(162,155,254,0.18); --sci-color:#a29bfe;
-  --eq-a:#EB6666; --eq-b:#c0392b; --eq-shadow:rgba(235,102,102,0.4);
-  --text:#fff; --text-dim:rgba(255,255,255,0.5); --text-faint:rgba(255,255,255,0.18);
-  --mem-bg:rgba(255,255,255,0.06); --mode-bg:rgba(255,255,255,0.06); --mode-active-bg:rgba(255,255,255,0.14);
-  --nav-bg:rgba(15,15,35,0.88);
-  --hero-grad:linear-gradient(135deg,#a29bfe,#6c5ce7,#fd79a8);
-  --card-bg:rgba(255,255,255,0.04); --card-border:rgba(255,255,255,0.08);
-}
-[data-theme="rose"] {
-  --bg-a:#1a0a14; --bg-b:#2d0f22; --bg-c:#4a1535;
-  --glass:rgba(255,255,255,0.06); --glass-border:rgba(255,150,180,0.15);
+
+/* ── Vintage Classic ── */
+:root, [data-theme="vintage"] {
+  --bg-a:#0E0B08; --bg-b:#1C1510; --bg-c:#2A1E14;
+  --glass:rgba(248,244,227,0.05); --glass-border:rgba(196,169,91,0.18);
   --keys-bg:rgba(0,0,0,0.32);
-  --key-bg:rgba(255,100,150,0.08); --key-hover:rgba(255,100,150,0.18); --key-active:rgba(255,100,150,0.04);
-  --op-bg:rgba(255,80,120,0.14); --op-border:rgba(255,80,120,0.25); --op-color:#ff5c8a;
-  --action-bg:rgba(255,190,220,0.12); --action-border:rgba(255,190,220,0.22); --action-color:#ffb3d1;
-  --sci-bg:rgba(255,100,150,0.1); --sci-border:rgba(255,100,150,0.2); --sci-color:#ff85b3;
-  --eq-a:#e91e63; --eq-b:#ad1457; --eq-shadow:rgba(233,30,99,0.45);
-  --text:#fff; --text-dim:rgba(255,255,255,0.5); --text-faint:rgba(255,255,255,0.18);
-  --mem-bg:rgba(255,100,150,0.08); --mode-bg:rgba(255,100,150,0.08); --mode-active-bg:rgba(255,100,150,0.22);
-  --nav-bg:rgba(26,5,18,0.9);
-  --hero-grad:linear-gradient(135deg,#ff85b3,#e91e63,#ffb3d1);
-  --card-bg:rgba(255,100,150,0.05); --card-border:rgba(255,100,150,0.12);
-}
-[data-theme="ocean"] {
-  --bg-a:#0f2027; --bg-b:#203a43; --bg-c:#2c5364;
-  --glass:rgba(100,255,218,0.04); --glass-border:rgba(100,255,218,0.1);
-  --keys-bg:rgba(0,0,0,0.3);
-  --key-bg:rgba(100,255,218,0.06); --key-hover:rgba(100,255,218,0.13); --key-active:rgba(100,255,218,0.03);
-  --op-bg:rgba(124,131,253,0.12); --op-border:rgba(124,131,253,0.22); --op-color:#7c83fd;
-  --action-bg:rgba(100,255,218,0.1); --action-border:rgba(100,255,218,0.2); --action-color:#64ffda;
-  --sci-bg:rgba(100,255,218,0.08); --sci-border:rgba(100,255,218,0.16); --sci-color:#64ffda;
-  --eq-a:#11998e; --eq-b:#38ef7d; --eq-shadow:rgba(17,153,142,0.45);
-  --text:#fff; --text-dim:rgba(255,255,255,0.5); --text-faint:rgba(255,255,255,0.18);
-  --mem-bg:rgba(100,255,218,0.06); --mode-bg:rgba(100,255,218,0.06); --mode-active-bg:rgba(100,255,218,0.18);
-  --nav-bg:rgba(10,25,35,0.9);
-  --hero-grad:linear-gradient(135deg,#64ffda,#11998e,#7c83fd);
-  --card-bg:rgba(100,255,218,0.04); --card-border:rgba(100,255,218,0.1);
-}
-[data-theme="forest"] {
-  --bg-a:#0a1628; --bg-b:#0d2137; --bg-c:#0f3443;
-  --glass:rgba(52,232,158,0.05); --glass-border:rgba(52,232,158,0.12);
-  --keys-bg:rgba(0,0,0,0.3);
-  --key-bg:rgba(52,232,158,0.07); --key-hover:rgba(52,232,158,0.14); --key-active:rgba(52,232,158,0.03);
-  --op-bg:rgba(253,121,168,0.12); --op-border:rgba(253,121,168,0.22); --op-color:#fd79a8;
-  --action-bg:rgba(52,232,158,0.1); --action-border:rgba(52,232,158,0.2); --action-color:#34e89e;
-  --sci-bg:rgba(52,232,158,0.08); --sci-border:rgba(52,232,158,0.16); --sci-color:#34e89e;
-  --eq-a:#34e89e; --eq-b:#0f3443; --eq-shadow:rgba(52,232,158,0.35);
-  --text:#fff; --text-dim:rgba(255,255,255,0.5); --text-faint:rgba(255,255,255,0.18);
-  --mem-bg:rgba(52,232,158,0.06); --mode-bg:rgba(52,232,158,0.06); --mode-active-bg:rgba(52,232,158,0.18);
-  --nav-bg:rgba(8,18,32,0.9);
-  --hero-grad:linear-gradient(135deg,#34e89e,#0f3443,#fd79a8);
-  --card-bg:rgba(52,232,158,0.04); --card-border:rgba(52,232,158,0.1);
-}
-[data-theme="midnight"] {
-  --bg-a:#020818; --bg-b:#050d2a; --bg-c:#08123d;
-  --glass:rgba(100,140,255,0.05); --glass-border:rgba(100,140,255,0.12);
-  --keys-bg:rgba(0,0,10,0.45);
-  --key-bg:rgba(80,120,255,0.07); --key-hover:rgba(80,120,255,0.16); --key-active:rgba(80,120,255,0.03);
-  --op-bg:rgba(255,100,100,0.12); --op-border:rgba(255,100,100,0.22); --op-color:#ff7373;
-  --action-bg:rgba(100,180,255,0.1); --action-border:rgba(100,180,255,0.2); --action-color:#64b4ff;
-  --sci-bg:rgba(140,100,255,0.1); --sci-border:rgba(140,100,255,0.2); --sci-color:#a07aff;
-  --eq-a:#3a6fff; --eq-b:#1a3fbf; --eq-shadow:rgba(58,111,255,0.45);
-  --text:#e8eeff; --text-dim:rgba(200,210,255,0.5); --text-faint:rgba(200,210,255,0.18);
-  --mem-bg:rgba(80,120,255,0.07); --mode-bg:rgba(80,120,255,0.07); --mode-active-bg:rgba(80,120,255,0.2);
-  --nav-bg:rgba(2,5,20,0.92);
-  --hero-grad:linear-gradient(135deg,#a07aff,#3a6fff,#64b4ff);
-  --card-bg:rgba(80,120,255,0.04); --card-border:rgba(80,120,255,0.1);
+  --key-bg:rgba(248,244,227,0.07); --key-hover:rgba(248,244,227,0.14); --key-active:rgba(248,244,227,0.03);
+  --op-bg:rgba(123,30,40,0.22); --op-border:rgba(123,30,40,0.45); --op-color:#C47A82;
+  --action-bg:rgba(196,169,91,0.14); --action-border:rgba(196,169,91,0.32); --action-color:#C4A95B;
+  --sci-bg:rgba(22,109,59,0.14); --sci-border:rgba(22,109,59,0.3); --sci-color:#5DAD7F;
+  --eq-a:#C4A95B; --eq-b:#8B7335; --eq-shadow:rgba(196,169,91,0.42);
+  --text:#F8F4E3; --text-dim:rgba(248,244,227,0.52); --text-faint:rgba(248,244,227,0.18);
+  --mem-bg:rgba(196,169,91,0.08); --mode-bg:rgba(196,169,91,0.08); --mode-active-bg:rgba(196,169,91,0.22);
+  --nav-bg:rgba(10,8,5,0.92);
+  --hero-grad:linear-gradient(135deg,#C4A95B,#7B1E28,#166D3B);
+  --card-bg:rgba(248,244,227,0.04); --card-border:rgba(196,169,91,0.13);
 }
 
-[data-theme="white"] {
-  --bg-a:#f0f4ff; --bg-b:#e8efff; --bg-c:#dce6ff;
-  --glass:rgba(255,255,255,0.6); --glass-border:rgba(100,130,255,0.18);
-  --keys-bg:rgba(200,215,255,0.35);
-  --key-bg:rgba(255,255,255,0.7); --key-hover:rgba(255,255,255,0.95); --key-active:rgba(200,215,255,0.5);
-  --op-bg:rgba(239,68,68,0.1); --op-border:rgba(239,68,68,0.25); --op-color:#dc2626;
-  --action-bg:rgba(59,130,246,0.1); --action-border:rgba(59,130,246,0.25); --action-color:#2563eb;
-  --sci-bg:rgba(99,102,241,0.1); --sci-border:rgba(99,102,241,0.22); --sci-color:#4f46e5;
-  --eq-a:#2563eb; --eq-b:#1d4ed8; --eq-shadow:rgba(37,99,235,0.35);
-  --text:#1e293b; --text-dim:rgba(30,41,59,0.55); --text-faint:rgba(30,41,59,0.25);
-  --mem-bg:rgba(100,130,255,0.1); --mode-bg:rgba(100,130,255,0.1); --mode-active-bg:rgba(100,130,255,0.25);
-  --nav-bg:rgba(240,244,255,0.92);
-  --hero-grad:linear-gradient(135deg,#4f46e5,#2563eb,#38bdf8);
-  --card-bg:rgba(255,255,255,0.55); --card-border:rgba(100,130,255,0.15);
+/* ── Earth  (Dark Sienna · Smokey Topaz · Camel · Desert Sand · Dutch White) ── */
+[data-theme="earth"] {
+  --bg-a:#0E0B06; --bg-b:#1C1508; --bg-c:#2C1E0C;
+  --glass:rgba(245,237,222,0.05); --glass-border:rgba(192,154,111,0.2);
+  --keys-bg:rgba(0,0,0,0.30);
+  --key-bg:rgba(245,237,222,0.07); --key-hover:rgba(245,237,222,0.15); --key-active:rgba(245,237,222,0.03);
+  --op-bg:rgba(123,0,17,0.22); --op-border:rgba(123,0,17,0.45); --op-color:#C47A7A;
+  --action-bg:rgba(192,154,111,0.15); --action-border:rgba(192,154,111,0.35); --action-color:#C09A6F;
+  --sci-bg:rgba(232,203,168,0.1); --sci-border:rgba(232,203,168,0.25); --sci-color:#D4B480;
+  --eq-a:#C09A6F; --eq-b:#7A5C35; --eq-shadow:rgba(192,154,111,0.42);
+  --text:#F5EDDE; --text-dim:rgba(245,237,222,0.52); --text-faint:rgba(245,237,222,0.18);
+  --mem-bg:rgba(192,154,111,0.08); --mode-bg:rgba(192,154,111,0.08); --mode-active-bg:rgba(192,154,111,0.24);
+  --nav-bg:rgba(10,8,3,0.92);
+  --hero-grad:linear-gradient(135deg,#C09A6F,#7B0011,#E8CBA8);
+  --card-bg:rgba(245,237,222,0.04); --card-border:rgba(192,154,111,0.14);
 }
-[data-theme="blue"] {
-  --bg-a:#0a1628; --bg-b:#0d2046; --bg-c:#1565c0;
-  --glass:rgba(255,255,255,0.05); --glass-border:rgba(100,180,255,0.15);
-  --keys-bg:rgba(0,5,20,0.4);
-  --key-bg:rgba(100,180,255,0.07); --key-hover:rgba(100,180,255,0.17); --key-active:rgba(100,180,255,0.03);
-  --op-bg:rgba(255,120,80,0.13); --op-border:rgba(255,120,80,0.24); --op-color:#ff7043;
-  --action-bg:rgba(100,220,255,0.1); --action-border:rgba(100,220,255,0.2); --action-color:#29b6f6;
-  --sci-bg:rgba(100,180,255,0.09); --sci-border:rgba(100,180,255,0.18); --sci-color:#64b4ff;
-  --eq-a:#1976d2; --eq-b:#1565c0; --eq-shadow:rgba(25,118,210,0.5);
-  --text:#e3f2fd; --text-dim:rgba(180,215,255,0.55); --text-faint:rgba(180,215,255,0.2);
-  --mem-bg:rgba(100,180,255,0.07); --mode-bg:rgba(100,180,255,0.07); --mode-active-bg:rgba(100,180,255,0.22);
-  --nav-bg:rgba(8,18,36,0.92);
-  --hero-grad:linear-gradient(135deg,#29b6f6,#1976d2,#64b4ff);
-  --card-bg:rgba(100,180,255,0.04); --card-border:rgba(100,180,255,0.1);
+
+/* ── Marble  (Deep Chocolate · Warm Brown · Sandy Tan · Cream) ── */
+[data-theme="marble"] {
+  --bg-a:#120A06; --bg-b:#241408; --bg-c:#361E10;
+  --glass:rgba(234,213,188,0.05); --glass-border:rgba(196,149,106,0.2);
+  --keys-bg:rgba(0,0,0,0.32);
+  --key-bg:rgba(234,213,188,0.07); --key-hover:rgba(234,213,188,0.15); --key-active:rgba(234,213,188,0.03);
+  --op-bg:rgba(44,26,14,0.5); --op-border:rgba(122,77,50,0.5); --op-color:#C4956A;
+  --action-bg:rgba(196,149,106,0.16); --action-border:rgba(196,149,106,0.36); --action-color:#C4956A;
+  --sci-bg:rgba(160,120,72,0.14); --sci-border:rgba(160,120,72,0.3); --sci-color:#B8865A;
+  --eq-a:#C4956A; --eq-b:#7A4D32; --eq-shadow:rgba(196,149,106,0.44);
+  --text:#EDD8BF; --text-dim:rgba(237,216,191,0.52); --text-faint:rgba(237,216,191,0.18);
+  --mem-bg:rgba(196,149,106,0.08); --mode-bg:rgba(196,149,106,0.08); --mode-active-bg:rgba(196,149,106,0.24);
+  --nav-bg:rgba(8,4,2,0.94);
+  --hero-grad:linear-gradient(135deg,#C4956A,#2C1A0E,#EAD5BC);
+  --card-bg:rgba(234,213,188,0.04); --card-border:rgba(196,149,106,0.14);
+}
+
+/* ── Persian  (Crimson · Cream · Forest Teal · Slate · Navy) ── */
+[data-theme="persian"] {
+  --bg-a:#180810; --bg-b:#2A1018; --bg-c:#3C1422;
+  --glass:rgba(232,212,180,0.05); --glass-border:rgba(232,212,180,0.15);
+  --keys-bg:rgba(0,0,0,0.35);
+  --key-bg:rgba(232,212,180,0.06); --key-hover:rgba(232,212,180,0.13); --key-active:rgba(232,212,180,0.03);
+  --op-bg:rgba(92,34,48,0.28); --op-border:rgba(92,34,48,0.55); --op-color:#C07080;
+  --action-bg:rgba(42,74,62,0.28); --action-border:rgba(90,173,138,0.35); --action-color:#5AAD8A;
+  --sci-bg:rgba(36,56,72,0.28); --sci-border:rgba(72,128,160,0.3); --sci-color:#5A9AB8;
+  --eq-a:#5AAD8A; --eq-b:#1D4035; --eq-shadow:rgba(90,173,138,0.4);
+  --text:#E8D4B4; --text-dim:rgba(232,212,180,0.52); --text-faint:rgba(232,212,180,0.18);
+  --mem-bg:rgba(42,74,62,0.18); --mode-bg:rgba(42,74,62,0.18); --mode-active-bg:rgba(42,74,62,0.4);
+  --nav-bg:rgba(10,3,8,0.94);
+  --hero-grad:linear-gradient(135deg,#5C2230,#2A4A3E,#E8D4B4);
+  --card-bg:rgba(232,212,180,0.04); --card-border:rgba(232,212,180,0.1);
 }
 
 /* ════════════════════════════════════════════════════════
@@ -1740,3 +1702,558 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; colo
 }
 .prac-key-q { font-size: 0.65rem; color: var(--text-faint); }
 .prac-key-a { font-size: 0.85rem; font-weight: 700; color: var(--sci-color); }
+
+/* ════════════════════════════════════════════════════════
+   ANANTA GANIT — BRAND & DEVANAGARI STYLES
+════════════════════════════════════════════════════════ */
+
+/* Navbar Devanagari subtitle beside brand name */
+.nav-devanagari {
+  font-family: 'Noto Serif Devanagari', 'Mangal', serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--action-color);
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+/* Hero Devanagari subtitle below main title */
+.hero-devanagari {
+  font-family: 'Noto Serif Devanagari', 'Mangal', serif;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--action-color);
+  opacity: 0.75;
+  letter-spacing: 0.06em;
+  margin-top: -0.5rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  text-shadow: 0 0 28px rgba(196,169,91,0.35);
+}
+
+/* ════════════════════════════════════════════════════════
+   PURANIC ORNAMENTAL UI
+   ❖ Cinzel · Crimson Text · Temple geometry · Brass depth
+   ❖ Stone-carved shadows · Lotus borders · Vedic gold
+════════════════════════════════════════════════════════ */
+
+/* ── Base typography ── */
+body {
+  font-family: 'Crimson Text', 'Palatino Linotype', Georgia, serif;
+}
+
+/* ── Background: subtle diamond diaper (temple floor tile) ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  background-image:
+    repeating-linear-gradient(45deg,  var(--action-color) 0, var(--action-color) 1px, transparent 0, transparent 50%),
+    repeating-linear-gradient(-45deg, var(--action-color) 0, var(--action-color) 1px, transparent 0, transparent 50%);
+  background-size: 28px 28px;
+  opacity: 0.022;
+}
+
+/* ── Navbar: double-rule torana border ── */
+.navbar {
+  border-bottom: none;
+  box-shadow:
+    0 1px 0 var(--glass-border),
+    0 3px 0 rgba(0,0,0,0.35),
+    0 4px 0 rgba(196,169,91,0.2);
+  position: relative;
+}
+.navbar::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--action-color) 18%,
+    rgba(248,244,227,0.5) 50%,
+    var(--action-color) 82%,
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+/* ── Nav OM symbol ── */
+.nav-om {
+  font-size: 1.35rem;
+  color: var(--action-color);
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(196,169,91,0.5));
+  font-family: serif;
+}
+
+/* ── Nav brand: Cinzel Decorative ── */
+.nav-brand {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  gap: 0.55rem;
+}
+.nav-brand strong { color: var(--action-color); }
+
+/* ── Nav tabs: Cinzel, slightly angular ── */
+.nav-tabs {
+  border-radius: 6px;
+}
+.nav-tab {
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Hero badge: stone inscription plaque ── */
+.hero-badge {
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--action-color);
+  border-left: 3px solid var(--action-color);
+  border-right: 3px solid var(--action-color);
+  background: rgba(0,0,0,0.22);
+  color: var(--action-color);
+}
+
+/* ── Hero title: Cinzel with wide tracking ── */
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+/* ── Hero subtitle: Crimson Text italic ── */
+.hero-sub {
+  font-family: 'Crimson Text', serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  font-style: italic;
+}
+
+/* ── Hero buttons: carved seal style ── */
+.hero-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+}
+
+/* ── Count bar: temple pillar aesthetic ── */
+.count-bar {
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 rgba(248,244,227,0.04), 0 8px 24px rgba(0,0,0,0.22);
+}
+.count-num {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+}
+.count-label {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+}
+.count-divider {
+  background: linear-gradient(180deg, transparent 0%, var(--action-color) 50%, transparent 100%);
+  opacity: 0.45;
+}
+
+/* ── Feature cards: carved stone slab ── */
+.feat-card {
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(248,244,227,0.05),
+    0 0 0 1px rgba(196,169,91,0.07),
+    0 12px 32px rgba(0,0,0,0.28);
+}
+.feat-card:hover {
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(248,244,227,0.09),
+    0 0 0 1px rgba(196,169,91,0.18),
+    0 24px 52px rgba(0,0,0,0.4);
+}
+.feat-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+}
+.feat-card p {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.feat-badge {
+  border-radius: 2px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.07em;
+}
+/* Corner diamond ornament */
+.feat-card::before {
+  content: '◆';
+  position: absolute;
+  top: 0.55rem; left: 0.65rem;
+  font-size: 0.42rem;
+  color: var(--action-color);
+  opacity: 0.5;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* ── Quick-calc ── */
+.quick-calc {
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 rgba(248,244,227,0.04), 0 8px 24px rgba(0,0,0,0.2);
+}
+.qc-label {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+}
+.qc-result {
+  font-family: 'Cinzel', serif;
+}
+
+/* ── Math fact bar: temple inscription ── */
+.fact-bar {
+  border-radius: 4px;
+  border-left: 3px solid var(--action-color);
+  border-right: 3px solid var(--action-color);
+  background: rgba(0,0,0,0.14);
+  box-shadow: inset 0 1px 0 rgba(248,244,227,0.04);
+}
+.fact-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ── Calculator: carved stone tablet ── */
+.calculator {
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 1px rgba(196,169,91,0.12),
+    0 30px 72px rgba(0,0,0,0.62),
+    inset 0 1px 0 rgba(248,244,227,0.05);
+}
+/* Mobile override */
+@media (max-width: 767px) {
+  .calculator { border-radius: 0; box-shadow: none; }
+}
+
+/* ── Top bar ── */
+.brand {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+}
+
+/* ── Display: inner stone panel ── */
+.display {
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.06) 100%);
+  border-bottom: 1px solid var(--glass-border);
+}
+.curr-result {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.03em;
+}
+.prev-expr, .curr-expr {
+  font-family: 'Crimson Text', serif;
+}
+
+/* ── Memory & mode bars ── */
+.memory-bar, .mode-bar {
+  background: rgba(0,0,0,0.16);
+}
+.mem-btn, .mode-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+}
+.deg-rad-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  border-radius: 3px;
+}
+
+/* ── Keys: brass temple seal emboss ── */
+.key {
+  border-radius: 5px;
+  font-family: 'Crimson Text', serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  box-shadow:
+    inset 0 1px 0 rgba(248,244,227,0.07),
+    inset 0 -1px 0 rgba(0,0,0,0.25),
+    0 3px 8px rgba(0,0,0,0.4);
+}
+.key:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(248,244,227,0.1),
+    inset 0 -1px 0 rgba(0,0,0,0.2),
+    0 6px 18px rgba(0,0,0,0.45);
+}
+.key:active {
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,0.45),
+    0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Operator keys: deep garnet/ruby */
+.op-key {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.09),
+    inset 0 -2px 0 rgba(0,0,0,0.35),
+    0 3px 10px rgba(0,0,0,0.42);
+}
+
+/* Action keys: antique brass */
+.action-key {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -2px 0 rgba(0,0,0,0.25),
+    0 3px 10px rgba(0,0,0,0.38);
+}
+
+/* Scientific keys: jade stone */
+.sci-key {
+  border-radius: 4px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.25),
+    0 2px 6px rgba(0,0,0,0.35);
+}
+
+/* Equals key: sacred gold seal */
+.equals-key {
+  border-radius: 5px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -2px 0 rgba(0,0,0,0.3),
+    0 6px 22px var(--eq-shadow),
+    0 0 0 1px rgba(196,169,91,0.22);
+}
+.equals-key:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    inset 0 -2px 0 rgba(0,0,0,0.25),
+    0 10px 34px var(--eq-shadow),
+    0 0 0 1px rgba(196,169,91,0.4);
+}
+
+/* Keyboard hint */
+.kb-hint {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
+}
+
+/* ── History panel ── */
+.side-panel { border-radius: 8px; }
+.panel-header {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+.history-item .h-result {
+  font-family: 'Cinzel', serif;
+}
+
+/* ── Vedic sidebar ── */
+.vs-header {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+}
+.vs-name {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.85rem;
+}
+.vs-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+}
+
+/* ── Vedic intro ── */
+.vedic-intro h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+}
+.vedic-intro p {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  font-style: italic;
+}
+.vi-om {
+  font-size: 5.5rem;
+  filter: drop-shadow(0 0 20px var(--action-color));
+  animation: omGlow 3s ease-in-out infinite;
+  display: block;
+}
+@keyframes omGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 16px var(--action-color));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 36px var(--action-color));
+    transform: scale(1.07);
+  }
+}
+.vi-card {
+  border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(248,244,227,0.05), 0 4px 14px rgba(0,0,0,0.3);
+}
+.vi-card span { font-family: 'Cinzel', serif; }
+.vi-card small { font-family: 'Cinzel', serif; letter-spacing: 0.07em; }
+
+/* ── Sutra card ── */
+.sc-name {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.04em;
+}
+.sc-num {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.14em;
+}
+.sc-meaning {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* ── Statistics tab ── */
+.stats-header-bar h2 {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.04em;
+}
+.stats-label {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+}
+.stats-section-title {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+}
+.stats-input-panel, .stats-results-panel {
+  border-radius: 6px;
+}
+.stats-go-btn {
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+}
+
+/* ── Aptitude / Reasoning section titles ── */
+.apt-cat-header {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.1em;
+}
+.basics-section-title {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+}
+.basics-hook {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 600;
+  border-radius: 5px;
+}
+.basics-trick-item {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.92rem;
+  border-radius: 5px;
+}
+.basics-trick-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  border-radius: 2px;
+}
+
+/* ── Theme panel ── */
+.theme-panel {
+  border-radius: 6px;
+  box-shadow: 0 20px 52px rgba(0,0,0,0.58), 0 0 0 1px rgba(196,169,91,0.12);
+}
+.theme-title {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.12em;
+}
+.theme-chip span {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.07em;
+}
+.chip-swatch { border-radius: 4px; }
+
+/* ── Toast ── */
+.toast {
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.55);
+}
+
+/* ── Global scrollbar: antique gold thumb ── */
+* { scrollbar-width: thin; scrollbar-color: rgba(196,169,91,0.25) transparent; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(196,169,91,0.22);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(196,169,91,0.4); }
+
+/* ── Text selection: gold highlight ── */
+::selection {
+  background: rgba(196,169,91,0.28);
+  color: var(--text);
+}
+
+/* ── Input/textarea focus: antique gold ring ── */
+.qc-input:focus,
+.stats-textarea:focus,
+.sc-try-input:focus {
+  border-color: var(--action-color);
+  box-shadow: 0 0 0 2px rgba(196,169,91,0.15);
+}
+
+/* ── Topic tabs ── */
+.topic-tabs { border-radius: 5px; }
+.topic-tab-btn {
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── qs-bubble (learning journey) ── */
+.qs-bubble {
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+}
+
+/* ── Trig chart headers ── */
+.trig-chart th {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+}
+.trig-chart .func-label {
+  font-family: 'Cinzel', serif;
+}

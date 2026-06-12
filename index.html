@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="vintage">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calc Pro — Mathematics Reimagined</title>
+  <title>AnantaGanit — अनन्तगणित · Mathematics Reimagined</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="main.css" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 </head>
@@ -14,8 +17,8 @@
 ══════════════════════════════════════════ -->
 <nav class="navbar" id="navbar">
   <div class="nav-brand">
-    <i class="bx bx-calculator"></i>
-    <span>Calc<strong>Pro</strong></span>
+    <span class="nav-om">ॐ</span>
+    <span>Ananta<strong>Ganit</strong><span class="nav-devanagari">अनन्तगणित</span></span>
   </div>
 
   <div class="nav-tabs">
@@ -56,33 +59,21 @@
 <div class="theme-panel" id="themePanel">
   <p class="theme-title">Choose Theme</p>
   <div class="theme-grid">
-    <div class="theme-chip active" data-theme="dark">
-      <div class="chip-swatch" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)"></div>
-      <span>Dark</span>
+    <div class="theme-chip active" data-theme="vintage">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#7B1E28,#C4A95B,#166D3B)"></div>
+      <span>Vintage</span>
     </div>
-    <div class="theme-chip" data-theme="rose">
-      <div class="chip-swatch" style="background:linear-gradient(135deg,#4a1535,#e91e63)"></div>
-      <span>Rose</span>
+    <div class="theme-chip" data-theme="earth">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#202212,#7B0011,#C09A6F)"></div>
+      <span>Earth</span>
     </div>
-    <div class="theme-chip" data-theme="ocean">
-      <div class="chip-swatch" style="background:linear-gradient(135deg,#0f2027,#2c5364)"></div>
-      <span>Ocean</span>
+    <div class="theme-chip" data-theme="marble">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#2C1A0E,#7A4D32,#C4956A)"></div>
+      <span>Marble</span>
     </div>
-    <div class="theme-chip" data-theme="forest">
-      <div class="chip-swatch" style="background:linear-gradient(135deg,#0f3443,#34e89e)"></div>
-      <span>Forest</span>
-    </div>
-    <div class="theme-chip" data-theme="midnight">
-      <div class="chip-swatch" style="background:linear-gradient(135deg,#020818,#3a6fff)"></div>
-      <span>Midnight</span>
-    </div>
-    <div class="theme-chip" data-theme="white">
-      <div class="chip-swatch" style="background:linear-gradient(135deg,#f0f4ff,#dce6ff)"></div>
-      <span>White</span>
-    </div>
-    <div class="theme-chip" data-theme="blue">
-      <div class="chip-swatch" style="background:linear-gradient(135deg,#0a1628,#1565c0)"></div>
-      <span>Blue</span>
+    <div class="theme-chip" data-theme="persian">
+      <div class="chip-swatch" style="background:linear-gradient(135deg,#5C2230,#2A4A3E,#243848)"></div>
+      <span>Persian</span>
     </div>
   </div>
 </div>
@@ -103,8 +94,9 @@
 
       <!-- Hero -->
       <div class="hero">
-        <div class="hero-badge"><i class="bx bx-math"></i>&nbsp; Ancient Wisdom · Modern Speed</div>
-        <h1 class="hero-title">Calc<span class="grad">Pro</span></h1>
+        <div class="hero-badge">❖ &nbsp; गणित · Ancient Wisdom · Modern Speed &nbsp; ❖</div>
+        <h1 class="hero-title">Ananta<span class="grad">Ganit</span></h1>
+        <p class="hero-devanagari">अनन्तगणित</p>
         <p class="hero-sub" id="typewriter"></p>
         <div class="hero-actions">
           <button class="hero-btn primary" data-goto="calculator">
@@ -139,7 +131,7 @@
         </div>
         <div class="count-divider"></div>
         <div class="count-item">
-          <span class="count-num" data-target="7">0</span>
+          <span class="count-num" data-target="4">0</span>
           <span class="count-label">Themes</span>
         </div>
       </div>
@@ -151,7 +143,7 @@
           <div class="feat-glow glow-blue"></div>
           <div class="feat-icon"><i class="bx bx-calculator"></i></div>
           <h3>Scientific Calculator</h3>
-          <p>Standard + Scientific mode. 24 functions, memory (MC/MR/M+/M−), live preview, keyboard support, HEX/BIN/OCT strip aur 5 themes.</p>
+          <p>Standard + Scientific mode. 24 functions, memory (MC/MR/M+/M−), live preview, keyboard support, HEX/BIN/OCT strip aur 4 handcrafted themes.</p>
           <div class="feat-tags">
             <span>sin cos tan</span><span>log ln √</span><span>nCr !</span>
           </div>
@@ -234,7 +226,7 @@
       <div class="calculator" id="calculator">
         <!-- Top bar -->
         <div class="top-bar">
-          <span class="brand"><i class="bx bx-calculator"></i> Calculator</span>
+          <span class="brand"><span style="font-family:'Cinzel Decorative',serif;font-size:0.78rem;letter-spacing:0.04em;">AnantaGanit</span></span>
           <div class="top-actions">
             <button class="icon-btn" id="btnHistory" title="History (H)">
               <i class="bx bx-history"></i>
@@ -470,6 +462,8 @@
 
 </main>
 
+<script src="apt-questions.js"></script>
+<script src="vedic-questions.js"></script>
 <script src="reasoning-questions.js"></script>
 <script src="main.js"></script>
 </body>
