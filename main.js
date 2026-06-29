@@ -1388,6 +1388,7 @@ function renderSutraContent(id) {
       </div>`;
   }).join('');
 
+  window.scrollTo(0, 0);
   el.innerHTML = `
     <div class="sutra-card">
 
@@ -1454,7 +1455,7 @@ function renderSutraContent(id) {
 
     </div>
   `;
-  el.scrollTop = 0;
+  window.scrollTo(0, 0);
 
   /* Tab switching */
   el.querySelectorAll('.topic-tab-btn').forEach(btn => {
@@ -3457,6 +3458,39 @@ function renderAptitudeContent(id) {
 
   const tryPlaceholder = t.hint || 'e.g.  sqrt(144) + 3^2';
 
+  /* ── Practice panel HTML ── */
+  function buildAptPracticeHTML(topicId) {
+    const qs = (typeof APT_QUESTIONS !== 'undefined' && APT_QUESTIONS[topicId]) || [];
+    if (!qs.length) return '<div style="padding:2rem;text-align:center;color:var(--text-faint)">Questions loading...</div>';
+    const DIFF_CLS = { Easy:'ex-basic', Medium:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
+    let html = '<div class="practice-section">';
+    html += '<div class="practice-header"><span>📝 Practice — 50 MCQs (Easy → Advanced)</span><button class="qs-btn primary" id="aPracToggleKey">Show Answer Key</button></div>';
+    html += '<div class="practice-filters" id="aPracFilters"><button class="prac-filter-btn active" data-diff="all">All (50)</button>';
+    const counts = {};
+    qs.forEach(q => { counts[q.diff] = (counts[q.diff]||0)+1; });
+    ['Easy','Medium','Hard','Advanced'].forEach(d => { if(counts[d]) html += `<button class="prac-filter-btn" data-diff="${d}">${d} (${counts[d]})</button>`; });
+    html += '</div>';
+    qs.forEach((q, i) => {
+      html += `<div class="prac-q" data-diff="${q.diff}">
+        <div class="prac-q-head"><span class="prac-q-num">Q${i+1}</span><span class="ex-level-badge ${DIFF_CLS[q.diff]||''}">${q.diff}</span></div>
+        <div class="prac-q-text">${q.q}</div>
+        <div class="prac-opts">
+          <label class="prac-opt"><input type="radio" name="aPracQ${topicId}_${i}" value="A"><span class="prac-opt-label">A</span><span>${q.a}</span></label>
+          <label class="prac-opt"><input type="radio" name="aPracQ${topicId}_${i}" value="B"><span class="prac-opt-label">B</span><span>${q.b}</span></label>
+          <label class="prac-opt"><input type="radio" name="aPracQ${topicId}_${i}" value="C"><span class="prac-opt-label">C</span><span>${q.c}</span></label>
+          <label class="prac-opt"><input type="radio" name="aPracQ${topicId}_${i}" value="D"><span class="prac-opt-label">D</span><span>${q.d}</span></label>
+        </div>
+        <div class="prac-ans hidden" id="aPracAns${topicId}_${i}">✅ Answer: <strong>${q.ans}</strong></div>
+      </div>`;
+    });
+    html += '<div class="prac-answer-key hidden" id="aPracAnswerKey">';
+    html += '<h3 class="prac-key-title">📋 Answer Key</h3><div class="prac-key-grid">';
+    qs.forEach((q, i) => { html += `<div class="prac-key-item"><span class="prac-key-q">Q${i+1}</span><span class="prac-key-a">${q.ans}</span></div>`; });
+    html += '</div></div></div>';
+    return html;
+  }
+
+  window.scrollTo(0, 0);
   el.innerHTML = `
     <div class="sutra-card">
 
@@ -3482,6 +3516,7 @@ function renderAptitudeContent(id) {
         <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
         <button class="topic-tab-btn" data-panel="steps">⚡ Learn Steps</button>
         <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
+        <button class="topic-tab-btn" data-panel="practice">📝 Practice (50 Qs)</button>
       </div>
 
       <!-- Basics Panel -->
@@ -3514,6 +3549,9 @@ function renderAptitudeContent(id) {
         <div class="apt-examples-grid">${examplesHtml}</div>
       </div>
 
+      <!-- Practice Panel -->
+      <div class="topic-tab-panel" data-panel="practice">${buildAptPracticeHTML(t.id)}</div>
+
       <!-- Try It — always visible -->
       <div class="sc-try-it">
         <div class="sc-try-label"><i class="bx bx-bolt-circle"></i> Try It — Calculator</div>
@@ -3527,7 +3565,7 @@ function renderAptitudeContent(id) {
 
     </div>
   `;
-  el.scrollTop = 0;
+  window.scrollTo(0, 0);
 
   /* ── Tab switching ── */
   el.querySelectorAll('.topic-tab-btn').forEach(btn => {
@@ -3666,6 +3704,52 @@ function renderAptitudeContent(id) {
 
   tryBtn   && tryBtn.addEventListener('click', runTry);
   tryInput && tryInput.addEventListener('keydown', e => { if (e.key === 'Enter') runTry(); });
+
+  /* Practice tab interactivity */
+  const aPracToggle = document.getElementById('aPracToggleKey');
+  const aPracKey    = document.getElementById('aPracAnswerKey');
+  if (aPracToggle && aPracKey) {
+    aPracToggle.addEventListener('click', () => {
+      const showing = !aPracKey.classList.contains('hidden');
+      aPracKey.classList.toggle('hidden');
+      aPracToggle.textContent = showing ? 'Show Answer Key' : 'Hide Answer Key';
+      el.querySelectorAll('.prac-ans').forEach(a => showing ? a.classList.add('hidden') : a.classList.remove('hidden'));
+    });
+  }
+  const aPracFilters = document.getElementById('aPracFilters');
+  if (aPracFilters) {
+    aPracFilters.addEventListener('click', e => {
+      const btn = e.target.closest('.prac-filter-btn');
+      if (!btn) return;
+      aPracFilters.querySelectorAll('.prac-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const diff = btn.dataset.diff;
+      el.querySelectorAll('.prac-q').forEach(q => {
+        q.style.display = (diff === 'all' || q.dataset.diff === diff) ? '' : 'none';
+      });
+    });
+  }
+  el.querySelectorAll('.prac-opt input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const name  = radio.name;
+      const match = name.match(/aPracQ(\d+)_(\d+)/);
+      if (!match) return;
+      const ansEl = document.getElementById(`aPracAns${match[1]}_${match[2]}`);
+      if (ansEl) {
+        ansEl.classList.remove('hidden');
+        const correct = ansEl.querySelector('strong').textContent.trim() === radio.value;
+        const parent  = radio.closest('.prac-q');
+        parent.querySelectorAll('.prac-opt').forEach(o => o.classList.remove('prac-correct','prac-wrong'));
+        radio.closest('.prac-opt').classList.add(correct ? 'prac-correct' : 'prac-wrong');
+        if (!correct) {
+          const correctAns = ansEl.querySelector('strong').textContent.trim();
+          parent.querySelectorAll('.prac-opt').forEach(o => {
+            if (o.querySelector('.prac-opt-label').textContent === correctAns) o.classList.add('prac-correct');
+          });
+        }
+      }
+    });
+  });
 }
 
 /* Initialise aptitude sidebar after APTITUDE_TOPICS const is in scope */
@@ -4404,6 +4488,39 @@ function renderReasoningContent(id) {
       </div>`;
   }).join('');
 
+  /* ── Practice panel HTML ── */
+  function buildReasonPracticeHTML(topicId) {
+    const qs = (typeof REASON_QUESTIONS !== 'undefined' && REASON_QUESTIONS[topicId]) || [];
+    if (!qs.length) return '<div style="padding:2rem;text-align:center;color:var(--text-faint)">Questions loading...</div>';
+    const DIFF_CLS = { Easy:'ex-basic', Medium:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
+    let html = '<div class="practice-section">';
+    html += '<div class="practice-header"><span>📝 Practice — 50 MCQs (Easy → Advanced)</span><button class="qs-btn primary" id="rPracToggleKey">Show Answer Key</button></div>';
+    html += '<div class="practice-filters" id="rPracFilters"><button class="prac-filter-btn active" data-diff="all">All (50)</button>';
+    const counts = {};
+    qs.forEach(q => { counts[q.diff] = (counts[q.diff]||0)+1; });
+    ['Easy','Medium','Hard','Advanced'].forEach(d => { if(counts[d]) html += `<button class="prac-filter-btn" data-diff="${d}">${d} (${counts[d]})</button>`; });
+    html += '</div>';
+    qs.forEach((q, i) => {
+      html += `<div class="prac-q" data-diff="${q.diff}">
+        <div class="prac-q-head"><span class="prac-q-num">Q${i+1}</span><span class="ex-level-badge ${DIFF_CLS[q.diff]||''}">${q.diff}</span></div>
+        <div class="prac-q-text">${q.q}</div>
+        <div class="prac-opts">
+          <label class="prac-opt"><input type="radio" name="rPracQ${topicId}_${i}" value="A"><span class="prac-opt-label">A</span><span>${q.a}</span></label>
+          <label class="prac-opt"><input type="radio" name="rPracQ${topicId}_${i}" value="B"><span class="prac-opt-label">B</span><span>${q.b}</span></label>
+          <label class="prac-opt"><input type="radio" name="rPracQ${topicId}_${i}" value="C"><span class="prac-opt-label">C</span><span>${q.c}</span></label>
+          <label class="prac-opt"><input type="radio" name="rPracQ${topicId}_${i}" value="D"><span class="prac-opt-label">D</span><span>${q.d}</span></label>
+        </div>
+        <div class="prac-ans hidden" id="rPracAns${topicId}_${i}">✅ Answer: <strong>${q.ans}</strong></div>
+      </div>`;
+    });
+    html += '<div class="prac-answer-key hidden" id="rPracAnswerKey">';
+    html += '<h3 class="prac-key-title">📋 Answer Key</h3><div class="prac-key-grid">';
+    qs.forEach((q, i) => { html += `<div class="prac-key-item"><span class="prac-key-q">Q${i+1}</span><span class="prac-key-a">${q.ans}</span></div>`; });
+    html += '</div></div></div>';
+    return html;
+  }
+
+  window.scrollTo(0, 0);
   el.innerHTML = `
     <div class="sutra-card">
       <div class="sc-header">
@@ -4419,6 +4536,7 @@ function renderReasoningContent(id) {
         <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
         <button class="topic-tab-btn" data-panel="steps">⚡ Learn Steps</button>
         <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
+        <button class="topic-tab-btn" data-panel="practice">📝 Practice (50 Qs)</button>
       </div>
       <div class="topic-tab-panel active" data-panel="basics">${buildBasicsHTML()}</div>
       <div class="topic-tab-panel" data-panel="steps">
@@ -4437,8 +4555,9 @@ function renderReasoningContent(id) {
         </div>
       </div>
       <div class="topic-tab-panel" data-panel="examples"><div class="apt-examples-grid">${examplesHtml}</div></div>
+      <div class="topic-tab-panel" data-panel="practice">${buildReasonPracticeHTML(t.id)}</div>
     </div>`;
-  el.scrollTop = 0;
+  window.scrollTo(0, 0);
 
   /* Tab switching */
   el.querySelectorAll('.topic-tab-btn').forEach(btn => {
@@ -4480,6 +4599,56 @@ function renderReasoningContent(id) {
     showAllBtn.addEventListener('click',()=>{stopTimer();playing=false;qsSteps.forEach((s,i)=>{s.classList.remove('locked','active','done');const bub=s.querySelector('.qs-bubble');if(i<total-1){s.classList.add('done');bub.textContent='✓';}else{s.classList.add('active');bub.textContent=s.dataset.num;}});current=total-1;setProgress(total);banner.classList.add('show');nextBtn.disabled=true;playBtn.disabled=true;playBtn.innerHTML='<i class="bx bx-check-circle"></i> Done!';});
     setProgress(0);
   }
+
+  /* ── Practice: answer key toggle ── */
+  const rPracToggle = document.getElementById('rPracToggleKey');
+  const rPracKey    = document.getElementById('rPracAnswerKey');
+  if (rPracToggle && rPracKey) {
+    rPracToggle.addEventListener('click', () => {
+      const showing = !rPracKey.classList.contains('hidden');
+      rPracKey.classList.toggle('hidden');
+      rPracToggle.textContent = showing ? 'Show Answer Key' : 'Hide Answer Key';
+      el.querySelectorAll('.prac-ans').forEach(a => showing ? a.classList.add('hidden') : a.classList.remove('hidden'));
+    });
+  }
+
+  /* ── Practice: difficulty filter ── */
+  const rPracFilters = document.getElementById('rPracFilters');
+  if (rPracFilters) {
+    rPracFilters.addEventListener('click', e => {
+      const btn = e.target.closest('.prac-filter-btn');
+      if (!btn) return;
+      rPracFilters.querySelectorAll('.prac-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const diff = btn.dataset.diff;
+      el.querySelectorAll('.prac-q').forEach(q => {
+        q.style.display = (diff === 'all' || q.dataset.diff === diff) ? '' : 'none';
+      });
+    });
+  }
+
+  /* ── Practice: radio answer reveal ── */
+  el.querySelectorAll('.prac-opt input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const name  = radio.name;
+      const match = name.match(/rPracQ(\d+)_(\d+)/);
+      if (!match) return;
+      const ansEl = document.getElementById(`rPracAns${match[1]}_${match[2]}`);
+      if (ansEl) {
+        ansEl.classList.remove('hidden');
+        const correct = ansEl.querySelector('strong').textContent.trim() === radio.value;
+        const parent  = radio.closest('.prac-q');
+        parent.querySelectorAll('.prac-opt').forEach(o => o.classList.remove('prac-correct','prac-wrong'));
+        radio.closest('.prac-opt').classList.add(correct ? 'prac-correct' : 'prac-wrong');
+        if (!correct) {
+          const correctAns = ansEl.querySelector('strong').textContent.trim();
+          parent.querySelectorAll('.prac-opt').forEach(o => {
+            if (o.querySelector('.prac-opt-label').textContent === correctAns) o.classList.add('prac-correct');
+          });
+        }
+      }
+    });
+  });
 }
 
 /* Initialise reasoning sidebar */
