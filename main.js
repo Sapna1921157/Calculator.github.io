@@ -16,7 +16,30 @@ document.addEventListener('DOMContentLoaded', () => initCanvas());
 /* ════════════════════════════════════════════════════════════
    TAB NAVIGATION
 ════════════════════════════════════════════════════════════ */
+function isDesktop() { return window.innerWidth >= 768; }
+
+function closeCalcPopup() {
+  document.getElementById('tab-calculator').classList.remove('calc-open');
+  document.querySelector('.nav-tab[data-tab="calculator"]')?.classList.remove('active');
+}
+
 function switchTab(tabId) {
+  // On desktop, Calculator opens as a right-side popup — not a full tab switch
+  if (tabId === 'calculator' && isDesktop()) {
+    const calcSection = document.getElementById('tab-calculator');
+    const isOpen = calcSection.classList.contains('calc-open');
+    if (isOpen) {
+      closeCalcPopup();
+    } else {
+      calcSection.classList.add('calc-open');
+      document.querySelector('.nav-tab[data-tab="calculator"]')?.classList.add('active');
+    }
+    return;
+  }
+
+  // Close popup if open when switching other tabs on desktop
+  if (isDesktop()) closeCalcPopup();
+
   document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
 
@@ -36,6 +59,9 @@ document.querySelectorAll('.nav-tab').forEach(btn => {
 document.querySelectorAll('[data-goto]').forEach(el => {
   el.addEventListener('click', () => switchTab(el.dataset.goto));
 });
+
+// Close button inside popup
+document.getElementById('calcCloseBtn')?.addEventListener('click', closeCalcPopup);
 
 /* ════════════════════════════════════════════════════════════
    CANVAS — Floating Math Symbols
@@ -1329,6 +1355,37 @@ function renderSutraList() {
   });
 }
 
+function buildVedicPracticeHTML(sutraId) {
+  const qs = (typeof VEDIC_QUESTIONS !== 'undefined' && VEDIC_QUESTIONS[sutraId]) || [];
+  if (!qs.length) return '<div style="padding:2rem;text-align:center;color:var(--text-faint)">Questions loading...</div>';
+  const DIFF_CLS = { Easy:'ex-basic', Medium:'ex-moderate', Hard:'ex-hard', Advanced:'ex-advanced' };
+  let html = '<div class="practice-section">';
+  html += '<div class="practice-header"><span>📝 Practice — 50 MCQs (Easy → Advanced)</span><button class="qs-btn primary" id="vPracToggleKey">Show Answer Key</button></div>';
+  html += '<div class="practice-filters" id="vPracFilters"><button class="prac-filter-btn active" data-diff="all">All (50)</button>';
+  const counts = {};
+  qs.forEach(q => { counts[q.diff] = (counts[q.diff]||0)+1; });
+  ['Easy','Medium','Hard','Advanced'].forEach(d => { if(counts[d]) html += `<button class="prac-filter-btn" data-diff="${d}">${d} (${counts[d]})</button>`; });
+  html += '</div>';
+  qs.forEach((q, i) => {
+    html += `<div class="prac-q" data-diff="${q.diff}">
+      <div class="prac-q-head"><span class="prac-q-num">Q${i+1}</span><span class="ex-level-badge ${DIFF_CLS[q.diff]||''}">${q.diff}</span></div>
+      <div class="prac-q-text">${q.q}</div>
+      <div class="prac-opts">
+        <label class="prac-opt"><input type="radio" name="vPracQ${sutraId}_${i}" value="A"><span class="prac-opt-label">A</span><span>${q.a}</span></label>
+        <label class="prac-opt"><input type="radio" name="vPracQ${sutraId}_${i}" value="B"><span class="prac-opt-label">B</span><span>${q.b}</span></label>
+        <label class="prac-opt"><input type="radio" name="vPracQ${sutraId}_${i}" value="C"><span class="prac-opt-label">C</span><span>${q.c}</span></label>
+        <label class="prac-opt"><input type="radio" name="vPracQ${sutraId}_${i}" value="D"><span class="prac-opt-label">D</span><span>${q.d}</span></label>
+      </div>
+      <div class="prac-ans hidden" id="vPracAns${sutraId}_${i}">✅ Answer: <strong>${q.ans}</strong></div>
+    </div>`;
+  });
+  html += '<div class="prac-answer-key hidden" id="vPracAnswerKey">';
+  html += '<h3 class="prac-key-title">📋 Answer Key</h3><div class="prac-key-grid">';
+  qs.forEach((q, i) => { html += `<div class="prac-key-item"><span class="prac-key-q">Q${i+1}</span><span class="prac-key-a">${q.ans}</span></div>`; });
+  html += '</div></div></div>';
+  return html;
+}
+
 function renderSutraContent(id) {
   const el = document.getElementById('vedicMain');
   if (!el) return;
@@ -1422,6 +1479,7 @@ function renderSutraContent(id) {
         <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
         <button class="topic-tab-btn" data-panel="steps">⚡ Method Steps</button>
         <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
+        <button class="topic-tab-btn" data-panel="practice">📝 Practice (50 Qs)</button>
       </div>
 
       <!-- Basics Panel -->
@@ -1441,6 +1499,9 @@ function renderSutraContent(id) {
       <div class="topic-tab-panel" data-panel="examples">
         <div class="apt-examples-grid">${examplesHtml}</div>
       </div>
+
+      <!-- Practice Panel -->
+      <div class="topic-tab-panel" data-panel="practice">${buildVedicPracticeHTML(s.id)}</div>
 
       <!-- Try It — always visible -->
       <div class="sc-try-it" id="scTryIt">
@@ -1464,6 +1525,52 @@ function renderSutraContent(id) {
       el.querySelectorAll('.topic-tab-panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       el.querySelector(`.topic-tab-panel[data-panel="${btn.dataset.panel}"]`).classList.add('active');
+    });
+  });
+
+  /* Wire Vedic Practice — Answer Key toggle */
+  const vPracToggle = document.getElementById('vPracToggleKey');
+  const vPracKey    = document.getElementById('vPracAnswerKey');
+  if (vPracToggle && vPracKey) {
+    vPracToggle.addEventListener('click', () => {
+      const showing = !vPracKey.classList.contains('hidden');
+      vPracKey.classList.toggle('hidden');
+      vPracToggle.textContent = showing ? 'Show Answer Key' : 'Hide Answer Key';
+      el.querySelectorAll('.prac-ans').forEach(a => showing ? a.classList.add('hidden') : a.classList.remove('hidden'));
+    });
+  }
+  const vPracFilters = document.getElementById('vPracFilters');
+  if (vPracFilters) {
+    vPracFilters.addEventListener('click', e => {
+      const btn = e.target.closest('.prac-filter-btn');
+      if (!btn) return;
+      vPracFilters.querySelectorAll('.prac-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const diff = btn.dataset.diff;
+      el.querySelectorAll('.prac-q').forEach(q => {
+        q.style.display = (diff === 'all' || q.dataset.diff === diff) ? '' : 'none';
+      });
+    });
+  }
+  el.querySelectorAll('.prac-opt input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const name  = radio.name;
+      const match = name.match(/vPracQ(\d+)_(\d+)/);
+      if (!match) return;
+      const ansEl = document.getElementById(`vPracAns${match[1]}_${match[2]}`);
+      if (ansEl) {
+        ansEl.classList.remove('hidden');
+        const correct = ansEl.querySelector('strong').textContent.trim() === radio.value;
+        const parent  = radio.closest('.prac-q');
+        parent.querySelectorAll('.prac-opt').forEach(o => o.classList.remove('prac-correct','prac-wrong'));
+        radio.closest('.prac-opt').classList.add(correct ? 'prac-correct' : 'prac-wrong');
+        if (!correct) {
+          const correctAns = ansEl.querySelector('strong').textContent.trim();
+          parent.querySelectorAll('.prac-opt').forEach(o => {
+            if (o.querySelector('.prac-opt-label').textContent === correctAns) o.classList.add('prac-correct');
+          });
+        }
+      }
     });
   });
 

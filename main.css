@@ -2257,3 +2257,88 @@ body::before {
 .trig-chart .func-label {
   font-family: 'Cinzel', serif;
 }
+
+/* ════════════════════════════════════════════════════════
+   CALCULATOR POPUP — Desktop only (≥ 768px)
+════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  /* Override tab-section behavior for calculator on desktop */
+  #tab-calculator {
+    display: block !important;
+    position: fixed !important;
+    top: 64px;
+    right: -460px;
+    width: 440px;
+    height: calc(100dvh - 64px);
+    z-index: 800;
+    overflow-y: auto;
+    min-height: unset !important;
+    padding: 0 !important;
+    background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 60%, var(--bg-c) 100%);
+    border-left: 1px solid var(--glass-border);
+    box-shadow: -8px 0 48px rgba(0,0,0,0.55);
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #tab-calculator.calc-open {
+    right: 0 !important;
+  }
+
+  /* Layout inside the popup */
+  #tab-calculator .calc-page {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1rem 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    gap: 1rem;
+    position: relative;
+  }
+
+  #tab-calculator .calculator {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #tab-calculator .side-panel {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Close button — only on desktop */
+  .calc-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 0.5rem 0.5rem 0;
+  }
+
+  .calc-close-btn button {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .calc-close-btn button:hover {
+    background: var(--action-color);
+    color: #fff;
+    border-color: var(--action-color);
+  }
+}
+
+/* Hide close button on mobile */
+@media (max-width: 767px) {
+  .calc-close-btn {
+    display: none !important;
+  }
+}
