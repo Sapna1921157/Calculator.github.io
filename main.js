@@ -18,27 +18,33 @@ document.addEventListener('DOMContentLoaded', () => initCanvas());
 ════════════════════════════════════════════════════════════ */
 function isDesktop() { return window.innerWidth >= 768; }
 
-function closeCalcPopup() {
-  document.getElementById('tab-calculator').classList.remove('calc-open');
-  document.querySelector('.nav-tab[data-tab="calculator"]')?.classList.remove('active');
+const POPUP_TABS = ['calculator', 'stats'];
+
+function closePopup(tabId) {
+  document.getElementById('tab-' + tabId).classList.remove('popup-open');
+  document.querySelector(`.nav-tab[data-tab="${tabId}"]`)?.classList.remove('active');
+}
+
+function closeAllPopups() {
+  POPUP_TABS.forEach(id => closePopup(id));
 }
 
 function switchTab(tabId) {
-  // On desktop, Calculator opens as a right-side popup — not a full tab switch
-  if (tabId === 'calculator' && isDesktop()) {
-    const calcSection = document.getElementById('tab-calculator');
-    const isOpen = calcSection.classList.contains('calc-open');
-    if (isOpen) {
-      closeCalcPopup();
-    } else {
-      calcSection.classList.add('calc-open');
-      document.querySelector('.nav-tab[data-tab="calculator"]')?.classList.add('active');
+  // On desktop, certain tabs open as right-side popups
+  if (POPUP_TABS.includes(tabId) && isDesktop()) {
+    const section = document.getElementById('tab-' + tabId);
+    const isOpen  = section.classList.contains('popup-open');
+    // Close all popups first, then open the clicked one (unless toggling off)
+    closeAllPopups();
+    if (!isOpen) {
+      section.classList.add('popup-open');
+      document.querySelector(`.nav-tab[data-tab="${tabId}"]`)?.classList.add('active');
     }
     return;
   }
 
-  // Close popup if open when switching other tabs on desktop
-  if (isDesktop()) closeCalcPopup();
+  // Close all popups when switching to a full tab on desktop
+  if (isDesktop()) closeAllPopups();
 
   document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
@@ -60,8 +66,9 @@ document.querySelectorAll('[data-goto]').forEach(el => {
   el.addEventListener('click', () => switchTab(el.dataset.goto));
 });
 
-// Close button inside popup
-document.getElementById('calcCloseBtn')?.addEventListener('click', closeCalcPopup);
+// Close buttons inside popups
+document.getElementById('calcCloseBtn')?.addEventListener('click', () => closePopup('calculator'));
+document.getElementById('statsCloseBtn')?.addEventListener('click', () => closePopup('stats'));
 
 /* ════════════════════════════════════════════════════════════
    CANVAS — Floating Math Symbols
