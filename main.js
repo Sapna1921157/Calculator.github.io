@@ -1608,7 +1608,7 @@ function renderSutraContent(id) {
 ════════════════════════════════════════════════════════════ */
 (function init() {
   /* Theme */
-  applyTheme(localStorage.getItem('calcTheme') || 'dark');
+  applyTheme(localStorage.getItem('calcTheme') || 'marble');
 
   /* History */
   renderHistory();

@@ -2,72 +2,72 @@
    THEME VARIABLES
 ════════════════════════════════════════════════════════ */
 
-/* ── Vintage Classic ── */
+/* ── Nalanda — Aged Brick · Oil Lamp · Palm Manuscript · Earth ── */
 :root, [data-theme="vintage"] {
-  --bg-a:#0E0B08; --bg-b:#1C1510; --bg-c:#2A1E14;
-  --glass:rgba(248,244,227,0.05); --glass-border:rgba(196,169,91,0.18);
-  --keys-bg:rgba(0,0,0,0.32);
-  --key-bg:rgba(248,244,227,0.07); --key-hover:rgba(248,244,227,0.14); --key-active:rgba(248,244,227,0.03);
-  --op-bg:rgba(123,30,40,0.22); --op-border:rgba(123,30,40,0.45); --op-color:#C47A82;
-  --action-bg:rgba(196,169,91,0.14); --action-border:rgba(196,169,91,0.32); --action-color:#C4A95B;
-  --sci-bg:rgba(22,109,59,0.14); --sci-border:rgba(22,109,59,0.3); --sci-color:#5DAD7F;
-  --eq-a:#C4A95B; --eq-b:#8B7335; --eq-shadow:rgba(196,169,91,0.42);
-  --text:#F8F4E3; --text-dim:rgba(248,244,227,0.52); --text-faint:rgba(248,244,227,0.18);
-  --mem-bg:rgba(196,169,91,0.08); --mode-bg:rgba(196,169,91,0.08); --mode-active-bg:rgba(196,169,91,0.22);
-  --nav-bg:rgba(10,8,5,0.92);
-  --hero-grad:linear-gradient(135deg,#C4A95B,#7B1E28,#166D3B);
-  --card-bg:rgba(248,244,227,0.04); --card-border:rgba(196,169,91,0.13);
-}
-
-/* ── Earth  (Dark Sienna · Smokey Topaz · Camel · Desert Sand · Dutch White) ── */
-[data-theme="earth"] {
-  --bg-a:#0E0B06; --bg-b:#1C1508; --bg-c:#2C1E0C;
-  --glass:rgba(245,237,222,0.05); --glass-border:rgba(192,154,111,0.2);
-  --keys-bg:rgba(0,0,0,0.30);
-  --key-bg:rgba(245,237,222,0.07); --key-hover:rgba(245,237,222,0.15); --key-active:rgba(245,237,222,0.03);
-  --op-bg:rgba(123,0,17,0.22); --op-border:rgba(123,0,17,0.45); --op-color:#C47A7A;
-  --action-bg:rgba(192,154,111,0.15); --action-border:rgba(192,154,111,0.35); --action-color:#C09A6F;
-  --sci-bg:rgba(232,203,168,0.1); --sci-border:rgba(232,203,168,0.25); --sci-color:#D4B480;
-  --eq-a:#C09A6F; --eq-b:#7A5C35; --eq-shadow:rgba(192,154,111,0.42);
-  --text:#F5EDDE; --text-dim:rgba(245,237,222,0.52); --text-faint:rgba(245,237,222,0.18);
-  --mem-bg:rgba(192,154,111,0.08); --mode-bg:rgba(192,154,111,0.08); --mode-active-bg:rgba(192,154,111,0.24);
-  --nav-bg:rgba(10,8,3,0.92);
-  --hero-grad:linear-gradient(135deg,#C09A6F,#7B0011,#E8CBA8);
-  --card-bg:rgba(245,237,222,0.04); --card-border:rgba(192,154,111,0.14);
-}
-
-/* ── Marble  (Deep Chocolate · Warm Brown · Sandy Tan · Cream) ── */
-[data-theme="marble"] {
-  --bg-a:#120A06; --bg-b:#241408; --bg-c:#361E10;
-  --glass:rgba(234,213,188,0.05); --glass-border:rgba(196,149,106,0.2);
-  --keys-bg:rgba(0,0,0,0.32);
-  --key-bg:rgba(234,213,188,0.07); --key-hover:rgba(234,213,188,0.15); --key-active:rgba(234,213,188,0.03);
-  --op-bg:rgba(44,26,14,0.5); --op-border:rgba(122,77,50,0.5); --op-color:#C4956A;
-  --action-bg:rgba(196,149,106,0.16); --action-border:rgba(196,149,106,0.36); --action-color:#C4956A;
-  --sci-bg:rgba(160,120,72,0.14); --sci-border:rgba(160,120,72,0.3); --sci-color:#B8865A;
-  --eq-a:#C4956A; --eq-b:#7A4D32; --eq-shadow:rgba(196,149,106,0.44);
-  --text:#EDD8BF; --text-dim:rgba(237,216,191,0.52); --text-faint:rgba(237,216,191,0.18);
-  --mem-bg:rgba(196,149,106,0.08); --mode-bg:rgba(196,149,106,0.08); --mode-active-bg:rgba(196,149,106,0.24);
-  --nav-bg:rgba(8,4,2,0.94);
-  --hero-grad:linear-gradient(135deg,#C4956A,#2C1A0E,#EAD5BC);
-  --card-bg:rgba(234,213,188,0.04); --card-border:rgba(196,149,106,0.14);
-}
-
-/* ── Persian  (Crimson · Cream · Forest Teal · Slate · Navy) ── */
-[data-theme="persian"] {
-  --bg-a:#180810; --bg-b:#2A1018; --bg-c:#3C1422;
-  --glass:rgba(232,212,180,0.05); --glass-border:rgba(232,212,180,0.15);
+  --bg-a:#1A100A; --bg-b:#251608; --bg-c:#301C0C;
+  --glass:rgba(210,175,120,0.06); --glass-border:rgba(175,115,45,0.20);
   --keys-bg:rgba(0,0,0,0.35);
-  --key-bg:rgba(232,212,180,0.06); --key-hover:rgba(232,212,180,0.13); --key-active:rgba(232,212,180,0.03);
-  --op-bg:rgba(92,34,48,0.28); --op-border:rgba(92,34,48,0.55); --op-color:#C07080;
-  --action-bg:rgba(42,74,62,0.28); --action-border:rgba(90,173,138,0.35); --action-color:#5AAD8A;
-  --sci-bg:rgba(36,56,72,0.28); --sci-border:rgba(72,128,160,0.3); --sci-color:#5A9AB8;
-  --eq-a:#5AAD8A; --eq-b:#1D4035; --eq-shadow:rgba(90,173,138,0.4);
-  --text:#E8D4B4; --text-dim:rgba(232,212,180,0.52); --text-faint:rgba(232,212,180,0.18);
-  --mem-bg:rgba(42,74,62,0.18); --mode-bg:rgba(42,74,62,0.18); --mode-active-bg:rgba(42,74,62,0.4);
-  --nav-bg:rgba(10,3,8,0.94);
-  --hero-grad:linear-gradient(135deg,#5C2230,#2A4A3E,#E8D4B4);
-  --card-bg:rgba(232,212,180,0.04); --card-border:rgba(232,212,180,0.1);
+  --key-bg:rgba(210,175,120,0.06); --key-hover:rgba(210,175,120,0.14); --key-active:rgba(210,175,120,0.03);
+  --op-bg:rgba(140,38,22,0.20); --op-border:rgba(168,52,30,0.38); --op-color:#B86848;
+  --action-bg:rgba(175,115,45,0.14); --action-border:rgba(175,115,45,0.32); --action-color:#B87828;
+  --sci-bg:rgba(155,125,28,0.14); --sci-border:rgba(185,158,38,0.28); --sci-color:#B89828;
+  --eq-a:#B87828; --eq-b:#7A4E14; --eq-shadow:rgba(175,115,45,0.38);
+  --text:#EEE0C0; --text-dim:rgba(220,195,145,0.58); --text-faint:rgba(220,195,145,0.18);
+  --mem-bg:rgba(175,115,45,0.08); --mode-bg:rgba(175,115,45,0.08); --mode-active-bg:rgba(175,115,45,0.20);
+  --nav-bg:rgba(14,8,4,0.96);
+  --hero-grad:linear-gradient(135deg,#B87828,#8B3018,#B89828);
+  --card-bg:rgba(210,175,120,0.04); --card-border:rgba(175,115,45,0.16);
+}
+
+/* ── Crimson Court — Deep Maroon · Vivid Gold · Rose ── */
+[data-theme="earth"] {
+  --bg-a:#080206; --bg-b:#14040E; --bg-c:#200818;
+  --glass:rgba(248,210,160,0.06); --glass-border:rgba(228,168,40,0.28);
+  --keys-bg:rgba(0,0,0,0.45);
+  --key-bg:rgba(248,210,160,0.07); --key-hover:rgba(248,210,160,0.17); --key-active:rgba(248,210,160,0.03);
+  --op-bg:rgba(200,30,55,0.22); --op-border:rgba(220,60,80,0.5); --op-color:#E88090;
+  --action-bg:rgba(228,168,40,0.16); --action-border:rgba(228,168,40,0.45); --action-color:#E8B030;
+  --sci-bg:rgba(228,168,40,0.12); --sci-border:rgba(228,168,40,0.35); --sci-color:#EEC050;
+  --eq-a:#E8B030; --eq-b:#9A6E10; --eq-shadow:rgba(228,168,40,0.55);
+  --text:#F8F0D8; --text-dim:rgba(248,210,160,0.58); --text-faint:rgba(248,210,160,0.18);
+  --mem-bg:rgba(228,168,40,0.10); --mode-bg:rgba(228,168,40,0.10); --mode-active-bg:rgba(228,168,40,0.28);
+  --nav-bg:rgba(5,1,3,0.97);
+  --hero-grad:linear-gradient(135deg,#E8B030,#C01838,#F8F0D8);
+  --card-bg:rgba(248,210,160,0.05); --card-border:rgba(228,168,40,0.22);
+}
+
+/* ── Sandstone Temple — Terracotta · Copper · Cream ── */
+[data-theme="marble"] {
+  --bg-a:#0E0806; --bg-b:#1E1210; --bg-c:#301C18;
+  --glass:rgba(235,205,178,0.06); --glass-border:rgba(198,115,55,0.24);
+  --keys-bg:rgba(0,0,0,0.38);
+  --key-bg:rgba(235,205,178,0.07); --key-hover:rgba(235,205,178,0.16); --key-active:rgba(235,205,178,0.03);
+  --op-bg:rgba(130,28,18,0.26); --op-border:rgba(168,52,30,0.52); --op-color:#C47860;
+  --action-bg:rgba(198,115,55,0.17); --action-border:rgba(198,115,55,0.42); --action-color:#C87838;
+  --sci-bg:rgba(145,78,28,0.18); --sci-border:rgba(185,118,58,0.32); --sci-color:#D09868;
+  --eq-a:#C87838; --eq-b:#7A401C; --eq-shadow:rgba(198,115,55,0.48);
+  --text:#F0E0C8; --text-dim:rgba(235,205,178,0.55); --text-faint:rgba(235,205,178,0.18);
+  --mem-bg:rgba(198,115,55,0.09); --mode-bg:rgba(198,115,55,0.09); --mode-active-bg:rgba(198,115,55,0.26);
+  --nav-bg:rgba(6,4,3,0.96);
+  --hero-grad:linear-gradient(135deg,#C87838,#301C18,#F0E0C8);
+  --card-bg:rgba(235,205,178,0.05); --card-border:rgba(198,115,55,0.2);
+}
+
+/* ── Indigo Darbar — Deep Violet · Saffron · Ivory ── */
+[data-theme="persian"] {
+  --bg-a:#050310; --bg-b:#0C061E; --bg-c:#140A2C;
+  --glass:rgba(220,205,248,0.06); --glass-border:rgba(218,148,38,0.28);
+  --keys-bg:rgba(0,0,0,0.48);
+  --key-bg:rgba(220,205,248,0.07); --key-hover:rgba(220,205,248,0.16); --key-active:rgba(220,205,248,0.03);
+  --op-bg:rgba(180,50,80,0.22); --op-border:rgba(210,70,100,0.48); --op-color:#E090A8;
+  --action-bg:rgba(218,148,38,0.16); --action-border:rgba(218,148,38,0.45); --action-color:#E09828;
+  --sci-bg:rgba(120,80,200,0.18); --sci-border:rgba(160,110,228,0.35); --sci-color:#C0A0F0;
+  --eq-a:#E09828; --eq-b:#926010; --eq-shadow:rgba(218,148,38,0.55);
+  --text:#F5F0E8; --text-dim:rgba(220,205,248,0.58); --text-faint:rgba(220,205,248,0.18);
+  --mem-bg:rgba(218,148,38,0.10); --mode-bg:rgba(120,80,200,0.12); --mode-active-bg:rgba(120,80,200,0.30);
+  --nav-bg:rgba(3,1,8,0.97);
+  --hero-grad:linear-gradient(135deg,#E09828,#6030C0,#C0A0F0);
+  --card-bg:rgba(220,205,248,0.05); --card-border:rgba(218,148,38,0.22);
 }
 
 /* ════════════════════════════════════════════════════════
@@ -78,12 +78,20 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-c) 100%);
+  font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
+  background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
   min-height: 100dvh;
   color: var(--text);
   overflow-x: hidden;
   transition: background 0.5s;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+/* Cinzel for all headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  letter-spacing: 0.04em;
 }
 
 button { border:none; background:none; cursor:pointer; font-family:inherit; color:inherit; }
@@ -2355,3 +2363,428 @@ body::before {
     display: none !important;
   }
 }
+
+/* ════════════════════════════════════════════════════════
+   MUGHAL · NALANDA ORNATE DESIGN SYSTEM
+   Ancient Indian / Mughal architectural aesthetic
+════════════════════════════════════════════════════════ */
+
+/* ── Subtle warm depth — like oil lamp in a stone chamber ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(175,100,30,0.04) 0%, transparent 100%);
+}
+
+/* ── Jali geometric lattice background ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    repeating-linear-gradient(45deg,  var(--action-color) 0, var(--action-color) 0.5px, transparent 0, transparent 50%),
+    repeating-linear-gradient(-45deg, var(--action-color) 0, var(--action-color) 0.5px, transparent 0, transparent 50%);
+  background-size: 18px 18px;
+  opacity: 0.04;
+}
+
+/* ── Navbar — Mughal arch toran border ── */
+.navbar {
+  font-family: 'Cinzel', serif;
+  border-bottom: none;
+  box-shadow:
+    0 1px 0 var(--glass-border),
+    0 2px 0 rgba(0,0,0,0.4),
+    0 4px 12px rgba(0,0,0,0.3);
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--action-color) 15%,
+    color-mix(in srgb, var(--action-color) 60%, white) 50%,
+    var(--action-color) 85%,
+    transparent 100%
+  );
+  opacity: 0.75;
+}
+
+/* ── Nav brand — Cinzel serif ── */
+.nav-brand {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.06em;
+  font-size: 1.1rem;
+}
+
+/* ── Nav tabs — more ornate pill ── */
+.nav-tabs {
+  border-radius: 6px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+}
+
+.nav-tab {
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+.nav-tab.active {
+  background: linear-gradient(135deg, var(--action-bg), rgba(0,0,0,0.2));
+  border: 1px solid var(--action-border);
+  color: var(--action-color);
+  box-shadow: 0 0 12px var(--eq-shadow);
+}
+
+/* ── Hero — grand architectural feel ── */
+.hero-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+}
+
+.hero-devanagari {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.hero-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  border: 1px solid var(--action-border);
+  background: var(--action-bg);
+  color: var(--action-color);
+  padding: 0.4rem 1.4rem;
+  position: relative;
+}
+
+.hero-badge::before,
+.hero-badge::after {
+  content: '◆';
+  color: var(--action-color);
+  opacity: 0.6;
+  font-size: 0.55rem;
+  vertical-align: middle;
+  margin: 0 0.5rem;
+}
+
+.hero-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  border-radius: 4px;
+}
+
+.hero-btn.primary {
+  background: linear-gradient(135deg, var(--eq-a), var(--eq-b));
+  box-shadow: 0 4px 20px var(--eq-shadow), inset 0 1px 0 rgba(255,255,255,0.15);
+  border: 1px solid var(--action-border);
+}
+
+.hero-btn.secondary {
+  border-radius: 4px;
+  border: 1px solid var(--sci-border);
+}
+
+/* ── Count bar — manuscript scroll style ── */
+.count-bar {
+  border-radius: 6px;
+  border: 1px solid var(--action-border);
+  background: linear-gradient(135deg, var(--glass), rgba(0,0,0,0.2));
+  position: relative;
+}
+
+.count-bar::before {
+  content: '❖';
+  position: absolute;
+  top: 50%; left: -0.8rem;
+  transform: translateY(-50%);
+  color: var(--action-color);
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.count-bar::after {
+  content: '❖';
+  position: absolute;
+  top: 50%; right: -0.8rem;
+  transform: translateY(-50%);
+  color: var(--action-color);
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.count-num {
+  font-family: 'Cinzel', serif;
+  color: var(--action-color);
+}
+
+.count-label {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Feature cards — pointed arch top (Mughal pishtaq style) ── */
+.feat-card {
+  border-radius: 8px 8px 6px 6px;
+  border: 1px solid var(--card-border);
+  background: linear-gradient(160deg, var(--card-bg), rgba(0,0,0,0.15));
+  position: relative;
+  overflow: visible;
+}
+
+/* Gold arch stripe at top */
+.feat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--action-color) 30%,
+    color-mix(in srgb, var(--action-color) 50%, white) 50%,
+    var(--action-color) 70%,
+    transparent 100%
+  );
+  opacity: 0.7;
+  transition: opacity 0.25s;
+}
+
+.feat-card:hover::before { opacity: 1; }
+
+/* Diamond corner ornament */
+.feat-card::after {
+  content: '◆';
+  position: absolute;
+  top: -0.45rem; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  color: var(--action-color);
+  background: var(--bg-b);
+  padding: 0 0.2rem;
+  opacity: 0.8;
+  transition: opacity 0.25s;
+}
+
+.feat-card:hover {
+  border-color: var(--action-border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px var(--action-border);
+  transform: translateY(-4px);
+}
+
+.feat-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.feat-icon {
+  color: var(--action-color);
+}
+
+.feat-tags span {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.72rem;
+  border: 1px solid var(--glass-border);
+  color: var(--text-dim);
+}
+
+/* ── Vedic / Aptitude / Reasoning sidebar ── */
+.vs-header, .apt-cat-header {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--action-color);
+}
+
+.vs-item, .apt-item {
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.vs-item.active, .apt-item.active {
+  border-left-color: var(--action-color);
+  background: var(--action-bg);
+}
+
+/* ── Sutra / Topic cards ── */
+.sutra-card {
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  background: linear-gradient(160deg, var(--card-bg), rgba(0,0,0,0.1));
+  position: relative;
+}
+
+.sutra-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(90deg, transparent, var(--action-color), transparent);
+  opacity: 0.6;
+}
+
+.sc-name {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+}
+
+.sc-num {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+  color: var(--action-color);
+  font-size: 0.72rem;
+}
+
+/* ── Topic tab buttons ── */
+.topic-tab-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+}
+
+.topic-tab-btn.active {
+  background: var(--action-bg);
+  border-color: var(--action-border);
+  color: var(--action-color);
+}
+
+/* ── Section headers — decorative Nalanda divider ── */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+  color: var(--action-color);
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--action-border), transparent);
+}
+
+/* ── Calculator card — ornate top ── */
+.calculator {
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  position: relative;
+}
+
+.calculator::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(90deg, transparent, var(--action-color), transparent);
+  opacity: 0.5;
+}
+
+/* ── Stats / results panels ── */
+.stats-header-bar h2 {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.06em;
+}
+
+/* ── Aptitude / Reasoning section title ── */
+.apt-page h2, .reason-page h2 {
+  font-family: 'Cinzel', serif;
+}
+
+/* ── Practice section headers ── */
+.practice-header span {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--action-color);
+}
+
+/* ── Ornate scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-a); }
+::-webkit-scrollbar-thumb {
+  background: var(--action-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--action-color); }
+
+/* ── Equals key — saffron gold ── */
+.equals-key {
+  background: linear-gradient(135deg, var(--eq-a), var(--eq-b)) !important;
+  box-shadow: 0 4px 16px var(--eq-shadow) !important;
+  border: 1px solid var(--action-border) !important;
+}
+
+/* ── Op keys — terracotta/crimson accent ── */
+.op-key {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.02em;
+}
+
+/* ── Mode bar ── */
+.mode-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+.mode-btn.active {
+  color: var(--action-color);
+  border-color: var(--action-border);
+}
+
+/* ── Toast — ornate ── */
+.toast {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  border-left: 3px solid var(--action-color);
+  border-radius: 6px;
+}
+
+/* ── Vedic intro ── */
+.vi-om {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 16px var(--action-color));
+}
+
+.vi-card span {
+  font-family: 'Cinzel', serif;
+  color: var(--action-color);
+  font-size: 1.8rem;
+}
+
+/* ── Answer key title ── */
+.prac-key-title {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+  color: var(--action-color);
+}
+
