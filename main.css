@@ -70,6 +70,92 @@
   --card-bg:rgba(220,205,248,0.05); --card-border:rgba(218,148,38,0.22);
 }
 
+/* ── Ivory Lotus — Clean White · Slate · Saffron accent ── */
+[data-theme="white"] {
+  --bg-a:#F8F6F2; --bg-b:#F0EDE8; --bg-c:#E8E4DC;
+  --glass:rgba(100,80,40,0.05); --glass-border:rgba(180,140,60,0.22);
+  --keys-bg:rgba(200,190,170,0.25);
+  --key-bg:rgba(80,60,20,0.06); --key-hover:rgba(80,60,20,0.13); --key-active:rgba(80,60,20,0.03);
+  --op-bg:rgba(180,50,30,0.10); --op-border:rgba(180,50,30,0.28); --op-color:#B83820;
+  --action-bg:rgba(180,130,30,0.12); --action-border:rgba(180,130,30,0.32); --action-color:#9A6E10;
+  --sci-bg:rgba(40,100,180,0.08); --sci-border:rgba(40,100,180,0.22); --sci-color:#1A5EA8;
+  --eq-a:#C87828; --eq-b:#7A4E14; --eq-shadow:rgba(180,130,30,0.30);
+  --text:#1C1810; --text-dim:rgba(28,24,16,0.55); --text-faint:rgba(28,24,16,0.18);
+  --mem-bg:rgba(180,130,30,0.08); --mode-bg:rgba(180,130,30,0.08); --mode-active-bg:rgba(180,130,30,0.20);
+  --nav-bg:rgba(248,246,242,0.96);
+  --hero-grad:linear-gradient(135deg,#C87828,#B83820,#1A5EA8);
+  --card-bg:rgba(255,255,255,0.70); --card-border:rgba(180,140,60,0.18);
+}
+
+/* ── Creamy Parchment — Warm Butter · Rose Gold · Sandalwood ── */
+[data-theme="creamy"] {
+  --bg-a:#FFF8EE; --bg-b:#FAF0DC; --bg-c:#F2E4C4;
+  --glass:rgba(160,110,50,0.07); --glass-border:rgba(190,140,70,0.26);
+  --keys-bg:rgba(210,180,120,0.22);
+  --key-bg:rgba(160,110,50,0.07); --key-hover:rgba(160,110,50,0.16); --key-active:rgba(160,110,50,0.04);
+  --op-bg:rgba(190,70,50,0.11); --op-border:rgba(190,70,50,0.30); --op-color:#A83820;
+  --action-bg:rgba(190,140,40,0.13); --action-border:rgba(190,140,40,0.34); --action-color:#8A6010;
+  --sci-bg:rgba(120,80,170,0.09); --sci-border:rgba(140,100,190,0.26); --sci-color:#6040A8;
+  --eq-a:#C8782A; --eq-b:#8A4E10; --eq-shadow:rgba(190,120,40,0.32);
+  --text:#2C1E0A; --text-dim:rgba(44,30,10,0.54); --text-faint:rgba(44,30,10,0.18);
+  --mem-bg:rgba(190,140,40,0.09); --mode-bg:rgba(190,140,40,0.09); --mode-active-bg:rgba(190,140,40,0.22);
+  --nav-bg:rgba(255,248,238,0.96);
+  --hero-grad:linear-gradient(135deg,#C8782A,#A03828,#6040A8);
+  --card-bg:rgba(255,255,240,0.75); --card-border:rgba(190,140,70,0.20);
+}
+
+/* Ivory-theme specific overrides */
+[data-theme="white"] .calculator {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  border-color: rgba(180,140,60,0.28);
+}
+[data-theme="white"] .ripple { background: rgba(0,0,0,0.08); }
+[data-theme="white"] .key:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+[data-theme="white"] .side-panel {
+  background: rgba(248,246,242,0.98);
+  border-color: rgba(180,140,60,0.22);
+}
+[data-theme="white"] .theme-panel {
+  background: rgba(248,246,242,0.98);
+  border-color: rgba(180,140,60,0.22);
+}
+
+/* Creamy-theme specific overrides */
+[data-theme="creamy"] .calculator {
+  box-shadow: 0 12px 40px rgba(140,80,0,0.14);
+  border-color: rgba(200,140,20,0.30);
+}
+[data-theme="creamy"] .ripple { background: rgba(120,60,0,0.09); }
+[data-theme="creamy"] .key:hover { box-shadow: 0 4px 16px rgba(140,80,0,0.12); }
+[data-theme="creamy"] .side-panel {
+  background: rgba(255,251,240,0.98);
+  border-color: rgba(200,140,20,0.24);
+}
+[data-theme="creamy"] .theme-panel {
+  background: rgba(255,251,240,0.98);
+  border-color: rgba(200,140,20,0.24);
+}
+
+/* White-theme specific overrides */
+[data-theme="white"] .calculator {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  border-color: rgba(180,140,60,0.28);
+}
+[data-theme="white"] .ripple {
+  background: rgba(0,0,0,0.08);
+}
+[data-theme="white"] .key:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+[data-theme="white"] .side-panel {
+  background: rgba(248,246,242,0.98);
+  border-color: rgba(180,140,60,0.22);
+}
+[data-theme="white"] .theme-panel {
+  background: rgba(248,246,242,0.98);
+  border-color: rgba(180,140,60,0.22);
+}
+
 /* ════════════════════════════════════════════════════════
    RESET & BASE
 ════════════════════════════════════════════════════════ */
@@ -211,8 +297,12 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; colo
   transition:border-color 0.2s, transform 0.15s;
 }
 .theme-chip.active .chip-swatch { border-color:var(--text); transform:scale(1.12); }
-.theme-chip span { font-size:0.68rem; color:var(--text-dim); font-weight:600; }
-.theme-chip.active span { color:var(--text); }
+.theme-chip span { font-size:0.68rem; font-weight:600; color:rgba(235,210,160,0.90); }
+.theme-chip.active span { color:rgba(235,210,160,1); }
+[data-theme="white"] .theme-chip span,
+[data-theme="creamy"] .theme-chip span { color:rgba(44,30,10,0.80); }
+[data-theme="white"] .theme-chip.active span,
+[data-theme="creamy"] .theme-chip.active span { color:rgba(44,30,10,1); }
 
 /* ════════════════════════════════════════════════════════
    TAB CONTAINER & SECTIONS
