@@ -1485,6 +1485,7 @@ function renderSutraContent(id) {
       <div class="topic-tabs">
         <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
         <button class="topic-tab-btn" data-panel="steps">⚡ Method Steps</button>
+        <button class="topic-tab-btn" data-panel="visual">🎨 Visual</button>
         <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
         <button class="topic-tab-btn" data-panel="practice">📝 Practice (50 Qs)</button>
       </div>
@@ -1501,6 +1502,9 @@ function renderSutraContent(id) {
           <div class="sc-steps">${stepsHtml}</div>
         </div>
       </div>
+
+      <!-- Visual Panel -->
+      <div class="topic-tab-panel" data-panel="visual">${(typeof buildVedicVisualHTML==='function')?buildVedicVisualHTML(s):'<div style="padding:2rem;text-align:center;color:var(--text-faint)">Visual loading...</div>'}</div>
 
       <!-- Examples Panel -->
       <div class="topic-tab-panel" data-panel="examples">
@@ -3629,6 +3633,7 @@ function renderAptitudeContent(id) {
       <div class="topic-tabs">
         <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
         <button class="topic-tab-btn" data-panel="steps">⚡ Learn Steps</button>
+        <button class="topic-tab-btn" data-panel="visual">🎨 Visual</button>
         <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
         <button class="topic-tab-btn" data-panel="practice">📝 Practice (50 Qs)</button>
       </div>
@@ -3657,6 +3662,9 @@ function renderAptitudeContent(id) {
           </div>
         </div>
       </div>
+
+      <!-- Visual Panel -->
+      <div class="topic-tab-panel" data-panel="visual">${(typeof buildAptVisualHTML === 'function') ? buildAptVisualHTML(t) : '<div style="padding:2rem;text-align:center;color:var(--text-faint)">Visual loading...</div>'}</div>
 
       <!-- Examples Panel -->
       <div class="topic-tab-panel" data-panel="examples">
@@ -4649,6 +4657,7 @@ function renderReasoningContent(id) {
       <div class="topic-tabs">
         <button class="topic-tab-btn active" data-panel="basics">📚 Basics</button>
         <button class="topic-tab-btn" data-panel="steps">⚡ Learn Steps</button>
+        <button class="topic-tab-btn" data-panel="visual">🎨 Visual</button>
         <button class="topic-tab-btn" data-panel="examples">🎯 Examples</button>
         <button class="topic-tab-btn" data-panel="practice">📝 Practice (50 Qs)</button>
       </div>
@@ -4668,6 +4677,7 @@ function renderReasoningContent(id) {
           </div>
         </div>
       </div>
+      <div class="topic-tab-panel" data-panel="visual">${(typeof buildReasonVisualHTML==='function')?buildReasonVisualHTML(t):'<div style="padding:2rem;text-align:center;color:var(--text-faint)">Visual loading...</div>'}</div>
       <div class="topic-tab-panel" data-panel="examples"><div class="apt-examples-grid">${examplesHtml}</div></div>
       <div class="topic-tab-panel" data-panel="practice">${buildReasonPracticeHTML(t.id)}</div>
     </div>`;
@@ -4767,3 +4777,29 @@ function renderReasoningContent(id) {
 
 /* Initialise reasoning sidebar */
 renderReasoningList();
+
+/* ═══════════════════════════════════════════════════════════
+   STEP VISUAL BUILDER — navigation event delegation
+═══════════════════════════════════════════════════════════ */
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.svb-prev, .svb-next, .svb-dot');
+  if (!btn) return;
+  const wrap = btn.closest('.svb-wrapper');
+  if (!wrap) return;
+  const steps = wrap.querySelectorAll('.svb-step');
+  const texts = wrap.querySelectorAll('.svb-step-text');
+  const dots  = wrap.querySelectorAll('.svb-dot');
+  const curr  = wrap.querySelector('.svb-curr');
+  const prevB = wrap.querySelector('.svb-prev');
+  const nextB = wrap.querySelector('.svb-next');
+  let ci = [...steps].findIndex(s => s.classList.contains('active'));
+  if (btn.classList.contains('svb-dot'))  ci = parseInt(btn.dataset.step);
+  else if (btn.classList.contains('svb-next')) ci = Math.min(ci + 1, steps.length - 1);
+  else if (btn.classList.contains('svb-prev')) ci = Math.max(ci - 1, 0);
+  steps.forEach((s, i) => s.classList.toggle('active', i === ci));
+  texts.forEach((t, i) => t.classList.toggle('active', i === ci));
+  dots.forEach((d, i)  => d.classList.toggle('active', i === ci));
+  if (curr)  curr.textContent = ci + 1;
+  if (prevB) prevB.disabled = ci === 0;
+  if (nextB) nextB.disabled = ci === steps.length - 1;
+});

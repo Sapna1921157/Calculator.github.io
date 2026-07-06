@@ -419,15 +419,13 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; colo
 .count-bar {
   display: flex;
   align-items: center;
-  gap: 0;
   background: var(--glass);
   border: 1px solid var(--glass-border);
   border-radius: 1.2rem;
   padding: 1.2rem 2rem;
   width: 100%;
-  max-width: 640px;
+  max-width: 820px;
   justify-content: space-around;
-  flex-wrap: wrap;
   gap: 1rem;
 }
 .count-item { text-align: center; }
@@ -488,9 +486,9 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; colo
   pointer-events: none;
   filter: blur(30px);
 }
-.glow-blue  { background: #7c83fd; }
-.glow-purple{ background: #a29bfe; }
-.glow-green { background: #34e89e; }
+.glow-blue  { background: var(--action-color); }
+.glow-purple{ background: var(--sci-color); }
+.glow-green { background: var(--action-color); }
 
 .feat-badge {
   display: inline-block;
@@ -1988,17 +1986,7 @@ body::before {
   font-size: 0.6rem;
   letter-spacing: 0.07em;
 }
-/* Corner diamond ornament */
-.feat-card::before {
-  content: '◆';
-  position: absolute;
-  top: 0.55rem; left: 0.65rem;
-  font-size: 0.42rem;
-  color: var(--action-color);
-  opacity: 0.5;
-  pointer-events: none;
-  line-height: 1;
-}
+/* Corner ornament removed — second layer uses ::before for gold arch stripe */
 
 /* ── Quick-calc ── */
 .quick-calc {
@@ -2508,9 +2496,9 @@ body::after {
   opacity: 0.75;
 }
 
-/* ── Nav brand — Cinzel serif ── */
+/* ── Nav brand — Cinzel Decorative for brand identity ── */
 .nav-brand {
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
   letter-spacing: 0.06em;
   font-size: 1.1rem;
 }
@@ -2548,6 +2536,7 @@ body::after {
   font-size: clamp(1.1rem, 3vw, 1.6rem);
   color: var(--text-dim);
   letter-spacing: 0.08em;
+  margin-top: -0.3rem;
   margin-bottom: 0.5rem;
 }
 
@@ -2563,15 +2552,7 @@ body::after {
   position: relative;
 }
 
-.hero-badge::before,
-.hero-badge::after {
-  content: '◆';
-  color: var(--action-color);
-  opacity: 0.6;
-  font-size: 0.55rem;
-  vertical-align: middle;
-  margin: 0 0.5rem;
-}
+/* Ornaments already in HTML content (❖), no pseudo-element needed */
 
 .hero-btn {
   font-family: 'Cinzel', serif;
@@ -2595,7 +2576,7 @@ body::after {
 .count-bar {
   border-radius: 6px;
   border: 1px solid var(--action-border);
-  background: linear-gradient(135deg, var(--glass), rgba(0,0,0,0.2));
+  background: linear-gradient(135deg, var(--glass), var(--card-bg));
   position: relative;
 }
 
@@ -2621,11 +2602,11 @@ body::after {
 
 .count-num {
   font-family: 'Cinzel', serif;
-  color: var(--action-color);
+  color: var(--sci-color);
 }
 
 .count-label {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Cinzel', serif;
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -2635,7 +2616,7 @@ body::after {
 .feat-card {
   border-radius: 8px 8px 6px 6px;
   border: 1px solid var(--card-border);
-  background: linear-gradient(160deg, var(--card-bg), rgba(0,0,0,0.15));
+  background: linear-gradient(160deg, var(--card-bg), var(--glass));
   position: relative;
   overflow: visible;
 }
@@ -2660,7 +2641,7 @@ body::after {
 
 .feat-card:hover::before { opacity: 1; }
 
-/* Diamond corner ornament */
+/* Diamond crown ornament */
 .feat-card::after {
   content: '◆';
   position: absolute;
@@ -2668,7 +2649,7 @@ body::after {
   transform: translateX(-50%);
   font-size: 0.55rem;
   color: var(--action-color);
-  background: var(--bg-b);
+  text-shadow: 0 0 4px var(--bg-b);
   padding: 0 0.2rem;
   opacity: 0.8;
   transition: opacity 0.25s;
@@ -2691,8 +2672,8 @@ body::after {
 }
 
 .feat-tags span {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.72rem;
+  font-family: 'Consolas', 'Fira Code', monospace;
+  font-size: 0.68rem;
   border: 1px solid var(--glass-border);
   color: var(--text-dim);
 }
@@ -2876,5 +2857,328 @@ body::after {
   font-family: 'Cinzel', serif;
   letter-spacing: 0.08em;
   color: var(--action-color);
+}
+
+/* ══════════════════════════════════════════════════════════
+   APT VISUAL TAB — Professional Visual Explainers
+══════════════════════════════════════════════════════════ */
+
+@keyframes vis-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes vis-fml-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.vis-wrapper {
+  animation: vis-enter 0.4s ease both;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Card ── */
+.vis-card {
+  background: var(--bg-b);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.18);
+}
+
+/* ── Header ── */
+.vis-hdr {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.vis-icon { font-size: 1rem; line-height: 1; }
+
+.vis-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.vis-sub {
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  margin-top: 1px;
+}
+
+/* ── SVG canvas ── */
+.vis-body {
+  background: var(--bg-a);
+  line-height: 0;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.vis-body svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Formula row ── */
+.vis-fmls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.45rem 0.7rem 0.5rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.vis-fml {
+  background: rgba(129,140,248,0.07);
+  border: 1px solid rgba(129,140,248,0.2);
+  border-radius: 5px;
+  padding: 0.22rem 0.48rem;
+  font-size: 0.68rem;
+  font-family: 'Courier New', monospace;
+  color: var(--text);
+  font-weight: 500;
+  animation: vis-fml-in 0.35s ease both;
+}
+
+.vis-fml:nth-child(1) { animation-delay: 0.3s; }
+.vis-fml:nth-child(2) { animation-delay: 0.4s; }
+.vis-fml:nth-child(3) { animation-delay: 0.5s; }
+.vis-fml:nth-child(4) { animation-delay: 0.6s; }
+
+.vis-fml.key { border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.07); color: #fbbf24; }
+.vis-fml.res { border-color: rgba(52,211,153,0.28); background: rgba(52,211,153,0.07); color: #34d399; }
+
+/* ── Note ── */
+.vis-note {
+  padding: 0.35rem 0.7rem 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+/* light themes */
+[data-theme="white"] .vis-card,
+[data-theme="creamy"] .vis-card { box-shadow: 0 2px 12px rgba(0,0,0,0.09); }
+[data-theme="white"] .vis-body,
+[data-theme="creamy"] .vis-body { background: var(--bg-b); }
+
+/* ═══════════════════════════════════════════════════════════
+   STEP-BY-STEP VISUAL BUILDER (Visual Tab)
+═══════════════════════════════════════════════════════════ */
+.svb-wrapper {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 0.85rem;
+  margin-bottom: 1rem;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.svb-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.svb-icon { font-size: 1rem; }
+.svb-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+}
+.svb-counter {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.07);
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ── Dots ── */
+.svb-dots {
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.svb-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 1.5px solid transparent;
+}
+.svb-dot:hover { background: rgba(255,255,255,0.25); transform: scale(1.15); }
+.svb-dot.active {
+  background: var(--sci-color, #818cf8);
+  border-color: var(--sci-color, #818cf8);
+  transform: scale(1.25);
+  box-shadow: 0 0 5px rgba(129,140,248,0.35);
+}
+
+/* ── SVG Display ── */
+.svb-display {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.18);
+  margin-bottom: 0.6rem;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.svb-step { display: none; width: 100%; }
+.svb-step.active { display: block; animation: svbFadeIn 0.35s ease; }
+.svb-step svg { width: 100%; height: auto; display: block; }
+@keyframes svbFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Text Panel ── */
+.svb-text {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.svb-step-text { display: none; }
+.svb-step-text.active { display: block; animation: svbFadeIn 0.3s ease; }
+.svb-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sci-color, #818cf8);
+  margin-bottom: 0.2rem;
+}
+.svb-rule {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  line-height: 1.45;
+}
+.svb-eg {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  padding: 0.3rem 0.55rem;
+  background: rgba(255,255,255,0.04);
+  border-left: 2.5px solid var(--sci-color, #818cf8);
+  border-radius: 0 5px 5px 0;
+  line-height: 1.45;
+}
+
+/* ── Controls ── */
+.svb-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+.svb-btn {
+  padding: 0.42rem 0.9rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  flex: 1;
+  text-align: center;
+}
+.svb-btn:hover:not(:disabled) { background: rgba(255,255,255,0.13); }
+.svb-btn:active:not(:disabled) { transform: scale(0.97); }
+.svb-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.svb-btn.primary {
+  background: var(--sci-color, #818cf8);
+  border-color: var(--sci-color, #818cf8);
+  color: #fff;
+}
+.svb-btn.primary:hover:not(:disabled) { filter: brightness(1.15); }
+
+/* ── Divider ── */
+.svb-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin: 0.8rem 0;
+}
+
+/* ── Light theme adjustments ── */
+[data-theme="white"] .svb-wrapper,
+[data-theme="creamy"] .svb-wrapper { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.08); }
+[data-theme="white"] .svb-display,
+[data-theme="creamy"] .svb-display { background: var(--bg-b); }
+[data-theme="white"] .svb-text,
+[data-theme="creamy"] .svb-text { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.06); }
+[data-theme="white"] .svb-dot,
+[data-theme="creamy"] .svb-dot { background: rgba(0,0,0,0.1); }
+[data-theme="white"] .svb-btn,
+[data-theme="creamy"] .svb-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); }
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .svb-wrapper { padding: 0.6rem; max-width: 100%; }
+  .svb-title { font-size: 0.78rem; }
+  .svb-rule { font-size: 0.75rem; }
+  .svb-eg { font-size: 0.7rem; }
+  .svb-btn { padding: 0.35rem 0.5rem; font-size: 0.74rem; }
+  .svb-controls { gap: 0.4rem; }
+  .svb-text { padding: 0.45rem 0.6rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT THEME — Home Screen Overrides
+═══════════════════════════════════════════════════════════ */
+[data-theme="white"] .feat-card,
+[data-theme="creamy"] .feat-card {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+}
+[data-theme="white"] .feat-card:hover,
+[data-theme="creamy"] .feat-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.08);
+}
+[data-theme="white"] .feat-card::after,
+[data-theme="creamy"] .feat-card::after {
+  text-shadow: 0 0 4px var(--bg-a);
+}
+[data-theme="white"] .feat-card.featured,
+[data-theme="creamy"] .feat-card.featured {
+  background: linear-gradient(160deg, var(--card-bg), rgba(0,0,0,0.03));
+}
+[data-theme="white"] .feat-glow,
+[data-theme="creamy"] .feat-glow {
+  opacity: 0.08;
+}
+[data-theme="white"] .count-bar,
+[data-theme="creamy"] .count-bar {
+  background: linear-gradient(135deg, var(--glass), rgba(0,0,0,0.02));
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+[data-theme="white"] .quick-calc,
+[data-theme="creamy"] .quick-calc {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+[data-theme="white"] .fact-bar,
+[data-theme="creamy"] .fact-bar {
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+}
+[data-theme="white"] .hero-btn.primary,
+[data-theme="creamy"] .hero-btn.primary {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
 
