@@ -3182,3 +3182,20 @@ body::after {
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
 
+/* ════════════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════════════ */
+.site-footer {
+  text-align: center;
+  padding: 1.2rem 1rem;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--glass-border);
+  background: var(--nav-bg);
+  letter-spacing: 0.03em;
+}
+.site-footer p {
+  margin: 0;
+}
+
