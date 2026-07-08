@@ -833,8 +833,12 @@ const SV1=[
   ${BOX(285,42,95,55,cG,0.8,'× next','6 × 3 = 18')}
   <polygon points="390,67 404,61 404,73" fill="${cG}" fill-opacity="0.7" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="1.1s" fill="freeze"/></polygon>
   ${BOX(415,42,70,55,cG,1.1,'','✅ 18')}
-  ${BOX(15,115,220,70,cR,1.2,'WRONG: right-to-left','24 ÷ (4×3) = 24÷12 = 2 ✗')}
-  ${BOX(260,115,220,70,cG,1.3,'CORRECT: left-to-right','(24÷4) × 3 = 6×3 = 18 ✓')}
+  <rect x="15" y="115" width="225" height="70" rx="9" fill="${cR}" fill-opacity="0.10" stroke="${cR}" stroke-opacity="0.40" stroke-width="1.5" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.2s" fill="freeze"/></rect>
+  ${T(127,143,'WRONG: right-to-left',cD,10,'400','middle',1.28)}
+  ${T(127,167,'24 ÷ (4×3) = 24÷12 = 2 ✗',cR,14,'800','middle',1.30)}
+  <rect x="260" y="115" width="225" height="70" rx="9" fill="${cG}" fill-opacity="0.10" stroke="${cG}" stroke-opacity="0.40" stroke-width="1.5" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.3s" fill="freeze"/></rect>
+  ${T(372,143,'CORRECT: left-to-right',cD,10,'400','middle',1.38)}
+  ${T(372,167,'(24÷4) × 3 = 6×3 = 18 ✓',cG,14,'800','middle',1.40)}
   ${T(250,200,'Same priority → always go LEFT to RIGHT',cD,10,'400','middle',1.5)}`,
 
 // S3 — A+ and S− left-to-right
@@ -846,9 +850,13 @@ const SV1=[
   <polygon points="275,67 289,61 289,73" fill="${cA}" fill-opacity="0.7" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.8s" fill="freeze"/></polygon>
   ${BOX(300,42,100,55,cG,0.8,'+ next','9 + 4 = 13')}
   <polygon points="410,67 424,61 424,73" fill="${cG}" fill-opacity="0.7" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="1.1s" fill="freeze"/></polygon>
-  ${BOX(435,42,50,55,cG,1.1,'','✅ 13')}
-  ${BOX(15,115,220,70,cR,1.2,'WRONG:','15 − (6+4) = 15−10 = 5 ✗')}
-  ${BOX(260,115,220,70,cG,1.3,'CORRECT:','(15−6) + 4 = 9+4 = 13 ✓')}`,
+  ${BOX(415,42,70,55,cG,1.1,'','✅ 13')}
+  <rect x="15" y="115" width="225" height="70" rx="9" fill="${cR}" fill-opacity="0.10" stroke="${cR}" stroke-opacity="0.40" stroke-width="1.5" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.2s" fill="freeze"/></rect>
+  ${T(127,143,'WRONG:',cD,10,'400','middle',1.28)}
+  ${T(127,167,'15 − (6+4) = 15−10 = 5 ✗',cR,14,'800','middle',1.30)}
+  <rect x="260" y="115" width="225" height="70" rx="9" fill="${cG}" fill-opacity="0.10" stroke="${cG}" stroke-opacity="0.40" stroke-width="1.5" opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.3s" fill="freeze"/></rect>
+  ${T(372,143,'CORRECT:',cD,10,'400','middle',1.38)}
+  ${T(372,167,'(15−6) + 4 = 9+4 = 13 ✓',cG,14,'800','middle',1.40)}`,
 
 // S4 — Sign rules
 ()=>`${VD}
